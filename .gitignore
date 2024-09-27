@@ -1,0 +1,7 @@
+.idea
+.code
+.git
+.log
+/temp
+/src/main/domain/model/cookies*
+#.env
