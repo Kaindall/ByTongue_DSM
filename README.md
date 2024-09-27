@@ -9,7 +9,7 @@
 <b>Modelo de Commit:</b>
 	<ul><li>[Tipo]: [Verbo] descrição</li></ul>
 Ex:
-	<ul><li>FEAT: adicionar mock de dados</li></ul>
+	<ul><li>git commit -m 'FEAT: adicionar mock de dados'</li><li>Em plataformas de auxilio visual como Github Desktop, colocar no título/header a mensagem entre aspas</li></ul>
 	
 <b>Tipos de commit:</b>
 	<ul><li>FEAT: nova funcionalidade</li>
