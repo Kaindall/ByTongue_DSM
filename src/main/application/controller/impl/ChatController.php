@@ -1,6 +1,6 @@
 <?php
 
-require_once 'src\main\application\api\controller\Controller.php';
+require_once 'src\main\application\controller\Controller.php';
 
 class ChatController implements Controller {
     

@@ -1,8 +1,8 @@
 <?php
 require_once 'src\main\domain\model\request\RequestHandler.php';
-require_once 'src\main\application\api\controller\Controller.php';
-require_once 'src\main\application\api\controller\impl\ChatController.php';
-require_once 'src\main\application\api\controller\impl\WebController.php';
+require_once 'src\main\application\controller\Controller.php';
+require_once 'src\main\application\controller\impl\ChatController.php';
+require_once 'src\main\application\controller\impl\WebController.php';
 
 use src\main\domain\model\request\RequestHandler;
 
@@ -25,26 +25,19 @@ class Router {
     }
 
     public function redirect(RequestHandler $request) {
-        $requestUri = $request->getUri();
-        $routesUris = array_keys($this->routes);
-
         if (!str_starts_with($request->getUri(), "/api")) {
             $webController = new WebController();
-            echo "' $requestUri ' não começa com /api, redirecionando para o WebController";
             $response = $this->getContent($webController, $request);
             if (!$response) {
-                echo 'Nenhuma resposta disponível';
                 $response = $webController->fallback();
             }
             return $response;
         };
 
+        $requestUri = $request->getUri();
+        $routesUris = array_keys($this->routes);
         foreach ($routesUris as $route) {
-            echo "$requestUri vs $route<br><br>";
-            
             if(!str_contains($request->getUri(), $route)) {continue;};
-            echo "<br><br>os path são iguais!";
-
         }
         return $this->routes;
     }
@@ -68,7 +61,7 @@ class Router {
                 
                 echo "<br><br>Controller: $tempCtrlUri <br> Request: $tempUriReq";
 
-                if ($controllerUri != $requestUri || $controllerHttpMethod != $requestHttpMethod) {echo '= São diferentes';continue;}
+                if ($controllerUri != $requestUri || $controllerHttpMethod != $requestHttpMethod) {echo '<br>São diferentes';continue;}
                 
                 echo "<br>São similares";
 
