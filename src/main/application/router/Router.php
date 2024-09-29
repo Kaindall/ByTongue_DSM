@@ -12,7 +12,7 @@ class Router {
     private function __construct(private array $routes) {
         foreach ($routes as $route) {
             if (!in_array(Controller::class, class_implements($route))) {
-                throw new InvalidArgumentException("O $route deve implementar Controller:class");
+                throw new InvalidArgumentException("O $route deve implementar Controller");
             }
         }
     }
@@ -25,25 +25,38 @@ class Router {
     }
 
     public function redirect(RequestHandler $request) {
-        if (!str_starts_with($request->getUri(), "/api")) {
-            $webController = new WebController();
+        if (!str_starts_with($request->getUri(), "/apis")) {
+            $webController = $this->getRepresentationOf('WebController');
             $response = $this->getContent($webController, $request);
-            if (!$response) {
-                $response = $webController->fallback();
-            }
+            
             return $response;
         };
 
         $requestUri = $request->getUri();
         $routesUris = array_keys($this->routes);
-        foreach ($routesUris as $route) {
-            if(!str_contains($request->getUri(), $route)) {continue;};
+        echo "<br><br>Rotas: ";
+        var_dump($routesUris);
+        foreach ($routesUris as $route) {   
+            echo "<br><br>Controller: $route";
+            echo "<br>Chamada: $requestUri";
+            if(!str_contains($request->getUri(), $route)) {echo "<br>São diferentes"; continue;}
+            echo "<br>São iguais<br><br>";
+
+            $controllerRepresentation = $this->getRepresentationOf($this->routes[$route]);
+            return $this->getContent($controllerRepresentation, $request);
         }
-        return $this->routes;
+        //return $this->routes;
     }
 
-    private function getContent(Controller $controller, RequestHandler $request) {
-        $controller = new ReflectionClass($controller);
+    private function getRepresentationOf(string $class): ReflectionClass {
+        $instance = new ReflectionClass($class);
+        if (!in_array(Controller::class, class_implements($class))) {
+            throw new InvalidArgumentException("O $class deve implementar Controller");
+        }
+        return $instance;
+    }
+
+    private function getContent(ReflectionClass $controller, RequestHandler $request) {
         $methods = $controller->getMethods();
         
         echo "<br><br>Iterando sobre o $controller";
@@ -69,5 +82,9 @@ class Router {
                 return $response;
             }
         }
+        $fallback = $controller->getMethod("fallback");
+        $response = $fallback->invoke($fallback->getDeclaringClass()->newInstance());
+
+        return $response;
     }
 }
