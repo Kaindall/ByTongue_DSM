@@ -6,13 +6,12 @@ class RequestHandler {
     private string $uri;
     private string $httpMethod;
     private array $queryParams = [];
-
     private array $pathParams = [];
 
     public function __construct(){
         $this->uri = $_SERVER["REQUEST_URI"];
         $this->httpMethod = $_SERVER["REQUEST_METHOD"];
-        $this->queryParams = $this->convertQueryToArray($_SERVER["QUERY_STRING"]);
+        if (isset($_SERVER["QUERY_STRING"])){$this->queryParams = $this->convertQueryToArray($_SERVER["QUERY_STRING"]);}
     }
 
     private function convertQueryToArray(string $queryParams): array {
@@ -33,7 +32,5 @@ class RequestHandler {
     public function getPathParams(): array {return $this->pathParams;}
 
     public function setUri(string $uri): void{$this->uri = $uri;}
-
-
 
 }

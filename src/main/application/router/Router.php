@@ -1,10 +1,10 @@
 <?php
-require_once 'src\main\domain\model\request\RequestHandler.php';
+require_once 'src\main\domain\utils\RequestHandler.php';
 require_once 'src\main\application\controller\Controller.php';
 require_once 'src\main\application\controller\impl\ChatController.php';
 require_once 'src\main\application\controller\impl\WebController.php';
 
-use src\main\domain\model\request\RequestHandler;
+use src\main\domain\utils\RequestHandler;
 
 class Router {
     private static $instance = null;
@@ -24,11 +24,11 @@ class Router {
         return self::$instance;
     }
 
-    public function redirect(RequestHandler $request) {
+    public function redirect($request) {
         if (!str_starts_with($request->getUri(), "/apis")) {
             $webController = $this->getRepresentationOf('WebController');
             $response = $this->getContent($webController, $request);
-            
+
             return $response;
         };
 
@@ -56,8 +56,9 @@ class Router {
         return $instance;
     }
 
-    private function getContent(ReflectionClass $controller, RequestHandler $request) {
+    private function getContent(ReflectionClass $controller, $request) {
         $methods = $controller->getMethods();
+        $tempStatusCode = null;
         
         echo "<br><br>Iterando sobre o $controller";
         foreach ($methods as $method) {
@@ -74,16 +75,18 @@ class Router {
                 
                 echo "<br><br>Controller: $tempCtrlUri <br> Request: $tempUriReq";
 
-                if ($controllerUri != $requestUri || $controllerHttpMethod != $requestHttpMethod) {echo '<br>São diferentes';continue;}
+                if ($controllerUri != $requestUri) {echo '<br>São diferentes';continue;}
+                if ($controllerHttpMethod != $requestHttpMethod) {$tempStatusCode = 405; echo " - Métodos HTTP diferentes"; continue;}
                 
-                echo "<br>São similares";
-
-                $response = $method->invoke($method->getDeclaringClass()->newInstance());
+                $tempStatusCode = null;
+                $response = $method->invoke($method->getDeclaringClass()->newInstance(), $request);
                 return $response;
             }
         }
+        if ($tempStatusCode) {http_response_code(405); return;}
+
         $fallback = $controller->getMethod("fallback");
-        $response = $fallback->invoke($fallback->getDeclaringClass()->newInstance());
+        $response = $fallback->invoke($fallback->getDeclaringClass()->newInstance(), $request);
 
         return $response;
     }

@@ -1,5 +1,5 @@
 <?php
 
 interface Controller {
-    public function fallback();
+    public function fallback(RequestHandler $request);
 }

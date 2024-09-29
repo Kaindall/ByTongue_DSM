@@ -1,5 +1,5 @@
 <?php
-
+require_once 'src\main\domain\utils\RequestHandler.php';
 require_once 'src\main\application\controller\Controller.php';
 
 class WebController implements Controller {
@@ -16,8 +16,10 @@ class WebController implements Controller {
         return file_get_contents('src\main\application\web\view\index\index.html');
     }
 
-    public function fallback() {
-        http_response_code(404);
+    public function fallback($request) {
+        if (!headers_sent()) {
+            http_response_code(404);
+        }
         return 'Ação de fallback do WebController';
     }
 }
