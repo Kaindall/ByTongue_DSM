@@ -29,7 +29,7 @@ Estrutura de Pastas:
 	/: Raíz será feita para armazenar configurações e funcionalidades que não tem a ver com a aplicação (geralmente configurações de ambiente, chaves/secrets, conexões com BDs, etc)
 	/src: A aplicação em si;
 	
-	/src/resources/cookies: Local de armazenamento de cookies, não deve importado no github
+	
 	/src/resources/static: Conteúdo estático consumido pela aplicação como imagens, logotipos, fontes, ícones, etc
 	/src/resources/style: arquivos CSS, 
 		/_global: Deverá ser importado em todas as páginas (_global ex: fontes, variáveis e resets css)
@@ -49,4 +49,6 @@ Estrutura de Pastas:
 	/src/main/application/api/controller: Orquestrador de chamadas para retornar as respostas ao usuário (polo passivo, recebendo chamadas)
 	/src/main/application/api/exception: Respostas de erros retornados ao consumidor
 	/src/main/application/router: (em progresso) Orquestrador de requisições para saber QUEM será responsável/capaz de respondê-las
+	
+	/src/resources/cookies: Local de armazenamento de cookies, não deve importado no github
 	
