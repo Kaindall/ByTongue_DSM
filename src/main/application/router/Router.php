@@ -6,6 +6,8 @@ require_once 'src\main\application\controller\impl\WebController.php';
 
 use src\main\domain\utils\RequestHandler;
 
+//TO-DO: Substituir todos os ECHO por algum registro de log
+
 class Router {
     private static $instance = null;
 

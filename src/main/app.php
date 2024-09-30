@@ -9,4 +9,3 @@ $request = new RequestHandler();
 $response = Router::getInstance()->redirect($request);
 echo $response;
 ob_end_flush();
-return;
