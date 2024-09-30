@@ -35,10 +35,10 @@ class Router {
         $requestUri = $request->getUri();
         $routesUris = array_keys($this->routes);
         foreach ($routesUris as $route) {   
-            echo "Controller: $route";
-            echo "<br>Chamada: $requestUri";
-            if(!str_contains($request->getUri(), $route)) {echo "<br>São diferentes"; continue;}
-            echo "<br>São iguais<br>";
+            //echo "Controller: $route";
+            //echo "<br>Chamada: $requestUri";
+            if(!str_contains($request->getUri(), $route)) {/* echo "<br>São diferentes" */; continue;}
+            //echo "<br>São iguais<br>";
 
             $controllerClass = $this->getRepresentationOf($this->routes[$route]);
             $request->setUri(str_replace("$route", "", $request->getUri()));
@@ -64,7 +64,7 @@ class Router {
             
         }
         if ($tempStatusCode) {http_response_code(405); return;}
-        echo "<br>==========";
+        //echo "<br>==========";
         $fallback = $controller->getMethod("fallback");
         $response = $fallback->invoke($fallback->getDeclaringClass()->newInstance(), $request);
 
@@ -80,7 +80,7 @@ class Router {
             $controllerHttpMethod = $attribute->getArguments()["method"];
             $requestHttpMethod = $request->getHttpMethod();
             
-            echo "<br>========<br>Controller: $controllerUri <br> Request: $requestUri";
+            //echo "<br>========<br>Controller: $controllerUri <br> Request: $requestUri";
             $extractedPathParams = $this->extractPathParams($controllerUri, $requestUri);
             if ($extractedPathParams) {
                 $request->setPathParams($extractedPathParams["pathParams"]);
@@ -88,7 +88,7 @@ class Router {
                 $controllerUri = $extractedPathParams['controller'];
             }
 
-            if ($controllerUri != $requestUri) {echo '<br>São diferentes';continue;}
+            if ($controllerUri != $requestUri) {/* echo '<br>São diferentes' */;continue;}
             if ($controllerHttpMethod != $requestHttpMethod) {$forceStatusCode = 405; continue;}
             
             $response = $method->invoke($method->getDeclaringClass()->newInstance(), $request);

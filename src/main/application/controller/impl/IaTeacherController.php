@@ -9,8 +9,9 @@ class IaTeacherController implements Controller {
     #[HttpReceiver(uri: "", method: "GET")]
     public function test(RequestHandler $request) {
         http_response_code(200);
+        header("Content-Type: application/json");
         sleep(3);
-        return $request->getBody();
+        return json_encode($request->getBody());
     }
 
     #[HttpReceiver(uri: "/teste/{id}/something", method: "GET")]
