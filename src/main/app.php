@@ -7,6 +7,6 @@ use src\main\domain\utils\RequestHandler;
 ob_start();
 $request = new RequestHandler();
 $response = Router::getInstance()->redirect($request);
-echo "<br>$response";
+var_dump($response);
 ob_end_flush();
 return;

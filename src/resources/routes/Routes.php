@@ -1,4 +1,4 @@
 <?php
 return $routes = array(
-    "/apis/ias/chat" => ChatController::class
+    "/apis/ias/teacher" => IaTeacherController::class
 );

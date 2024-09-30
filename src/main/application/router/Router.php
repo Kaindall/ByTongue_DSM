@@ -1,7 +1,7 @@
 <?php
 require_once 'src\main\domain\utils\RequestHandler.php';
 require_once 'src\main\application\controller\Controller.php';
-require_once 'src\main\application\controller\impl\ChatController.php';
+require_once 'src\main\application\controller\impl\IaTeacherController.php';
 require_once 'src\main\application\controller\impl\WebController.php';
 
 use src\main\domain\utils\RequestHandler;
@@ -58,7 +58,7 @@ class Router {
         $methods = $controller->getMethods();
         
         foreach ($methods as $method) {
-            $response = $this->compareRequesToHttpReceiver($method, $request);
+            $response = $this->findHttpReceiver($method, $request);
             if ($response && isset($response["content"])) {return $response["content"];}
             if ($response && isset($response['forceStatusCode'])) {$tempStatusCode = $response['forceStatusCode'];}
             
@@ -70,7 +70,7 @@ class Router {
 
         return $response;
     }
-    private function compareRequesToHttpReceiver(ReflectionMethod $method, RequestHandler $request): array|null {
+    private function findHttpReceiver(ReflectionMethod $method, RequestHandler $request): array|null {
         $attributes = $method->getAttributes();
         $forceStatusCode = null;
 

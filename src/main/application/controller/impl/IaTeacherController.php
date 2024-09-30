@@ -4,11 +4,13 @@ require_once 'src\main\application\controller\Controller.php';
 
 use src\main\domain\utils\RequestHandler;
 
-class ChatController implements Controller {
+class IaTeacherController implements Controller {
     
-    #[HttpReceiver(uri: "/teste", method: "GET")]
+    #[HttpReceiver(uri: "", method: "GET")]
     public function test(RequestHandler $request) {
-        return "Funcionou no Controller";
+        http_response_code(200);
+        sleep(3);
+        return $request->getBody();
     }
 
     #[HttpReceiver(uri: "/teste/{id}/something", method: "GET")]
