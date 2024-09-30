@@ -11,7 +11,8 @@ class IaTeacherController implements Controller {
         http_response_code(200);
         header("Content-Type: application/json");
         sleep(3);
-        return json_encode($request->getBody());
+        if ($request->getBody()) {return json_encode($request->getBody());}
+        return;
     }
 
     #[HttpReceiver(uri: "/teste/{id}/something", method: "GET")]
@@ -20,6 +21,7 @@ class IaTeacherController implements Controller {
     }
 
     public function fallback(RequestHandler $request) {
-        return 'Ação de fallback do ChatController';
+        http_response_code(400);
+        return;
     }
 }

@@ -7,5 +7,5 @@ use src\main\domain\utils\RequestHandler;
 ob_start();
 $request = new RequestHandler();
 $response = Router::getInstance()->redirect($request);
-echo $response;
+if ($response != null) {echo $response;}
 ob_end_flush();

@@ -58,7 +58,8 @@ class Router {
 
     private function getContent(ReflectionClass $controller, RequestHandler $request) {
         $methods = $controller->getMethods();
-        
+        $tempStatusCode = null;
+
         foreach ($methods as $method) {
             $response = $this->findHttpReceiver($method, $request);
             if ($response && isset($response["content"])) {return $response["content"];}
@@ -109,6 +110,10 @@ class Router {
         $controllerUri = explode("/", $controllerUri);
         $requestUri = explode("/", $requestUri);
         $pathParamsArr = [];
+        if (!(array_count_values($controllerUri) == array_count_values($requestUri))) {
+            return null;
+        }
+
         foreach ($controllerUri as $index => $uriPart) {
             if (!str_contains($uriPart, "{")) {continue;}
             $controllerUri = str_replace($uriPart, "...", $controllerUri);
