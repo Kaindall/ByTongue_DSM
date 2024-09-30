@@ -2,7 +2,7 @@
 require_once 'src\main\domain\utils\RequestHandler.php';
 require_once 'src\main\application\router\Router.php';
 
-use src\main\domain\model\request\RequestHandler;
+use src\main\domain\utils\RequestHandler;
 
 ob_start();
 $request = new RequestHandler();

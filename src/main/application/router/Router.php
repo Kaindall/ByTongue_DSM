@@ -24,7 +24,7 @@ class Router {
         return self::$instance;
     }
 
-    public function redirect($request) {
+    public function redirect(RequestHandler $request) {
         if (!str_starts_with($request->getUri(), "/apis")) {
             $webController = $this->getRepresentationOf('WebController');
             $response = $this->getContent($webController, $request);
@@ -34,18 +34,16 @@ class Router {
 
         $requestUri = $request->getUri();
         $routesUris = array_keys($this->routes);
-        echo "<br><br>Rotas: ";
-        var_dump($routesUris);
         foreach ($routesUris as $route) {   
-            echo "<br><br>Controller: $route";
+            echo "Controller: $route";
             echo "<br>Chamada: $requestUri";
             if(!str_contains($request->getUri(), $route)) {echo "<br>São diferentes"; continue;}
-            echo "<br>São iguais<br><br>";
+            echo "<br>São iguais<br>";
 
-            $controllerRepresentation = $this->getRepresentationOf($this->routes[$route]);
-            return $this->getContent($controllerRepresentation, $request);
+            $controllerClass = $this->getRepresentationOf($this->routes[$route]);
+            $request->setUri(str_replace("$route", "", $request->getUri()));
+            return $this->getContent($controllerClass, $request);
         }
-        //return $this->routes;
     }
 
     private function getRepresentationOf(string $class): ReflectionClass {
@@ -56,38 +54,73 @@ class Router {
         return $instance;
     }
 
-    private function getContent(ReflectionClass $controller, $request) {
+    private function getContent(ReflectionClass $controller, RequestHandler $request) {
         $methods = $controller->getMethods();
-        $tempStatusCode = null;
         
-        echo "<br><br>Iterando sobre o $controller";
         foreach ($methods as $method) {
-            $attributes = $method->getAttributes();
-
-            foreach ($attributes as $attribute) {
-                $controllerUri = array_filter(explode("/", $attribute->getArguments()["uri"]));
-                $tempCtrlUri = $attribute->getArguments()["uri"];
-                $controllerHttpMethod = $attribute->getArguments()["method"];
-                
-                $requestUri = array_filter(explode("/",  $request->getUri()));
-                $tempUriReq = $request->getUri();
-                $requestHttpMethod = $request->getHttpMethod();
-                
-                echo "<br><br>Controller: $tempCtrlUri <br> Request: $tempUriReq";
-
-                if ($controllerUri != $requestUri) {echo '<br>São diferentes';continue;}
-                if ($controllerHttpMethod != $requestHttpMethod) {$tempStatusCode = 405; echo " - Métodos HTTP diferentes"; continue;}
-                
-                $tempStatusCode = null;
-                $response = $method->invoke($method->getDeclaringClass()->newInstance(), $request);
-                return $response;
-            }
+            $response = $this->compareRequesToHttpReceiver($method, $request);
+            if ($response && isset($response["content"])) {return $response["content"];}
+            if ($response && isset($response['forceStatusCode'])) {$tempStatusCode = $response['forceStatusCode'];}
+            
         }
         if ($tempStatusCode) {http_response_code(405); return;}
-
+        echo "<br>==========";
         $fallback = $controller->getMethod("fallback");
         $response = $fallback->invoke($fallback->getDeclaringClass()->newInstance(), $request);
 
+        return $response;
+    }
+    private function compareRequesToHttpReceiver(ReflectionMethod $method, RequestHandler $request): array|null {
+        $attributes = $method->getAttributes();
+        $forceStatusCode = null;
+
+        foreach ($attributes as $attribute) {
+            $controllerUri = $attribute->getArguments()["uri"];
+            $requestUri = $request->getUri();
+            $controllerHttpMethod = $attribute->getArguments()["method"];
+            $requestHttpMethod = $request->getHttpMethod();
+            
+            echo "<br>========<br>Controller: $controllerUri <br> Request: $requestUri";
+            $extractedPathParams = $this->extractPathParams($controllerUri, $requestUri);
+            if ($extractedPathParams) {
+                $request->setPathParams($extractedPathParams["pathParams"]);
+                $requestUri = $extractedPathParams['request'];
+                $controllerUri = $extractedPathParams['controller'];
+            }
+
+            if ($controllerUri != $requestUri) {echo '<br>São diferentes';continue;}
+            if ($controllerHttpMethod != $requestHttpMethod) {$forceStatusCode = 405; continue;}
+            
+            $response = $method->invoke($method->getDeclaringClass()->newInstance(), $request);
+
+            return array("content" => $response);
+        }
+        if ($forceStatusCode) {return array("forceStatusCode" =>$forceStatusCode);}
+        return null;
+    }
+
+    private function extractPathParams(string $controllerUri, string $requestUri): array|null {
+        if (!str_contains($controllerUri, "{")) {
+            return null;
+        }
+
+        $controllerUri = explode("/", $controllerUri);
+        $requestUri = explode("/", $requestUri);
+        $pathParamsArr = [];
+        foreach ($controllerUri as $index => $uriPart) {
+            if (!str_contains($uriPart, "{")) {continue;}
+            $controllerUri = str_replace($uriPart, "...", $controllerUri);
+            $pathParamsArr[trim($uriPart, "{}")] = $requestUri[$index];
+            $requestUri[$index] = "...";
+        }
+        $requestUri = implode("/", $requestUri);
+        $controllerUri = implode("/", $controllerUri);
+
+        $response = array(
+            "request" => $requestUri,
+            "controller" => $controllerUri,
+            "pathParams"=> $pathParamsArr
+        );
         return $response;
     }
 }

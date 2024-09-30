@@ -1,6 +1,6 @@
 <?php
 
-namespace src\main\domain\model\request;
+namespace src\main\domain\utils;
 
 class RequestHandler {
     private string $uri;
@@ -9,9 +9,11 @@ class RequestHandler {
     private array $pathParams = [];
 
     public function __construct(){
-        $this->uri = $_SERVER["REQUEST_URI"];
+        $this->uri = explode("?", $_SERVER["REQUEST_URI"])[0];
         $this->httpMethod = $_SERVER["REQUEST_METHOD"];
-        if (isset($_SERVER["QUERY_STRING"])){$this->queryParams = $this->convertQueryToArray($_SERVER["QUERY_STRING"]);}
+        if (isset($_SERVER["QUERY_STRING"])){
+            $this->queryParams = $this->convertQueryToArray($_SERVER["QUERY_STRING"]);
+        }
     }
 
     private function convertQueryToArray(string $queryParams): array {
@@ -26,11 +28,13 @@ class RequestHandler {
         return $queriesDefinitiveArr;
     }
 
+
     public function getUri(): string {return $this->uri;}
     public function getHttpMethod(): string {return $this->httpMethod;}
     public function getQueryParams(): array {return $this->queryParams;}
     public function getPathParams(): array {return $this->pathParams;}
 
     public function setUri(string $uri): void{$this->uri = $uri;}
+    public function setPathParams(array $pathParams): void {$this->pathParams = $pathParams;}
 
 }
