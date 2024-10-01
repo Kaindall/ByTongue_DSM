@@ -9,7 +9,7 @@
 <b>Modelo de Commit:</b>
 	<ul><li>[Tipo]: [Verbo] descrição</li></ul>
 Ex:
-	<ul><li>FEAT: adicionar mock de dados</li></ul>
+	<ul><li>git commit -m 'FEAT: adicionar mock de dados'</li><li>Em plataformas de auxilio visual como Github Desktop, colocar no título/header a mensagem entre aspas</li></ul>
 	
 <b>Tipos de commit:</b>
 	<ul><li>FEAT: nova funcionalidade</li>
@@ -21,7 +21,7 @@ Ex:
 <h2>Regras de Branch:</h2>
 	<p>Não commitar direto na master, criar uma branch com o código do card no Jira
 	<br />Ex: </br />  - INT19</p>
-	<p>A branch develop é a branch de testes para que deve ser um espelho da master. Diferenciando-se da master apenas no período de testes para subir pra master.</p>
+	<p>A branch develop é a branch de testes que deve ser um espelho da master. Diferenciando-se da master apenas no período de testes para subir pra master.</p>
 	Dicas:
 		<p> - Commitar constantemente a cada pequena funcionalidade implementada, mesmo que não dê merge na develop/master, assim facilita a análise e possíveis rollbacks sem perder código</p>
 		
