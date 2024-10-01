@@ -11,7 +11,7 @@ class RequestHandler {
     private $body;
 
     public function __construct(){
-        $this->uri = explode("?", $_SERVER["REQUEST_URI"])[0];
+        $this->uri = explode('?', $_SERVER["REQUEST_URI"])[0];
         $this->httpMethod = $_SERVER["REQUEST_METHOD"];
         if (isset($_SERVER["QUERY_STRING"])){
             $this->queryParams = $this->convertQueryToArray($_SERVER["QUERY_STRING"]);

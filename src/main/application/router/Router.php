@@ -1,5 +1,6 @@
 <?php
 require_once 'src\main\domain\utils\RequestHandler.php';
+require_once 'src\main\domain\utils\attribute\HttpReceiver.php';
 require_once 'src\main\application\controller\Controller.php';
 require_once 'src\main\application\controller\impl\IaTeacherController.php';
 require_once 'src\main\application\controller\impl\WebController.php';
@@ -19,9 +20,11 @@ class Router {
         }
     }
 
-    public static function getInstance(): Router {
+    public static function getInstance(array $routes): Router {
         if (self::$instance === null) {
-            self::$instance = new Router(require 'src/resources/routes/Routes.php');
+            self::$instance = new Router($routes);
+            //self::$instance = new Router(HttpReceiver::getRoutes());
+            //var_dump(HttpReceiver::getRoutes());
         }
         return self::$instance;
     }
@@ -61,7 +64,7 @@ class Router {
         $tempStatusCode = null;
 
         foreach ($methods as $method) {
-            $response = $this->findHttpReceiver($method, $request);
+            $response = $this->findEndpointHttp($method, $request);
             if ($response && isset($response["content"])) {return $response["content"];}
             if ($response && isset($response['forceStatusCode'])) {$tempStatusCode = $response['forceStatusCode'];}
             
@@ -73,33 +76,29 @@ class Router {
 
         return $response;
     }
-    private function findHttpReceiver(ReflectionMethod $method, RequestHandler $request): array|null {
-        $attributes = $method->getAttributes();
-        $forceStatusCode = null;
-
-        foreach ($attributes as $attribute) {
-            $controllerUri = $attribute->getArguments()["uri"];
-            $requestUri = $request->getUri();
-            $controllerHttpMethod = $attribute->getArguments()["method"];
-            $requestHttpMethod = $request->getHttpMethod();
-            
-            //echo "<br>========<br>Controller: $controllerUri <br> Request: $requestUri";
-            $extractedPathParams = $this->extractPathParams($controllerUri, $requestUri);
-            if ($extractedPathParams) {
-                $request->setPathParams($extractedPathParams["pathParams"]);
-                $requestUri = $extractedPathParams['request'];
-                $controllerUri = $extractedPathParams['controller'];
-            }
-
-            if ($controllerUri != $requestUri) {/* echo '<br>São diferentes' */;continue;}
-            if ($controllerHttpMethod != $requestHttpMethod) {$forceStatusCode = 405; continue;}
-            
-            $response = $method->invoke($method->getDeclaringClass()->newInstance(), $request);
-
-            return array("content" => $response);
+    private function findEndpointHttp(ReflectionMethod $method, RequestHandler $request): array|null {
+        $attribute = $method->getAttributes('HttpEndpoint')[0];
+        
+        if (!$attribute) {return null;}
+        $controllerUri = $attribute->getArguments()["uri"];
+        $requestUri = $request->getUri();
+        $controllerHttpMethod = $attribute->getArguments()["method"];
+        $requestHttpMethod = $request->getHttpMethod();
+        
+        //echo "<br>========<br>Controller: $controllerUri <br> Request: $requestUri";
+        $extractedPathParams = $this->extractPathParams($controllerUri, $requestUri);
+        if ($extractedPathParams) {
+            $request->setPathParams($extractedPathParams["pathParams"]);
+            $requestUri = $extractedPathParams['request'];
+            $controllerUri = $extractedPathParams['controller'];
         }
-        if ($forceStatusCode) {return array("forceStatusCode" =>$forceStatusCode);}
-        return null;
+
+        if ($controllerUri != $requestUri) {return null;}
+        if ($controllerHttpMethod != $requestHttpMethod) {return array("forceStatusCode" =>405);}
+        
+        $response = $method->invoke($method->getDeclaringClass()->newInstance(), $request);
+
+        return array("content" => $response);
     }
 
     private function extractPathParams(string $controllerUri, string $requestUri): array|null {

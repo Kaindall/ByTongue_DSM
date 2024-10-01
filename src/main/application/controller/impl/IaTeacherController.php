@@ -4,9 +4,10 @@ require_once 'src\main\application\controller\Controller.php';
 
 use src\main\domain\utils\RequestHandler;
 
+#[HttpReceiver("/apis/ias/teacher")]
 class IaTeacherController implements Controller {
     
-    #[HttpReceiver(uri: "", method: "GET")]
+    #[HttpEndpoint(uri: "", method: "POST")]
     public function test(RequestHandler $request) {
         http_response_code(200);
         header("Content-Type: application/json");
@@ -15,7 +16,7 @@ class IaTeacherController implements Controller {
         return;
     }
 
-    #[HttpReceiver(uri: "/teste/{id}/something", method: "GET")]
+    #[HttpEndpoint(uri: "/teste/{id}/something", method: "GET")]
     public function send(RequestHandler $request) {
         return "Funcionou no Controller";
     }

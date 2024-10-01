@@ -6,13 +6,13 @@ use src\main\domain\utils\RequestHandler;
 
 class WebController implements Controller {
 
-    #[HttpReceiver(uri: "/chat", method: "GET")]
+    #[HttpEndpoint(uri: "/chat", method: "GET")]
     public function chat(RequestHandler $request) {
         http_response_code(200);
         return file_get_contents('src\main\application\web\view\chat\chat.html');
     }
     
-    #[HttpReceiver(uri: "/", method: "GET")]
+    #[HttpEndpoint(uri: "/", method: "GET")]
     public function home(RequestHandler $request) {
         http_response_code(200);
         return file_get_contents('src\main\application\web\view\index\index.html');
