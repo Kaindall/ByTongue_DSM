@@ -31,9 +31,6 @@ Ex:
 
 	/: Raíz será feita para armazenar configurações e funcionalidades que não tem a ver com a aplicação (geralmente configurações de ambiente, chaves/secrets, conexões com BDs, etc)
 	/src: A aplicação em si;
-  
-  ==============================
-  
 	/src/resources/static: Conteúdo estático consumido pela aplicação como imagens, logotipos, fontes, ícones, etc
 	/src/resources/style: arquivos CSS, 
 		/_global: Deverá ser importado em todas as páginas (_global ex: fontes, variáveis e resets css)
