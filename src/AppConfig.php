@@ -1,13 +1,13 @@
 <?php
 
 abstract class AppConfig {
-    public static function bootstrap() {
+    public static function bootstrap(): array {
         $args = [];
         $args['routes'] = self::defineRoutes();
         return $args;
     }
 
-    private static function defineRoutes() {
+    private static function defineRoutes(): array {
         $routes = [];
         $directory = 'src/main';  
         $directoryIterator = new RecursiveDirectoryIterator($directory);
