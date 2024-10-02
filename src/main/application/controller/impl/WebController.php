@@ -3,7 +3,7 @@ require_once 'src\main\domain\utils\RequestHandler.php';
 require_once 'src\main\application\controller\Controller.php';
 
 use src\main\domain\utils\RequestHandler;
-
+#[HttpReceiver('')]
 class WebController implements Controller {
 
     #[HttpEndpoint(uri: "/chat", method: "GET")]

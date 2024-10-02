@@ -7,8 +7,8 @@ use src\main\domain\utils\RequestHandler;
 #[HttpReceiver("/apis/ias/teacher")]
 class IaTeacherController implements Controller {
     
-    #[HttpEndpoint(uri: "", method: "POST")]
-    public function test(RequestHandler $request) {
+    #[HttpEndpoint(uri: "", method: "GET")]
+    public function postTeste(RequestHandler $request) {
         http_response_code(200);
         header("Content-Type: application/json");
         sleep(3);
@@ -18,7 +18,7 @@ class IaTeacherController implements Controller {
 
     #[HttpEndpoint(uri: "/teste/{id}/something", method: "GET")]
     public function send(RequestHandler $request) {
-        return "Funcionou no Controller";
+        return "<br>Funcionou no Controller";
     }
 
     public function fallback(RequestHandler $request) {
