@@ -14,7 +14,7 @@ class Router {
 
     private function __construct(private array $routes) {
         foreach ($routes as $route) {
-            if (!in_array(Controller::class, class_implements($route))) {
+            if (!in_array(Controller::class, class_implements($route['className']))) {
                 throw new InvalidArgumentException("O $route deve implementar Controller");
             }
         }
@@ -23,31 +23,23 @@ class Router {
     public static function getInstance(array $routes): Router {
         if (self::$instance === null) {
             self::$instance = new Router($routes);
-            //self::$instance = new Router(HttpReceiver::getRoutes());
-            //var_dump(HttpReceiver::getRoutes());
         }
         return self::$instance;
     }
 
     public function redirect(RequestHandler $request) {
-        if (!str_starts_with($request->getUri(), "/apis")) {
-            $webController = $this->getRepresentationOf('WebController');
-            $response = $this->getContent($webController, $request);
-
-            return $response;
-        };
-
-        $requestUri = $request->getUri();
         $routesUris = array_keys($this->routes);
         foreach ($routesUris as $route) {   
             //echo "Controller: $route";
-            //echo "<br>Chamada: $requestUri";
-            if(!str_contains($request->getUri(), $route)) {/* echo "<br>São diferentes" */; continue;}
+            //echo "<br>Chamada: $request->getUri()";
+            if(!str_contains($request->getUri(), $route)) {
+                //echo "<br>São diferentes"; 
+                continue;}
             //echo "<br>São iguais<br>";
 
-            $controllerClass = $this->getRepresentationOf($this->routes[$route]);
+            $controllerClass = $this->getRepresentationOf($this->routes[$route]['className']);
             $request->setUri(str_replace("$route", "", $request->getUri()));
-            return $this->getContent($controllerClass, $request);
+            return $this->getContent($controllerClass, $route, $request);
         }
     }
 
@@ -59,57 +51,50 @@ class Router {
         return $instance;
     }
 
-    private function getContent(ReflectionClass $controller, RequestHandler $request) {
-        $methods = $controller->getMethods();
+    private function getContent(ReflectionClass $controller, string $pathMatched, RequestHandler $request) {
+        $endpoints = $this->routes[$pathMatched]['endpoints'];
         $tempStatusCode = null;
 
-        foreach ($methods as $method) {
-            $response = $this->findEndpointHttp($method, $request);
-            if ($response && isset($response["content"])) {return $response["content"];}
-            if ($response && isset($response['forceStatusCode'])) {$tempStatusCode = $response['forceStatusCode'];}
+        //echo '<br>' . json_encode($endpoints);
+        foreach ($endpoints as $methodName => $endpoint) {
+            $controllerUri = $endpoint['uri'];
+            $requestUri = $request->getUri();
+            $controllerHttpMethod = $endpoint["httpMethod"];
+            $requestHttpMethod = $request->getHttpMethod();
             
+            //echo "<br>========<br>Controller: $controllerUri <br> Request: $requestUri";
+            $extractedPathParams = $this->extractPathParams($controllerUri, $requestUri);
+            if ($extractedPathParams) {
+                $request->setPathParams($extractedPathParams["pathParams"]);
+                $requestUri = $extractedPathParams['request'];
+                $controllerUri = $extractedPathParams['controller'];
+                //echo "<br>---<br>Controller normalizado: $controllerUri <br> Request normalizado: $requestUri";
+            }
+
+            if ($controllerUri != $requestUri) {continue;}
+            if ($controllerHttpMethod != $requestHttpMethod) {$tempStatusCode = 405; continue;}
+
+            $method = $controller->getMethod($methodName);
+            $response = $method->invoke($method->getDeclaringClass()->newInstance(), $request);
+            if ($response) {return $response;}
         }
         if ($tempStatusCode) {http_response_code(405); return;}
-        //echo "<br>==========";
         $fallback = $controller->getMethod("fallback");
         $response = $fallback->invoke($fallback->getDeclaringClass()->newInstance(), $request);
 
         return $response;
     }
-    private function findEndpointHttp(ReflectionMethod $method, RequestHandler $request): array|null {
-        $attribute = $method->getAttributes('HttpEndpoint')[0];
-        
-        if (!$attribute) {return null;}
-        $controllerUri = $attribute->getArguments()["uri"];
-        $requestUri = $request->getUri();
-        $controllerHttpMethod = $attribute->getArguments()["method"];
-        $requestHttpMethod = $request->getHttpMethod();
-        
-        //echo "<br>========<br>Controller: $controllerUri <br> Request: $requestUri";
-        $extractedPathParams = $this->extractPathParams($controllerUri, $requestUri);
-        if ($extractedPathParams) {
-            $request->setPathParams($extractedPathParams["pathParams"]);
-            $requestUri = $extractedPathParams['request'];
-            $controllerUri = $extractedPathParams['controller'];
-        }
-
-        if ($controllerUri != $requestUri) {return null;}
-        if ($controllerHttpMethod != $requestHttpMethod) {return array("forceStatusCode" =>405);}
-        
-        $response = $method->invoke($method->getDeclaringClass()->newInstance(), $request);
-
-        return array("content" => $response);
-    }
 
     private function extractPathParams(string $controllerUri, string $requestUri): array|null {
         if (!str_contains($controllerUri, "{")) {
+            //echo '<br>ERR: Endpoint não contém {<br>';
             return null;
         }
 
         $controllerUri = explode("/", $controllerUri);
         $requestUri = explode("/", $requestUri);
         $pathParamsArr = [];
-        if (!(array_count_values($controllerUri) == array_count_values($requestUri))) {
+        if (count($controllerUri) != count($requestUri)) {
             return null;
         }
 
