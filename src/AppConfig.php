@@ -31,7 +31,7 @@ abstract class AppConfig {
             if (empty($attrs)) {continue;}
 
             foreach ($attrs as $attr) {
-                if ($attr->getName() == 'HttpReceiver') {
+                if ($attr->getName() == 'HttpController') {
                     $uri = $attr->getArguments()[0];
                     $methods = $reflectedClass->getMethods();
                     if (empty($methods)) {continue;}

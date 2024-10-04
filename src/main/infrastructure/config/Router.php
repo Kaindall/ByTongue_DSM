@@ -1,11 +1,8 @@
 <?php
-require_once 'src\main\domain\utils\RequestHandler.php';
-require_once 'src\main\domain\utils\attribute\HttpReceiver.php';
+require_once 'src\main\domain\model\request\HttpRequest.php';
 require_once 'src\main\application\controller\Controller.php';
 require_once 'src\main\application\controller\impl\IaTeacherController.php';
 require_once 'src\main\application\controller\impl\WebController.php';
-
-use src\main\domain\utils\RequestHandler;
 
 //TO-DO: Substituir todos os ECHO por algum registro de log
 
@@ -27,7 +24,7 @@ class Router {
         return self::$instance;
     }
 
-    public function redirect(RequestHandler $request) {
+    public function redirect(HttpRequest $request) {
         $routesUris = array_keys($this->routes);
         foreach ($routesUris as $route) {   
             //echo "Controller: $route";
@@ -51,7 +48,7 @@ class Router {
         return $instance;
     }
 
-    private function getContent(ReflectionClass $controller, string $pathMatched, RequestHandler $request) {
+    private function getContent(ReflectionClass $controller, string $pathMatched, HttpRequest $request) {
         $endpoints = $this->routes[$pathMatched]['endpoints'];
         $tempStatusCode = null;
 

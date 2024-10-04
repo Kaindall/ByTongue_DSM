@@ -2,6 +2,7 @@
 .code
 .git
 .log
+php.ini
 /temp
 /src/main/domain/model/cookies*
 #.env

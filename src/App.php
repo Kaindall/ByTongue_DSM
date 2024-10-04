@@ -1,14 +1,13 @@
 <?php
-require_once 'src\main\domain\utils\RequestHandler.php';
-require_once 'src\main\application\router\Router.php';
+require_once 'src\main\domain\model\request\HttpRequest.php';
+require_once 'src\main\infrastructure\config\Router.php';
 require_once 'src\AppConfig.php';
 
-use src\main\domain\utils\RequestHandler;
 
 class App {
     public function __construct(?array $args = []) {
-        $request = new RequestHandler();
-
+        $request = new HttpRequest();
+        
         ob_start();
         $response = Router::getInstance($args['routes'])->redirect($request);
         if ($response != null) {echo $response;}

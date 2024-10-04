@@ -1,27 +1,29 @@
 <?php
-require_once 'src\main\domain\utils\RequestHandler.php';
+require_once 'src\main\domain\model\request\HttpRequest.php';
 require_once 'src\main\application\controller\Controller.php';
+require_once 'src\main\infrastructure\client\GeminiClient.php';
 
-use src\main\domain\utils\RequestHandler;
 
-#[HttpReceiver("/apis/ias/teacher")]
+#[HttpController("/ias/teacher")]
 class IaTeacherController implements Controller {
     
-    #[HttpEndpoint(uri: "", method: "GET")]
-    public function postTeste(RequestHandler $request) {
-        http_response_code(200);
+    #[HttpEndpoint(uri: "", method: "POST")]
+    public function postTeste(HttpRequest $request) {
         header("Content-Type: application/json");
-        sleep(3);
-        if ($request->getBody()) {return json_encode($request->getBody());}
-        return;
+        ini_set('allow_url_fopen', '1');
+        
+        $client = new GeminiClient('https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyA9nRcb9Bq8vzyRooksJnYc5lAfcN49qTY');
+        $response = $client->sendMessage($request->getBody());
+        http_response_code(200);
+        return $response;
     }
 
-    #[HttpEndpoint(uri: "/teste/{id}/something", method: "GET")]
-    public function send(RequestHandler $request) {
+    #[HttpEndpoint(uri: "/{id}", method: "GET")]
+    public function send(HttpRequest $request) {
         return "<br>Funcionou no Controller";
     }
 
-    public function fallback(RequestHandler $request) {
+    public function fallback(HttpRequest $request) {
         http_response_code(400);
         return;
     }

@@ -1,8 +1,7 @@
 <?php
-require_once 'src\main\domain\utils\RequestHandler.php';
-use src\main\domain\utils\RequestHandler;
+require_once 'src\main\domain\model\request\HttpRequest.php';
 
 
 interface Controller {
-    public function fallback(RequestHandler $request);
+    public function fallback(HttpRequest $request);
 }
