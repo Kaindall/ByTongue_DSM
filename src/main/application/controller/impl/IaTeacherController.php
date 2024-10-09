@@ -10,7 +10,6 @@ class IaTeacherController implements Controller {
     #[HttpEndpoint(uri: "", method: "POST")]
     public function postTeste(HttpRequest $request) {
         header("Content-Type: application/json");
-        ini_set('allow_url_fopen', '1');
         
         $client = new GeminiClient('https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyA9nRcb9Bq8vzyRooksJnYc5lAfcN49qTY');
         $response = $client->sendMessage($request->getBody());

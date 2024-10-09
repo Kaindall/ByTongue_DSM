@@ -28,9 +28,9 @@ class Router {
         $routesUris = array_keys($this->routes);
         foreach ($routesUris as $route) {   
             //echo "Controller: $route";
-            //echo "<br>Chamada: $request->getUri()";
-            if(!str_contains($request->getUri(), $route)) {
-                //echo "<br>São diferentes"; 
+            //echo "<br>Chamada: " . $request->getUri();
+            if(strcmp($request->getUri(), $route)) {
+                //echo "<br>São diferentes" . PHP_EOL; 
                 continue;}
             //echo "<br>São iguais<br>";
 
@@ -38,6 +38,7 @@ class Router {
             $request->setUri(str_replace("$route", "", $request->getUri()));
             return $this->getContent($controllerClass, $route, $request);
         }
+        http_response_code(404);
     }
 
     private function getRepresentationOf(string $class): ReflectionClass {
@@ -67,8 +68,9 @@ class Router {
                 $controllerUri = $extractedPathParams['controller'];
                 //echo "<br>---<br>Controller normalizado: $controllerUri <br> Request normalizado: $requestUri";
             }
-
+            
             if ($controllerUri != $requestUri) {continue;}
+            
             if ($controllerHttpMethod != $requestHttpMethod) {$tempStatusCode = 405; continue;}
 
             $method = $controller->getMethod($methodName);
