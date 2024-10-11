@@ -1,6 +1,6 @@
 <?php 
 
-class HttpSender {
+class HttpClient {
     public function __construct(
         private array $header,
         private CurlHttpMethod $httpMethod,

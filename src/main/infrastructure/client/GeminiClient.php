@@ -1,6 +1,7 @@
 <?php
 
 class GeminiClient {
+    private static $chat = [];
     private string $method = "POST";
     private array $contents = ["contents" => []];
     public function __construct(
@@ -14,27 +15,14 @@ class GeminiClient {
                     ['text' => $message]
                 ]
             ];
-
             
-            
-            return json_encode($this->contents);
+            $httpClient = (new HttpClientBuilder())
+                ->withHttpMethod($this->method)
+                ->withBody($this->contents)
+                ->build();
 
-            /* $data = [
-                'http' => [
-                    'header' => ['Content-Type: application/json'],
-                    'method'=> 'POST',
-                    'content' => $this->contents,
-                    'timeout' => 60
-                ]
-            ]; 
-             $requestContext = stream_context_create($data);
-            $response = file_get_contents($this->url, false, $requestContext);
+            $response = $httpClient->executeRequest($this->url);
 
-            if ($response === false) {
-                $error = error_get_last();
-                echo "HTTP Error: " . $error['message'];
-            } else {
-                echo $response;
-            } */
+            return $response;
         }
     }

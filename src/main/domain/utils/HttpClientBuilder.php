@@ -1,6 +1,6 @@
 <?php
 
-class HttpSenderBuilder {
+class HttpClientBuilder {
     private array $headers = [];
     private CurlHttpMethod $httpMethod;
     private string | array $body;
@@ -28,8 +28,8 @@ class HttpSenderBuilder {
         return $this;
     }
 
-    public function build(): HttpSender { 
-        return new HttpSender($this->headers, 
+    public function build(): HttpClient { 
+        return new HttpClient($this->headers, 
             $this->httpMethod, 
             $this->body,
             $this->timeout ?? 60);
