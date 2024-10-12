@@ -12,17 +12,20 @@ class GeminiClient {
             $this->contents['contents'][] = [
                 'role' => 'user',
                 'parts' => [
-                    ['text' => $message]
+                    ['text' => json_decode($message, true)['content']]
                 ]
             ];
             
-            $httpClient = (new HttpClientBuilder())
+            
+            return json_encode($this->contents);
+            
+            /*$httpClient = (new HttpClientBuilder())
+                ->withHeaders(['Content-Type: application/json'])
                 ->withHttpMethod($this->method)
                 ->withBody($this->contents)
                 ->build();
-
             $response = $httpClient->executeRequest($this->url);
 
-            return $response;
+            return $response; */
         }
     }
