@@ -5,4 +5,4 @@
 php.ini
 /temp
 /src/main/domain/model/cookies*
-#.env
+.env
