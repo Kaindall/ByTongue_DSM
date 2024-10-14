@@ -4,7 +4,7 @@ class HttpClient {
     public function __construct(
         private array $header,
         private CurlHttpMethod $httpMethod,
-        private array $body,
+        private array | string $body,
         private int $timeout = 60) {}
 
     public function executeRequest(string $url) {

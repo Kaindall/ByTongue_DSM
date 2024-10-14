@@ -1,0 +1,70 @@
+{
+    "from": "String",
+    "to":	"String",
+    "level": "Integer",
+	"configs": [],
+    "history": {
+        "content": [
+			{
+				"role": "user",
+                "parts": [
+                    {"text": "String"}
+				]
+			},
+			{
+				"role": "model",
+                "parts": [
+                    {"text": "String"}
+				]
+			},
+            {
+				"role": "user",
+                "parts": [
+                    {"text": "String"}
+				]
+			},
+            {
+				"role": "model",
+                "parts": [
+                    {"text": "String"}
+				]
+			},
+            {
+				"role": "user",
+                "parts": [
+                    {"text": "String"}
+				]
+			},
+            {
+				"role": "model",
+                "parts": [
+                    {"text": "String"}
+				]
+			},
+            {
+				"role": "user",
+                "parts": [
+                    {"text": "String"}
+				]
+			},
+            {
+				"role": "model",
+                "parts": [
+                    {"text": "String"}
+				]
+			},
+            {
+				"role": "user",
+                "parts": [
+                    {"text": "String"}
+				]
+			},
+            {
+				"role": "model",
+                "parts": [
+                    {"text": "String"}
+				]
+			}
+        ]
+    }
+}
