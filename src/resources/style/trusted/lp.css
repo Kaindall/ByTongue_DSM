@@ -1,0 +1,57 @@
+.container {
+    text-align: center;
+}
+
+.title {
+    color: #000000; 
+    font-size: 3.5rem; 
+    font-weight: bold; 
+    letter-spacing: 2px;
+}
+
+.slogan {
+    color: #000000; 
+    font-size: 1.7rem;
+    margin: 15px 0;
+}
+
+.buttons {
+    margin-top: 30px;
+}
+
+.btn {
+    background-color: #F15025; 
+    color: #FFFFFF;
+    font-size: 1.3rem;
+    border: none; 
+    border-radius: 10px;
+    padding: 12px 25px;
+    cursor: pointer;
+    margin: 0 15px;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15); 
+}
+
+.btn:hover {
+    transform: scale(1.05); 
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2); 
+}
+
+#chat-now {
+    background-color: #F15025; 
+}
+
+#learn-more {
+    background-color: #FFFFFF; 
+    color: #747574; 
+}
+
+.btn:hover#learn-more {
+    background-color: #F3F4F3; 
+}
+
+
+.image {
+    max-width: 400px; 
+    margin-bottom: 20px; 
+}
