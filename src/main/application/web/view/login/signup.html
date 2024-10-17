@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar Conta</title>
+    <link rel="stylesheet" href="../../../../../resources/style/_global/app.css">
+    <link rel="stylesheet" href="../../../../../resources/style/trusted/signup.css">
+</head>
+<body>
+    <div class="signup-container">
+        <div class="signup-box">
+            <h2>Criar Conta</h2>
+            <form>
+                <div class="input-group">
+                    <label for="name">Nome Completo</label>
+                    <input type="text" id="name" required>
+                </div>
+                <div class="input-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="input-group">
+                    <label for="password">Senha</label>
+                    <input type="password" id="password" required>
+                    <button type="button" id="toggle-password">Mostrar</button>
+                </div>
+                <div class="input-group">
+                    <label for="confirm-password">Confirmar Senha</label>
+                    <input type="password" id="confirm-password" required>
+                    <button type="button" id="toggle-confirm-password">Mostrar</button>
+                </div>
+                <div class="links">
+                    <a href="login.html">Já tenho uma conta</a>
+                </div>
+                <button type="submit" class="signup-btn">Cadastrar</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const togglePassword = document.querySelector('#toggle-password');
+        const password = document.querySelector('#password');
+        const toggleConfirmPassword = document.querySelector('#toggle-confirm-password');
+        const confirmPassword = document.querySelector('#confirm-password');
+
+        togglePassword.addEventListener('click', function () {
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+            this.textContent = type === 'password' ? 'Mostrar' : 'Ocultar';
+        });
+
+        toggleConfirmPassword.addEventListener('click', function () {
+            const type = confirmPassword.getAttribute('type') === 'password' ? 'text' : 'password';
+            confirmPassword.setAttribute('type', type);
+            this.textContent = type === 'password' ? 'Mostrar' : 'Ocultar';
+        });
+    </script>
+</body>
+</html>
