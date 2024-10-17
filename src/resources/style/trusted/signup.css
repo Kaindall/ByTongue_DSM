@@ -1,0 +1,93 @@
+.signup-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 20px;
+}
+
+.signup-box {
+  background-color: var(--white-smoke);
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+}
+
+.signup-box h2 {
+  color: var(--eerie-black);
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.input-group {
+  margin-bottom: 16px;
+  position: relative;
+}
+
+.input-group label {
+  display: block;
+  font-size: 14px;
+  color: var(--gray);
+  margin-bottom: 8px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid var(--platinum);
+  border-radius: 4px;
+  background-color: var(--white);
+  color: var(--eerie-black);
+}
+
+#toggle-password, #toggle-confirm-password {
+  position: absolute;
+  right: 10px;
+  top: 35px;
+  background: none;
+  border: none;
+  color: var(--coquelicot);
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.links {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 16px;
+}
+
+.links a {
+  color: var(--melon);
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.links a:hover {
+  text-decoration: underline;
+}
+
+.signup-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: var(--coquelicot);
+  border: none;
+  border-radius: 4px;
+  color: var(--white);
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.signup-btn:hover {
+  background-color: var(--melon);
+}
+
+@media (max-width: 768px) {
+  .signup-box {
+      padding: 20px;
+  }
+}
