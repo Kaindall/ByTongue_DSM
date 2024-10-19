@@ -9,6 +9,7 @@ enum CEFRLevel: string {
     case C2 = 'Proficient';
 
     public static function fromInt(int $level): ?self {
+        if ($level < 0 || $level > 10) {throw new LevelRangeException();}
         return match (true) {
             $level >= 0 && $level <= 2 => self::A1,
             $level >= 3 && $level <= 4 => self::A2,

@@ -4,7 +4,8 @@ abstract class ExceptionModel extends Exception {
     private $timestamp;
     public function __construct(protected $message, private $error_code) {
         parent::__construct($message, $error_code);
-        $this->timestamp = date("d/m/o H:i:s (P)");
+        $date = new DateTime("now", new DateTimeZone(date_default_timezone_get()));
+        $this->timestamp = $date->format("d/m/Y H:i:s (P \U\T\C)");
     }
 
     public function toResponse(): array

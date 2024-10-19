@@ -1,5 +1,5 @@
 <?php
 
 interface IaService {
-    public function sendText();
+    public function retrieveResult($message);
 }
