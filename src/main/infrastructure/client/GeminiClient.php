@@ -15,42 +15,24 @@ class GeminiClient implements IaClient, Quizzeable {
         private string $url,
         ) {}
 
-        public function commitMessage(string $message) {
-            
-            $formattedMessage = [
-                'role' => 'user',
-                'parts' => [
-                    ['text' => $message]
-                    ]
-                ];
-
-            $this->contents['contents'][] = $formattedMessage;
-            /*$file = 'temp_data.json';
-            if (!file_exists($file)) {
-                $this->contents['contents'][] = $formattedMessage;
-                file_put_contents($file, json_encode($this->contents), JSON_PRETTY_PRINT);
-                //echo 'Json criado com sucesso!' . PHP_EOL;
-                return json_encode($this->contents);
-            } 
-            
-            $data = json_decode(file_get_contents($file), true);
-            //echo 'Json consultado' . PHP_EOL;
-
-            $this->contents = $data;
-            $this->contents['contents'][] = $formattedMessage;
-            file_put_contents($file, json_encode($this->contents), JSON_PRETTY_PRINT);
-
-            
-
-            return json_encode($this->contents);  */
+        public function commitMessage(array $message) {
+            $this->contents['contents'][] = $message;
             
             $httpClient = (new HttpClientBuilder())
                 ->withHeaders(['Content-Type: application/json'])
                 ->withHttpMethod($this->method)
                 ->withBody($this->contents)
                 ->build();
+
             $response = $httpClient->executeRequest($this->url);
-            $normalizedResponse = json_decode($response, true)['candidates'][0]['content'];
+            $normalizedResponse = json_decode($response, true)['candidates'][0]['content'] ?? null;
+            if ($normalizedResponse === null) {
+                //echo 'Retorno inesperado. Repetindo mais uma vez...';
+                $response = $httpClient->executeRequest($this->url);
+                $normalizedResponse = json_decode($response, true)['candidates'][0]['content'] ?? null;
+
+                if ($normalizedResponse === null) {throw new UnexpectedGeminiException($response);}
+            }
             return $normalizedResponse; 
         }
 

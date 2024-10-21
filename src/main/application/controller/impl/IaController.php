@@ -27,6 +27,10 @@ class IaController implements Controller {
             http_response_code(400);
             header("Content-Type: application/json");
             return json_encode($e->toResponse(), JSON_PRETTY_PRINT);
+         } catch (UnexpectedGeminiException $e)  {
+            http_response_code(500);
+            header("Content-Type: application/json");
+            return json_encode($e->toResponse(), JSON_PRETTY_PRINT);
          }
     }
 

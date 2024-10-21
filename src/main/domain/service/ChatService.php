@@ -16,15 +16,35 @@ class ChatService {
     //TODO: criar chat se não existir ou apensar conteúdo ao fim. Fazer isso usando ChatEntity
     //TODO: incluir ChatEntity nas operações
     public function postMessage($id, $message) {
-        if(!$id) {
-            $this->chatRepository->createChat($message);
-        }
+        if ($message === null || empty($message)) {throw new EmptyBodyException();}
+        $msgArr = json_decode($message, true);
+        if (!isset($msgArr["content"])) {throw new InvalidBodyException();}
 
-        $response = $this->iaService->retrieveResult($message);
-        return $response;
+        if(!$id) {
+            //echo 'ID não encontrado' . PHP_EOL;
+            if (!isset($msgArr['role'])) {$msgArr = $this->transformMessage('user', $msgArr['content']);}
+            $chat = $this->chatRepository->create($msgArr);
+            $response = $this->iaService->retrieveResult($chat->getContents());
+            $this->chatRepository->update($chat, json_decode($response, true));
+            return $response;
+        }
+        
+        return;
+        /* $response = $this->iaService->retrieveResult($message);
+        return $response; */
     }
 
     public function deleteMessage() {}
 
     public function deleteChat() {}
+
+    private function transformMessage(string $owner, string $msg) {
+        $formattedMessage = [
+            'parts' => [
+                ['text' => $msg]
+            ],
+            'role' => $owner
+            ];
+        return $formattedMessage;
+    }
 }

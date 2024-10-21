@@ -1,0 +1,1 @@
+{"model":"gemini-pro","systemInstruction":[],"contents":[{"parts":[{"text":"Me retorne uma frase Lorem Ipsum aleat\u00f3ria de 30 caracteres"}],"role":"user"},{"parts":[{"text":"Porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit"}],"role":"model"}]}
