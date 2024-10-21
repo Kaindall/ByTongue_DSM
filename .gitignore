@@ -4,5 +4,5 @@
 .log
 php.ini
 /temp
-/src/main/domain/model/cookies*
+/src/resources/mongo/*
 .env

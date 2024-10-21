@@ -24,6 +24,12 @@ class WebController implements Controller {
         return file_get_contents('src\main\application\web\view\quiz\quiz.html');
     }
 
+    #[HttpEndpoint(uri: "/settings", method: "GET")]
+    public function settings(HttpRequest $request) {
+        http_response_code(200);
+        
+        return phpinfo();
+    }
     public function fallback(HttpRequest $request) {
         http_response_code(404);
         return 'Ação de fallback do WebController';

@@ -1,4 +1,6 @@
 <?php
+require_once 'src\main\domain\service\ia\IaClient.php';
+require_once 'src\main\domain\service\ia\Quizzeable.php';
 require_once 'src\main\domain\model\exception\ia\gemini\EmptyBodyException.php';
 require_once 'src\main\domain\model\exception\ia\gemini\InvalidBodyException.php';
 require_once 'src\main\domain\model\exception\ia\gemini\LevelRangeException.php';
@@ -6,23 +8,24 @@ require_once 'src\main\domain\model\exception\ia\gemini\OriginLanguageException.
 require_once 'src\main\domain\model\exception\ia\gemini\TargetLanguageException.php';
 require_once 'src\main\domain\model\exception\ia\gemini\InvalidQuantityException.php';
 
-class GeminiClient {
+class GeminiClient implements IaClient, Quizzeable {
     private string $method = "POST";
     private array $contents = ["contents" => []];
     public function __construct(
         private string $url,
         ) {}
 
-        public function commitMessage(?string $message) {
-            $file = 'temp_data.json';
-
+        public function commitMessage(string $message) {
+            
             $formattedMessage = [
                 'role' => 'user',
                 'parts' => [
-                    ['text' => $message['content']]
-                ]
-            ];
+                    ['text' => $message]
+                    ]
+                ];
 
+            $this->contents['contents'][] = $formattedMessage;
+            /*$file = 'temp_data.json';
             if (!file_exists($file)) {
                 $this->contents['contents'][] = $formattedMessage;
                 file_put_contents($file, json_encode($this->contents), JSON_PRETTY_PRINT);
@@ -39,16 +42,16 @@ class GeminiClient {
 
             
 
-            return json_encode($this->contents); 
+            return json_encode($this->contents);  */
             
-            /* $httpClient = (new HttpClientBuilder())
+            $httpClient = (new HttpClientBuilder())
                 ->withHeaders(['Content-Type: application/json'])
                 ->withHttpMethod($this->method)
-                ->withBody(self::$contents)
+                ->withBody($this->contents)
                 ->build();
             $response = $httpClient->executeRequest($this->url);
-
-            return $response; */
+            $normalizedResponse = json_decode($response, true)['candidates'][0]['content'];
+            return $normalizedResponse; 
         }
 
         public function getExam(array $args) {

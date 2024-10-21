@@ -2,19 +2,24 @@
 require_once 'src\main\domain\model\request\HttpRequest.php';
 require_once 'src\main\application\controller\Controller.php';
 require_once 'src\main\infrastructure\client\GeminiClient.php';
-require_once 'src\main\application\controller\exception\ObjectNotQuizzeable.php';
+require_once 'src\main\domain\model\exception\ia\ObjectNotQuizzeable.php';
 
 
 #[HttpController("/ias")]
 class IaController implements Controller {
-    
+    private ChatService $chatService;
+
+    //TODO: Injeção de dependência do ChatService
+    public function __construct() {
+        $this->chatService = new ChatService(new ChatRepository(), new GeminiService());
+    }
+
     #[HttpEndpoint(uri: "/chat", method: "POST")]
-    public function postTeste(HttpRequest $request) {
-        $client = new GeminiService();
+    public function createChat(HttpRequest $request) {
         header("Content-Type: application/json");
 
         try {
-            $response = $client->retrieveResult($request->getBody());
+            $response = $this->chatService->postMessage(null, $request->getBody());
             http_response_code(200);
             return $response;
 
@@ -27,16 +32,32 @@ class IaController implements Controller {
 
     #[HttpEndpoint(uri: "/chat/{id}", method: "GET")]
     public function findChat(HttpRequest $request) {
+        try {
+            $response = $this->chatService->findChat($request->getPathParams()['id']);
+            http_response_code(200);
+            header("Content-Type: application/json");
+            return $response;
+        } catch (ChatNotFound $e) {
+            http_response_code(404);
+            return;
+        }
+    }
+
+    #[HttpEndpoint(uri: "/chat/{id}", method: "POST")]
+    public function appendMessage(HttpRequest $request) {
+        return "<br>Funcionou no Controller";
+    }
+
+    #[HttpEndpoint(uri: "/chat/{id}", method: 'DELETE')]
+    public function deleteChat(HttpRequest $request) {
         return "<br>Funcionou no Controller";
     }
 
     #[HttpEndpoint(uri: "/quiz", method: "GET")]
-    public function send(HttpRequest $request) {
+    public function createQuiz(HttpRequest $request) {
         try {
-            $quizClient = new GeminiService();
-            if (!($quizClient instanceof Quizzeable)) {throw new ObjectNotQuizzeable();}
-
-            $response = $quizClient->retrieveQuiz($request->getQueryParams());
+            $iaService = new GeminiService();
+            $response = $iaService->retrieveQuiz($request->getQueryParams());
             http_response_code(200);
             header("Content-Type: application/json");
             return $response;
@@ -52,7 +73,6 @@ class IaController implements Controller {
             return json_encode($e->toResponse(), JSON_PRETTY_PRINT);
         }
     }
-
     public function fallback(HttpRequest $request) {
         echo 'Fallback do IaController';
         http_response_code(400);

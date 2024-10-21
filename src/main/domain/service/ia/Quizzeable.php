@@ -1,5 +1,5 @@
 <?php 
 
 interface Quizzeable {
-    public function retrieveQuiz(array $args);
+    public function getExam(array $args);
 }
