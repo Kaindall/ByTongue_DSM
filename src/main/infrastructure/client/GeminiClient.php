@@ -7,21 +7,25 @@ require_once 'src\main\domain\model\exception\ia\gemini\LevelRangeException.php'
 require_once 'src\main\domain\model\exception\ia\gemini\OriginLanguageException.php';
 require_once 'src\main\domain\model\exception\ia\gemini\TargetLanguageException.php';
 require_once 'src\main\domain\model\exception\ia\gemini\InvalidQuantityException.php';
+require_once 'src\main\domain\model\exception\ia\gemini\UnexpectedGeminiException.php';
 
 class GeminiClient implements IaClient, Quizzeable {
     private string $method = "POST";
-    private array $contents = ["contents" => []];
+    private array $body = [
+        "contents" => []
+    ];
     public function __construct(
         private string $url,
         ) {}
 
-        public function commitMessage(array $message) {
-            $this->contents['contents'][] = $message;
-            
+        public function commitMessage(array $message, array $instructs) {
+            $this->body['contents'] = $message;
+            $this->body['system_instruction'] = $instructs;
+
             $httpClient = (new HttpClientBuilder())
                 ->withHeaders(['Content-Type: application/json'])
                 ->withHttpMethod($this->method)
-                ->withBody($this->contents)
+                ->withBody($this->body)
                 ->build();
 
             $response = $httpClient->executeRequest($this->url);
@@ -33,7 +37,7 @@ class GeminiClient implements IaClient, Quizzeable {
 
                 if ($normalizedResponse === null) {throw new UnexpectedGeminiException($response);}
             }
-            return $normalizedResponse; 
+            return $normalizedResponse;
         }
 
         public function getExam(array $args) {
@@ -58,7 +62,7 @@ class GeminiClient implements IaClient, Quizzeable {
                 }
             ]
             PROMPT;
-            $this->contents['contents'][] = [
+            $this->body['contents'][] = [
                 'role' => 'user',
                 'parts' => [
                     ['text' => $prompt]
@@ -68,7 +72,7 @@ class GeminiClient implements IaClient, Quizzeable {
             $httpClient = (new HttpClientBuilder())
                 ->withHeaders(['Content-Type: application/json', 'Accept: application/json'])
                 ->withHttpMethod($this->method)
-                ->withBody($this->contents)
+                ->withBody($this->body)
                 ->build();
 
             $response = $httpClient->executeRequest($this->url);

@@ -75,7 +75,8 @@ class Router {
 
             $method = $controller->getMethod($methodName);
             $response = $method->invoke($method->getDeclaringClass()->newInstance(), $request);
-            if ($response) {return $response;}
+            $tempStatusCode = null;
+            return $response;
         }
         if ($tempStatusCode) {http_response_code(405); return;}
         $fallback = $controller->getMethod("fallback");

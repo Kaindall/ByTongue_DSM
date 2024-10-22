@@ -1,70 +1,24 @@
 {
-    "from": "String",
-    "to":	"String",
-    "level": "Integer",
-	"configs": [],
-    "history": {
-        "content": [
-			{
-				"role": "user",
-                "parts": [
-                    {"text": "String"}
-				]
-			},
-			{
-				"role": "model",
-                "parts": [
-                    {"text": "String"}
-				]
-			},
-            {
-				"role": "user",
-                "parts": [
-                    {"text": "String"}
-				]
-			},
-            {
-				"role": "model",
-                "parts": [
-                    {"text": "String"}
-				]
-			},
-            {
-				"role": "user",
-                "parts": [
-                    {"text": "String"}
-				]
-			},
-            {
-				"role": "model",
-                "parts": [
-                    {"text": "String"}
-				]
-			},
-            {
-				"role": "user",
-                "parts": [
-                    {"text": "String"}
-				]
-			},
-            {
-				"role": "model",
-                "parts": [
-                    {"text": "String"}
-				]
-			},
-            {
-				"role": "user",
-                "parts": [
-                    {"text": "String"}
-				]
-			},
-            {
-				"role": "model",
-                "parts": [
-                    {"text": "String"}
-				]
-			}
-        ]
-    }
-}
+    "model": "gemini-1.5-pro",
+    "from": "pt-BR",
+    "target": "en-US",
+    "level": "Beginner",
+    "contents": [
+      {
+        "parts": [
+          {
+            "text": "Olá!"
+          }
+        ],
+        "role": "user"
+      },
+      {
+        "parts": [
+          {
+            "text": "Olá! Tudo bem com você hoje? É um prazer te conhecer! Estou pronto para te ajudar com o inglês. Para começar, me fale um pouco sobre você. O que você gosta de fazer no seu tempo livre? 😊 \n"
+          }
+        ],
+        "role": "model"
+      }
+    ]
+  }

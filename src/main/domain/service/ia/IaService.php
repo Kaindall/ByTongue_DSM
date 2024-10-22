@@ -1,5 +1,5 @@
 <?php
 
 interface IaService {
-    public function retrieveResult($message);
+    public function retrieveResult(Chat $chat);
 }

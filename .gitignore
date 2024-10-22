@@ -5,4 +5,5 @@
 php.ini
 /temp
 /src/resources/mongo/*
+/src/resources/db/*
 .env
