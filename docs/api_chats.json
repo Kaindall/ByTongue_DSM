@@ -30,6 +30,36 @@
         "tags": [
           "chats"
         ],
+        "parameters": [
+          {
+            "name": "level",
+            "in": "query",
+            "description": "Nível do usuário no idioma",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 10
+            }
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "description": "Idioma das questões e/ou de origem",
+            "schema": {
+              "type": "string",
+              "default": "pt-BR"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "description": "Idioma das respostas e/ou de destino",
+            "schema": {
+              "type": "string",
+              "default": "en-US"
+            }
+          }
+        ],
         "summary": "Criar uma nova conversa",
         "requestBody": {
           "description": "Dados iniciais da conversa",
@@ -181,7 +211,7 @@
             }
           },
           {
-            "name": "difficulty",
+            "name": "level",
             "in": "query",
             "description": "Nível de dificuldade das perguntas",
             "schema": {

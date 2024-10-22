@@ -7,7 +7,7 @@ class HttpClient {
         private array | string $body,
         private int $timeout = 60) {}
 
-    public function executeRequest(string $url) {
+    public function executeRequest(string $url): string {
         ini_set('allow_url_fopen', '1');
         $req = curl_init($url);
             curl_setopt($req, CURLOPT_SSL_VERIFYPEER, false);
