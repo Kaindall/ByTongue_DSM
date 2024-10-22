@@ -2,6 +2,8 @@
 .code
 .git
 .log
+php.ini
 /temp
-/src/main/domain/model/cookies*
-#.env
+/src/resources/mongo/*
+/src/resources/db/*
+.env

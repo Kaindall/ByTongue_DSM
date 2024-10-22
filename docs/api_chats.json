@@ -1,0 +1,343 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Chats",
+    "description": "API de conversas da aplicação byTongue criado a partir das definições de \"design first\" ou API First, cujo se baseia na criação da documentação antes do desenvolvimento em si da ferramenta.\n\nTODO: Alterar todos os Schemas de requisições e respostas",
+    "termsOfService": "http://bytongue.com/terms/",
+    "contact": {
+      "email": "contato@bytongue.com"
+    },
+    "version": "0.1.1"
+  },
+  "servers": [
+    {
+      "url": "https://bytongue.com/"
+    }
+  ],
+  "tags": [
+    {
+      "name": "chats",
+      "description": "Operações acerca das conversas"
+    },
+    {
+      "name": "quiz",
+      "description": "Operações acerca dos questionários"
+    }
+  ],
+  "paths": {
+    "/ias/chats": {
+      "post": {
+        "tags": [
+          "chats"
+        ],
+        "summary": "Criar uma nova conversa",
+        "requestBody": {
+          "description": "Dados iniciais da conversa",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Chat"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Operação bem-sucedida",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChatFirstResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ias/chats/{chat_id}": {
+      "get": {
+        "tags": [
+          "chats"
+        ],
+        "summary": "Buscar e retornar dados de uma conversa",
+        "parameters": [
+          {
+            "name": "chat_id",
+            "in": "path",
+            "description": "Id do usuário a ser buscado",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operação bem-sucedida",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChatHistory"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Conversa não encontrada"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "chats"
+        ],
+        "summary": "Enviar uma nova mensagem na conversa",
+        "description": "",
+        "operationId": "updateUserById",
+        "parameters": [
+          {
+            "name": "chat_id",
+            "in": "path",
+            "description": "Id do usuário a ser atualizado",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Valores a serem atualizados",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Chat"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Operação bem-sucedida",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChatResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Requisição inválida"
+          },
+          "404": {
+            "description": "Conversa não encontrada"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "chats"
+        ],
+        "summary": "Excluir a conversa",
+        "parameters": [
+          {
+            "name": "chat_id",
+            "in": "path",
+            "description": "Id da conversa a ser apagada",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operação bem-sucedida"
+          },
+          "400": {
+            "description": "Requisição inválida"
+          },
+          "404": {
+            "description": "Conversa não encontrada"
+          }
+        }
+      }
+    },
+    "/ias/quiz": {
+      "get": {
+        "tags": [
+          "quiz"
+        ],
+        "summary": "Pesquisar perguntas e respostas dinamicamente",
+        "parameters": [
+          {
+            "name": "quantity",
+            "in": "query",
+            "description": "Quantidade de questões a serem retornadas",
+            "schema": {
+              "type": "integer",
+              "default": 5
+            }
+          },
+          {
+            "name": "difficulty",
+            "in": "query",
+            "description": "Nível de dificuldade das perguntas",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 10
+            }
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "description": "Idioma das questões e/ou de origem",
+            "schema": {
+              "type": "string",
+              "default": "pt-BR"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "description": "Idioma das respostas e/ou de destino",
+            "schema": {
+              "type": "string",
+              "default": "en-US"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operação bem-sucedida",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuizResponses"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Requisição inválida"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Chat": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "content": "Exemplo de mensagem a ser enviada"
+        }
+      },
+      "ChatResponse": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "string",
+            "example": "Exemplo de resposta gerada pela IA"
+          }
+        }
+      },
+      "ChatFirstResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1561561984132
+          },
+          "content": {
+            "type": "string",
+            "example": "Resposta da IA para a primeira mensagem"
+          }
+        }
+      },
+      "ChatMessage": {
+        "type": "object",
+        "properties": {
+          "parts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "role": {
+            "type": "string"
+          }
+        }
+      },
+      "ChatHistory": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/ChatMessage"
+        }
+      },
+      "QuestionResponse": {
+        "type": "object",
+        "properties": {
+          "question": {
+            "type": "string",
+            "example": "Como se escreve azul em inglês?"
+          },
+          "options": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "Blue",
+              "Red",
+              "Cat",
+              "Hello",
+              "Bazinga"
+            ]
+          },
+          "correct": {
+            "type": "integer",
+            "example": 0
+          }
+        }
+      },
+      "QuizResponses": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/QuestionResponse"
+        }
+      }
+    },
+    "securitySchemes": {
+      "petstore_auth": {
+        "type": "oauth2",
+        "flows": {
+          "implicit": {
+            "authorizationUrl": "https://petstore3.swagger.io/oauth/authorize",
+            "scopes": {
+              "write:pets": "modify pets in your account",
+              "read:pets": "read your pets"
+            }
+          }
+        }
+      },
+      "api_key": {
+        "type": "apiKey",
+        "name": "api_key",
+        "in": "header"
+      }
+    }
+  }
+}
