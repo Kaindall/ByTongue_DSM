@@ -6,7 +6,7 @@ class QuizValidator {
             "quantity" => $this->validateQuantity($values['quantity'] ?? 5),
             "level" => CEFRLevel::fromInt($values['level'] ?? 2),
             "origin" => $this->validateLanguage($values['from'] ?? 'pt-BR', 'origin'),
-            "target" => $this->validateLanguage($values['target'] ?? 'en-US', 'target')
+            "target" => $this->validateLanguage($values['to'] ?? 'en-US', 'target')
         ];
 
         return $args;
