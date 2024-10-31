@@ -7,6 +7,8 @@
     --timberwolf: #CED0CE;
     --gray: #747574;
     --eerie-black: #191919;
+    --brown: #A83819;
+    --main-gradient: linear-gradient(90deg, var(--coquelicot), var(--brown));
   }
   
 * {
