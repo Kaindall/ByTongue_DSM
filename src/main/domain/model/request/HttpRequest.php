@@ -1,8 +1,6 @@
 <?php
 
-namespace src\main\domain\utils;
-
-class RequestHandler {
+class HttpRequest {
     private string $uri;
     private string $httpMethod;
     private array $headers = [];
@@ -17,7 +15,7 @@ class RequestHandler {
             $this->queryParams = $this->convertQueryToArray($_SERVER["QUERY_STRING"]);
         }
         $tmpHeaders = getallheaders();
-        $tmpBody = json_decode(file_get_contents("php://input"));
+        $tmpBody = file_get_contents("php://input");
         if ($tmpBody) {$this->body = $tmpBody;}
         if ($tmpHeaders ){$this->headers = $tmpHeaders;}
     }

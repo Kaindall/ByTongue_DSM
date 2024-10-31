@@ -7,6 +7,7 @@ abstract class AppConfig {
         if (empty(self::$args)) {
             self::$args['routes'] = self::defineRoutes();
         }
+        self::loadEnv();
         return self::$args;
     }
 
@@ -31,7 +32,7 @@ abstract class AppConfig {
             if (empty($attrs)) {continue;}
 
             foreach ($attrs as $attr) {
-                if ($attr->getName() == 'HttpReceiver') {
+                if ($attr->getName() == 'HttpController') {
                     $uri = $attr->getArguments()[0];
                     $methods = $reflectedClass->getMethods();
                     if (empty($methods)) {continue;}
@@ -55,5 +56,22 @@ abstract class AppConfig {
             }
         }
         return $routes;
+    }
+
+    private static function loadEnv() {
+        $file = '.env';
+
+        $lines = file($file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        foreach ($lines as $line) {
+            if (strpos(trim($line), '#') === 0 || trim($line) === '') {
+                continue; // Ignora comentários e linhas vazias
+            }
+
+            list($name, $value) = explode('=', $line, 2);
+            $name = trim($name);
+            $value = trim($value, '"'); // Remove aspas duplas
+
+            putenv("$name=$value");
+        }
     }
 }
