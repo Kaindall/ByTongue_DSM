@@ -1,11 +1,6 @@
 <?php
-require_once 'src\main\domain\utils\RequestHandler.php';
-require_once 'src\main\domain\utils\attribute\HttpReceiver.php';
+require_once 'src\main\domain\model\request\HttpRequest.php';
 require_once 'src\main\application\controller\Controller.php';
-require_once 'src\main\application\controller\impl\IaTeacherController.php';
-require_once 'src\main\application\controller\impl\WebController.php';
-
-use src\main\domain\utils\RequestHandler;
 
 //TO-DO: Substituir todos os ECHO por algum registro de log
 
@@ -27,20 +22,23 @@ class Router {
         return self::$instance;
     }
 
-    public function redirect(RequestHandler $request) {
+    public function redirect(HttpRequest $request) {
         $routesUris = array_keys($this->routes);
         foreach ($routesUris as $route) {   
-            //echo "Controller: $route";
-            //echo "<br>Chamada: $request->getUri()";
-            if(!str_contains($request->getUri(), $route)) {
-                //echo "<br>São diferentes"; 
+            //echo "Controller: $route" . PHP_EOL;
+            //echo "<br>Chamada: " . $request->getUri() . PHP_EOL;
+            if(!str_contains($request->getUri(),     $route)) {
+                //echo "<br>São diferentes" . PHP_EOL; 
                 continue;}
-            //echo "<br>São iguais<br>";
+            //echo "<br>São iguais<br>" . PHP_EOL;
 
             $controllerClass = $this->getRepresentationOf($this->routes[$route]['className']);
-            $request->setUri(str_replace("$route", "", $request->getUri()));
+            if ($route !== "/") {
+                $request->setUri(str_replace("$route", "", $request->getUri()));
+            }
             return $this->getContent($controllerClass, $route, $request);
         }
+        http_response_code(404);
     }
 
     private function getRepresentationOf(string $class): ReflectionClass {
@@ -51,7 +49,7 @@ class Router {
         return $instance;
     }
 
-    private function getContent(ReflectionClass $controller, string $pathMatched, RequestHandler $request) {
+    private function getContent(ReflectionClass $controller, string $pathMatched, HttpRequest $request) {
         $endpoints = $this->routes[$pathMatched]['endpoints'];
         $tempStatusCode = null;
 
@@ -62,7 +60,7 @@ class Router {
             $controllerHttpMethod = $endpoint["httpMethod"];
             $requestHttpMethod = $request->getHttpMethod();
             
-            //echo "<br>========<br>Controller: $controllerUri <br> Request: $requestUri";
+            //echo "<br>========<br>Controller: $controllerUri <br> Request: $requestUri" . PHP_EOL;
             $extractedPathParams = $this->extractPathParams($controllerUri, $requestUri);
             if ($extractedPathParams) {
                 $request->setPathParams($extractedPathParams["pathParams"]);
@@ -70,13 +68,15 @@ class Router {
                 $controllerUri = $extractedPathParams['controller'];
                 //echo "<br>---<br>Controller normalizado: $controllerUri <br> Request normalizado: $requestUri";
             }
-
+            
             if ($controllerUri != $requestUri) {continue;}
+            
             if ($controllerHttpMethod != $requestHttpMethod) {$tempStatusCode = 405; continue;}
 
             $method = $controller->getMethod($methodName);
             $response = $method->invoke($method->getDeclaringClass()->newInstance(), $request);
-            if ($response) {return $response;}
+            $tempStatusCode = null;
+            return $response;
         }
         if ($tempStatusCode) {http_response_code(405); return;}
         $fallback = $controller->getMethod("fallback");

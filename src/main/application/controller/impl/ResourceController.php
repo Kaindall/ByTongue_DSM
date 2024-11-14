@@ -1,11 +1,12 @@
 <?php
-require_once 'src\main\domain\utils\RequestHandler.php';
-use src\main\domain\utils\RequestHandler;
+require_once 'src\main\domain\model\request\HttpRequest.php';
+require_once 'src\main\application\controller\Controller.php';
 
-#[HttpReceiver('/resources')]
+
+#[HttpController('/resources')]
 class ResourceController implements Controller {
     #[HttpEndpoint(uri: "/styles/{file}", method: "GET")]
-    public function serveCssContent(RequestHandler $request) {
+    public function serveCssContent(HttpRequest $request) {
         $directory = 'src/resources/style';  
         $directoryIterator = new RecursiveDirectoryIterator($directory, RecursiveDirectoryIterator::SKIP_DOTS);
         $iterator = new RecursiveIteratorIterator($directoryIterator);
@@ -28,7 +29,7 @@ class ResourceController implements Controller {
     }
 
     #[HttpEndpoint(uri: "/scripts/{file}", method: "GET")]
-    public function serveJsContent(RequestHandler $request) {
+    public function serveJsContent(HttpRequest $request) {
         $directory = 'src\main\application\web\view';  
         $directoryIterator = new RecursiveDirectoryIterator($directory, RecursiveDirectoryIterator::SKIP_DOTS);
         $iterator = new RecursiveIteratorIterator($directoryIterator);
@@ -51,7 +52,7 @@ class ResourceController implements Controller {
     }
 
     #[HttpEndpoint(uri: "/static/{file}", method: "GET")]
-    public function serveStaticContent(RequestHandler $request) {
+    public function serveStaticContent(HttpRequest $request) {
         $directory = 'src/resources/static';  
         $directoryIterator = new RecursiveDirectoryIterator($directory, RecursiveDirectoryIterator::SKIP_DOTS);
         $iterator = new RecursiveIteratorIterator($directoryIterator);
@@ -71,7 +72,7 @@ class ResourceController implements Controller {
         return "Arquivo não encontrado!";
     }
 
-    public function fallback(RequestHandler $request) {
+    public function fallback(HttpRequest $request) {
         return 'Fallback do ResourceController';
     }
 }

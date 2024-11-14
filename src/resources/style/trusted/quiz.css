@@ -12,6 +12,7 @@ body {
 }
 
 .info_box,
+.select_lang,
 .quiz_box,
 .result_box {
    position: absolute;
@@ -81,14 +82,104 @@ body {
    cursor: pointer;
 }
 
-.buttons button.continue {
+.buttons button.continue_lang {
    color: #fff;
    background: #f15025;
 }
 
-.buttons button.continue:hover {
+.buttons button.continue_lang:hover {
    background: #c54420;
 }
+
+/* Info Language */
+.select_lang {
+   width: 540px;
+   background: #fff;
+   border-radius: 5px;
+   text-align: center;
+   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
+}
+
+.lang_title {
+   height: 60px;
+   border-bottom: 1px solid lightgrey;
+   display: flex;
+   align-items: center;
+   justify-content: center; 
+   padding: 0 30px;
+   font-size: 20px;
+   font-weight: 600;
+}
+
+.lang_list {
+   display: flex;              
+   justify-content: center;    
+   flex-wrap: wrap;           
+   margin: 20px 0;           
+}
+
+.lang_button {
+   background: none; 
+   border: none; 
+   cursor: pointer; 
+   font-size: 40px; 
+   padding: 0; 
+}
+
+.lang_button:hover {
+   opacity: 0.8; 
+}
+
+.lang_list div {
+   flex: 0 0 calc(33.33% - 10px); 
+   margin: 20px 5px;                   
+   text-align: center;            
+}
+
+.lang_item {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-direction: column;
+}
+
+.lang_list span {
+   display: block;                
+   font-size: 40px;              
+}
+
+.select_lang .buttons {
+   height: 60px;
+   display: flex;
+   align-items: center;
+   justify-content: flex-end; 
+   border-top: 1px solid lightgrey;
+   padding: 0 35px;
+}
+
+.buttons button {
+   margin: 0 5px;
+   height: 40px;
+   width: 100px;
+   border: 1px solid #f15025;
+   border-radius: 5px;
+   color: #fff;
+   font-size: 16px;
+   font-weight: 500;
+   cursor: pointer;
+   background: #f15025; 
+   transition: background 0.3s; 
+}
+
+.buttons button:hover {
+   background: #c54420; 
+}
+
+.lang_button.selected {
+   opacity: 1;
+   filter: brightness(0.3);
+}
+
 
 
 /*Quiz Box Styling*/
@@ -312,11 +403,11 @@ footer .next_btn:hover {
 
 .result_box .buttons button {
    margin: 0 10px;
-   height: 40px;
+   height: 50px;
    padding: 0 20px;
    border: none;
    outline: none;
-   font-size: 18px;
+   /* font-size: 18px; */
    font-weight: 500;
    border-radius: 5px;
    border: 1px solid #f15025;
@@ -340,4 +431,45 @@ footer .next_btn:hover {
 
 .result_box .buttons button.quit:hover {
    background: #dddddd;
+}
+
+#loading {
+   display: none;
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   flex-direction: column;
+   align-items: center;
+   gap: 35px;
+}
+
+.carregando span{
+   display: inline-block;
+   width: 20px;
+   height: 20px;
+   border-radius: 50%;
+   background: #f15025;
+   margin: 8px;
+}
+
+.carregando span {
+   animation: bounce .6s cubic-bezier(0.6, 0.1, 1, 0.4); 
+   animation-iteration-count: infinite;
+   animation-direction: alternate;
+}
+.carregando span:nth-child(1) {
+   animation-delay: .1s;
+}
+.carregando span:nth-child(2) {
+   animation-delay: .2s;
+}
+.carregando span:nth-child(3) {
+   animation-delay: .3s;
+}
+
+@keyframes bounce {
+   to {
+      transform: translateY(50px);
+   }
 }

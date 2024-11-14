@@ -5,10 +5,12 @@
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Quiz</title>
    <link rel="stylesheet" href="resources/styles/quiz.css">
-   <script src="resources/scripts/questions.js"></script>
    <script src="resources/scripts/quiz.js" defer></script>
    <!-- FontAwesome CDN Link for Icons -->
    <script src="https://kit.fontawesome.com/afd13b5f95.js" crossorigin="anonymous"></script>
+
+   <!-- Flags Countries CDN-->
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/css/flag-icons.min.css"/>
 </head>
 <body>
    <!-- Info Box -->
@@ -24,9 +26,55 @@
          <div class="info">5. You'll get points on the basics of your correct answer.</div>
       </div>
       <div class="buttons">
+         <button class="continue_lang">Continue</button>
+      </div>
+   </div>
+
+   <!-- Select Language -->
+   <div class="select_lang desactive">
+      <div class="lang_title">
+         <span>Select the language you want to practice</span>
+      </div>
+      <div class="lang_list">
+         <div class="lang_item">
+            <button class="lang_button fi fi-br"></button>
+            <p>Português</p>
+         </div>
+         <div class="lang_item">
+            <button class="lang_button fi fi-us"></button>
+            <p>Inglês</p>
+         </div>
+         <div class="lang_item">
+            <button class="lang_button fi fi-es"></button>
+            <p>Espanhol</p>
+         </div>
+         <div class="lang_item">
+            <button class="lang_button fi fi-fr"></button>
+            <p>Francês</p>
+         </div>
+         <div class="lang_item">
+            <button class="lang_button fi fi-it"></button>
+            <p>Italiano</p>
+         </div>
+         <div class="lang_item">
+            <button class="lang_button fi fi-de"></button>
+            <p>Alemão</p>
+         </div>
+      </div>
+      <div class="buttons">
          <button class="continue">Continue</button>
       </div>
    </div>
+
+   <!-- Loading -->
+   <div id="loading" class="carregando">
+      <div>
+         <span></span>
+         <span></span>
+         <span></span>
+      </div>
+      <div>Carregando</div>
+  </div>
 
    <!-- Quiz Box -->
    <div class="quiz_box desactive">
