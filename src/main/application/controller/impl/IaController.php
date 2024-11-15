@@ -2,7 +2,6 @@
 require_once 'src\main\domain\model\request\HttpRequest.php';
 require_once 'src\main\application\controller\Controller.php';
 require_once 'src\main\infrastructure\client\GeminiClient.php';
-require_once 'src\main\domain\model\exception\ia\ObjectNotQuizzeable.php';
 
 
 #[HttpController("/ias")]
@@ -11,7 +10,7 @@ class IaController implements Controller {
 
     //TODO: Injeção de dependência do ChatService
     public function __construct() {
-        $this->chatService = new ChatService(new ChatRepository(), new GeminiService());
+        $this->chatService = new ChatService(new ChatRepositoryImpl(), new GeminiService());
     }
 
     #[HttpEndpoint(uri: "/chat", method: "POST")]
@@ -24,11 +23,11 @@ class IaController implements Controller {
         } catch (EmptyBodyException | InvalidBodyException $e) {
             http_response_code(400);
             header("Content-Type: application/json");
-            return json_encode($e->toResponse(), JSON_PRETTY_PRINT);
+            return $e;
          } catch (UnexpectedGeminiException $e)  {
             http_response_code(500);
             header("Content-Type: application/json");
-            return json_encode($e->toResponse(), JSON_PRETTY_PRINT);
+            return $e;
          }
     }
 
@@ -39,7 +38,7 @@ class IaController implements Controller {
             http_response_code(200);
             header("Content-Type: application/json");
             return $response;
-        } catch (ChatNotFound $e) {
+        } catch (ChatNotFoundException $e) {
             http_response_code(404);
             return;
         }
@@ -52,12 +51,12 @@ class IaController implements Controller {
             $response = $this->chatService->postMessage($request->getPathParams()['id'], $request->getBody(), null);
             http_response_code(200);
             return $response;
-        } catch (EmptyBodyException | InvalidBodyException | ChatNotFound $e) {
+        } catch (EmptyBodyException | InvalidBodyException | ChatNotFoundException $e) {
             http_response_code(400);
-            return json_encode($e->toResponse(), JSON_PRETTY_PRINT);
+            return $e;
          } catch (UnexpectedGeminiException $e)  {
             http_response_code(500);
-            return json_encode($e->toResponse(), JSON_PRETTY_PRINT);
+            return $e;
          }
     }
 
@@ -69,9 +68,9 @@ class IaController implements Controller {
             if ($response) {http_response_code(200);
             } else {http_response_code(400);}
             return;
-        } catch (ChatNotFound $e) {
+        } catch (ChatNotFoundException $e) {
             http_response_code(400);
-            return json_encode($e->toResponse(), JSON_PRETTY_PRINT);
+            return $e;
          }
     }
 
@@ -87,12 +86,12 @@ class IaController implements Controller {
         } catch (LevelRangeException | OriginLanguageException | TargetLanguageException | InvalidQuantityException $e) {
             http_response_code(400);
             header("Content-Type: application/json");
-            return json_encode($e->toResponse(), JSON_PRETTY_PRINT);
+            return $e;
 
-        } catch (ObjectNotQuizzeable $e ) {
+        } catch (ObjectNotQuizzeableException $e ) {
             http_response_code(response_code: 500);
             header("Content-Type: application/json");
-            return json_encode($e->toResponse(), JSON_PRETTY_PRINT);
+            return $e;
         }
     }
     public function fallback(HttpRequest $request) {
