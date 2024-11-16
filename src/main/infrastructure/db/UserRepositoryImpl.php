@@ -20,20 +20,21 @@ class UserRepositoryImpl implements UserRepository {
         }
         return $this->connector->insert_id;
     }
-    public function findById($id): UserResponseDTO {
+    public function findById($id): User {
         $result = null;
         try {
             $result = $this->connector
-                ->execute_query('SELECT user_id, name, email, birthday FROM users WHERE user_id = ?', [$id])
+                ->execute_query('SELECT * FROM users WHERE user_id = ?', [$id])
                 ->fetch_assoc();
         } catch (mysqli_sql_exception $e) {
             throw new InvalidDbQueryException($e);
         }
         if (!$result) throw new UserNotFoundException;
-        return new UserResponseDTO(
+        return new User(
             $result['user_id'],
             $result['name'],
             $result['email'],
+            $result['password'],
             $result['birthday'],
         );
     }
@@ -52,7 +53,7 @@ class UserRepositoryImpl implements UserRepository {
             $updates[] = " email = ?"; 
             $values[] = $user->getEmail();
         }
-        if ($user->getPassword()) {
+        if ($user->getPassword() && password_verify($user->getPassword(), $currentUser->getPassword())) {
             $updates[] = " password = ?"; 
             $values[] = password_hash($user->getPassword(), PASSWORD_BCRYPT);
         }

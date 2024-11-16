@@ -2,10 +2,6 @@
 require_once 'src\main\domain\model\exception\users\EmptyNameException.php';
 require_once 'src\main\domain\model\exception\users\EmptyPasswordException.php';
 require_once 'src\main\domain\model\exception\users\EmptyEmailException.php';
-require_once 'src\main\domain\model\exception\users\InvalidBirthdayFormatException.php';
-require_once 'src\main\domain\model\exception\users\InvalidDateYearException.php';
-require_once 'src\main\domain\model\exception\users\InvalidDateMonthException.php';
-require_once 'src\main\domain\model\exception\users\InvalidDateDayException.php';
 
 
 class UserMapper {
@@ -32,6 +28,15 @@ class UserMapper {
             $data['email'] ?? null,
             $data['password'] ?? null,
             $formattedDate
+        );
+    }
+
+    public function toUserResponse(User $user): UserResponseDTO {
+        return new UserResponseDTO(
+            $user->getId(),
+            $user->getName(),
+            $user->getEmail(),
+            $user->getBirthday()
         );
     }
 }

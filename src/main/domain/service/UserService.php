@@ -2,26 +2,27 @@
 
 class UserService {
     private UserRepository $userRepository;
+    private UserMapper $userMapper;
 
     public function __construct(UserRepository $userRepository) {
         $this->userRepository = $userRepository;
+        $this->userMapper = new UserMapper();
     }
 
-    public function findById($id) {
-        return $this->userRepository->findById($id);
+    public function findById($id): UserResponseDTO {
+        $user = $this->userMapper->toUserResponse($this->userRepository->findById($id));
+        return $user;
     }
 
-    public function create($data) {
-        $mapper = new UserMapper();
-        $user = $mapper->map($data);
+    public function create($data): int {
+        $user = $this->userMapper->map($data);
         $result = $this->userRepository->create($user);
         return $result;
     }
 
-    public function update($id, $data) {
-        if ($data === null || empty($data)) {throw new EmptyBodyException;}
-        $mapper = new UserMapper();
-        $user = $mapper->updateMap($id, $data);
+    public function update($id, $data): bool {
+        if ($data === null || empty($data)) {throw new EmptyBodyException;};
+        $user = $this->userMapper->updateMap($id, $data);
         $result = $this->userRepository->update($user);
         return $result;
     }

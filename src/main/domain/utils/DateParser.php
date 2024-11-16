@@ -1,4 +1,8 @@
 <?php
+require_once 'src\main\domain\model\exception\users\InvalidBirthdayFormatException.php';
+require_once 'src\main\domain\model\exception\users\InvalidDateYearException.php';
+require_once 'src\main\domain\model\exception\users\InvalidDateMonthException.php';
+require_once 'src\main\domain\model\exception\users\InvalidDateDayException.php';
 
 class DateParser {
     public function validate($date): string {
