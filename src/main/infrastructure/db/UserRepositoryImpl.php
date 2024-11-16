@@ -37,10 +37,42 @@ class UserRepositoryImpl implements UserRepository {
             $result['birthday'],
         );
     }
-    public function update() {
-        return PHP_EOL . 'atualizar usuário';
+    public function update(UserUpdateDTO $user): bool {
+        $currentUser = $this->findById($user->getId());
+        if (!$currentUser) throw new UserNotFoundException;
+
+        $query = "UPDATE users SET";
+        $updates = [];
+        $values = [];
+        if ($user->getName() && $user->getName() !== $currentUser->getName()) {
+            $updates[] = " name = ?"; 
+            $values[] = $user->getName();
+        }
+        if ($user->getEmail() && $user->getEmail() !== $currentUser->getEmail()) {
+            $updates[] = " email = ?"; 
+            $values[] = $user->getEmail();
+        }
+        if ($user->getPassword()) {
+            $updates[] = " password = ?"; 
+            $values[] = password_hash($user->getPassword(), PASSWORD_BCRYPT);
+        }
+        if ($user->getBirthday() && $user->getBirthday() !== $currentUser->getBirthday()) {
+            $updates[] = " birthday = ?"; 
+            $values[] = $user->getBirthday();
+        }
+        if (!empty($updates)) $query .= implode(',', $updates); else throw new InsufficientFieldsException;
+        $query .= " WHERE user_id = ?";
+        $values[] = $user->getId();
+        $this->connector->execute_query($query, $values);
+        if ($this->connector->affected_rows > 0) return true; return false; 
     }
-    public function delete(){
-        return PHP_EOL . 'remover usuário';
+    public function delete(int $id): bool{
+        try {
+            $this->connector
+                ->execute_query('DELETE FROM users WHERE user_id = ?', [$id]);
+            if ($this->connector->affected_rows > 0) return true; else throw new UserNotFoundException;
+        } catch (mysqli_sql_exception $e) {
+            throw new InvalidDbQueryException($e);
+        }
     }
 }

@@ -18,15 +18,16 @@ class UserService {
         return $result;
     }
 
-    public function update() {
-        $result = $this->userRepository->update();
-
+    public function update($id, $data) {
+        if ($data === null || empty($data)) {throw new EmptyBodyException;}
+        $mapper = new UserMapper();
+        $user = $mapper->updateMap($id, $data);
+        $result = $this->userRepository->update($user);
         return $result;
     }
 
-    public function delete() {
-        $result = $this->userRepository->delete();
-
+    public function delete($id): bool {
+        $result = $this->userRepository->delete($id);
         return $result;
     }
 }

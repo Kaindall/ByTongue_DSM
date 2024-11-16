@@ -31,7 +31,6 @@ class UsersController implements Controller {
     public function create(HttpRequest $request) {
         header("Content-Type: application/json");
         try {
-            
             $response = $this->userService->create(json_decode($request->getBody(), true));
             http_response_code(201);
             return $response;
@@ -44,20 +43,39 @@ class UsersController implements Controller {
         }
     }
 
-    #[HttpEndpoint(uri: "/{id}", method: "UPDATE")]
+    #[HttpEndpoint(uri: "/{id}", method: "PUT")]
     public function update(HttpRequest $request) {
         header("Content-Type: application/json");
-        $response = $this->userService->update();
-        http_response_code(200);
-        return $response;
+        try {
+            $this->userService->update($request->getPathParams()['id'], $request->getBody());
+            http_response_code(204);
+            return;
+        } catch (InvalidDbQueryException | InvalidDbConnectionException $e) {
+            http_response_code(500);
+            return $e;
+        } catch (InsufficientFieldsException | InvalidBirthdayFormatException | InvalidDateDayException | InvalidDateMonthException | InvalidDateYearException $e) {
+            http_response_code(400);
+            return $e;
+        } catch (UserNotFoundException $e) {    
+            http_response_code(404);
+            return $e;
+        } 
     }
 
     #[HttpEndpoint(uri: "/{id}", method: "DELETE")]
     public function remove(HttpRequest $request) {
         header("Content-Type: application/json");
-        $response = $this->userService->delete();
-        http_response_code(200);
-        return $response;
+        try {
+            $this->userService->delete($request->getPathParams()['id']);
+            http_response_code(204);
+            return;
+        } catch (InvalidDbQueryException | InvalidDbConnectionException $e) {
+            http_response_code(500);
+            return $e;
+        } catch (UserNotFoundException $e) {
+            http_response_code(404);
+            return $e;
+        }
     }
 
     public function fallback(HttpRequest $request) {
