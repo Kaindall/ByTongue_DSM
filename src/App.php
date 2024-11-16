@@ -1,5 +1,5 @@
 <?php
-require_once 'src\main\domain\model\request\HttpRequest.php';
+require_once 'src\main\domain\model\dto\request\HttpRequest.php';
 require_once 'src\main\infrastructure\config\Router.php';
 require_once 'src\AppConfig.php';
 
