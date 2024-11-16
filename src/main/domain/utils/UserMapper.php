@@ -32,11 +32,16 @@ class UserMapper {
     }
 
     public function toUserResponse(User $user): UserResponseDTO {
+        $formattedDate = null;
+        if ($user->getBirthday()) {
+            $dateParser = new DateParser();
+            $formattedDate = $dateParser->validate($user->getBirthday());
+        }
         return new UserResponseDTO(
             $user->getId(),
             $user->getName(),
             $user->getEmail(),
-            $user->getBirthday()
+            $formattedDate
         );
     }
 }
