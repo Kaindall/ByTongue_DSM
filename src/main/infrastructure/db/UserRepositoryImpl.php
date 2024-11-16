@@ -1,5 +1,6 @@
 <?php
 require_once 'src\main\domain\model\exception\users\UserNotFoundException.php';
+require_once 'src\main\domain\model\exception\users\InsufficientFieldsException.php';
 require_once 'src\main\domain\model\exception\users\UserExistsException.php';
 require_once 'src\main\domain\model\exception\database\InvalidDbQueryException.php';
 
@@ -38,7 +39,26 @@ class UserRepositoryImpl implements UserRepository {
             $result['birthday'],
         );
     }
-    public function update(UserUpdateDTO $user): bool {
+
+    public function findByEmail($email): User {
+        $result = null;
+        try {
+            $result = $this->connector
+                ->execute_query('SELECT * FROM users WHERE email = ?', [$email])
+                ->fetch_assoc();
+        } catch (mysqli_sql_exception $e) {
+            throw new InvalidDbQueryException($e);
+        }
+        if (!$result) throw new UserNotFoundException;
+        return new User(
+            $result['user_id'],
+            $result['name'],
+            $result['email'],
+            $result['password'],
+            $result['birthday'],
+        );
+    }
+    public function update(UserUpdateRequest $user): bool {
         $currentUser = $this->findById($user->getId());
         if (!$currentUser) throw new UserNotFoundException;
 
@@ -53,7 +73,7 @@ class UserRepositoryImpl implements UserRepository {
             $updates[] = " email = ?"; 
             $values[] = $user->getEmail();
         }
-        if ($user->getPassword() && password_verify($user->getPassword(), $currentUser->getPassword())) {
+        if ($user->getPassword() && !password_verify($user->getPassword(), $currentUser->getPassword())) {
             $updates[] = " password = ?"; 
             $values[] = password_hash($user->getPassword(), PASSWORD_BCRYPT);
         }

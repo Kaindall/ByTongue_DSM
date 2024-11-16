@@ -15,14 +15,14 @@ class UserMapper {
         );
     }
 
-    public function updateMap($id, $data): UserUpdateDTO {
+    public function toUserUpdateRequest($id, $data): UserUpdateRequest {
         $data = json_decode($data, true);
         $formattedDate = null;
-        if ($data['birthday']) {
+        if (isset($data['birthday'])) {
             $dateParser = new DateParser();
             $formattedDate = $dateParser->validate($data['birthday']);
         }
-        return new UserUpdateDTO(
+        return new UserUpdateRequest(
             $id,
             $data['name'] ?? null,
             $data['email'] ?? null,
@@ -31,17 +31,25 @@ class UserMapper {
         );
     }
 
-    public function toUserResponse(User $user): UserResponseDTO {
+    public function toUserResponse(User $user): UserResponse {
         $formattedDate = null;
         if ($user->getBirthday()) {
             $dateParser = new DateParser();
             $formattedDate = $dateParser->validate($user->getBirthday());
         }
-        return new UserResponseDTO(
+        return new UserResponse(
             $user->getId(),
             $user->getName(),
             $user->getEmail(),
             $formattedDate
+        );
+    }
+
+    public function toUserAuthRequest($data): UserAuthRequest {
+        $data = json_decode($data, true);
+        return new UserAuthRequest(
+            $data['email'] ?? throw new EmptyEmailException,
+            $data['password'] ?? throw new EmptyPasswordException
         );
     }
 }
