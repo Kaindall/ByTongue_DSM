@@ -14,7 +14,7 @@ class ChatService {
         return json_encode($chatContent, JSON_PRETTY_PRINT);
     }
     public function postMessage($id, $message, $params) {
-        if ($message === null || empty($message)) {throw new EmptyBodyException();}
+        if ($message === null || empty($message)) {throw new EmptyBodyException;}
         $msgArr = json_decode($message, true);
         if (!isset($msgArr["content"])) {throw new InvalidBodyException();}
 

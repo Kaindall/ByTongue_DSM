@@ -16,7 +16,7 @@ class GeminiService implements IaService {
 
     public function retrieveQuiz(array $params) {
         $client = new GeminiClient("https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=$this->key");
-        if (!($client instanceof Quizzeable)) {throw new ObjectNotQuizzeable();}
+        if (!($client instanceof Quizzeable)) {throw new ObjectNotQuizzeableException;}
 
         $quizValidator = new QuizValidator();
         $args = $quizValidator->validateAll($params);
