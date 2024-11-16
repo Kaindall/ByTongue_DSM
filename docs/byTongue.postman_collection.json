@@ -328,14 +328,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8000/users/20",
+							"raw": "localhost:8000/users/22",
 							"host": [
 								"localhost"
 							],
 							"port": "8000",
 							"path": [
 								"users",
-								"20"
+								"22"
 							]
 						}
 					},
@@ -394,7 +394,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Davi\",\r\n    \"email\": \"davi@email.com\",\r\n    \"password\": \"789\",\r\n    \"birthday\": \"1998/10/15\"\r\n}",
+							"raw": "{\r\n    \"password\": \"123456\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -402,14 +402,94 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8000/users/20",
+							"raw": "localhost:8000/users/1",
 							"host": [
 								"localhost"
 							],
 							"port": "8000",
 							"path": [
 								"users",
-								"20"
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Autenticação",
+			"item": [
+				{
+					"name": "Autenticação",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"zanetti@email.com\",\r\n    \"password\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8000/auth",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"auth"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Consulta Sessão",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"zanetti@email.com\",\r\n    \"password\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8000/auth",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"auth"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8000/auth",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"auth"
 							]
 						}
 					},
