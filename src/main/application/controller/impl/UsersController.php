@@ -4,14 +4,12 @@
 class UsersController implements Controller {
     private UserService $userService;
 
-    //TODO: Injeção de dependência do ChatService
     public function __construct() {
-        $repository  = new UserRepositoryImpl();
-        $this->userService = new UserService($repository);
+        $this->userService = new UserService(new UserRepositoryImpl());
     }
 
     #[HttpEndpoint(uri: "/{id}", method: "GET")]
-    public function find(HttpRequest $request) {
+    public function find(HttpRequest $request): ExceptionModel|UserResponse {
         header("Content-Type: application/json");
         try {
             $response = $this->userService->findById($request->getPathParams()['id']);
@@ -28,7 +26,7 @@ class UsersController implements Controller {
     }
 
     #[HttpEndpoint(uri: "", method: "POST")]
-    public function create(HttpRequest $request) {
+    public function create(HttpRequest $request): ExceptionModel|int {
         header("Content-Type: application/json");
         try {
             $response = $this->userService->create(json_decode($request->getBody(), true));

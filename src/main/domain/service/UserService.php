@@ -9,7 +9,7 @@ class UserService {
         $this->userMapper = new UserMapper();
     }
 
-    public function findById($id): UserResponseDTO {
+    public function findById($id): UserResponse {
         $user = $this->userMapper->toUserResponse($this->userRepository->findById($id));
         return $user;
     }
@@ -22,7 +22,7 @@ class UserService {
 
     public function update($id, $data): bool {
         if ($data === null || empty($data)) {throw new EmptyBodyException;};
-        $user = $this->userMapper->updateMap($id, $data);
+        $user = $this->userMapper->toUserUpdateRequest($id, $data);
         $result = $this->userRepository->update($user);
         return $result;
     }

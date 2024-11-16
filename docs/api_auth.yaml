@@ -1,0 +1,97 @@
+openapi: 3.0.3
+info:
+  title: Auth
+  description: |-
+    API de autenticação da aplicação byTongue criado a partir das definições de "design first" ou API First, cujo se baseia na criação da documentação antes do desenvolvimento em si da ferramenta.
+    
+  termsOfService: http://bytongue.com/terms/
+  contact:
+    email: contato@bytongue.com
+  version: 0.1.1
+servers:
+  - url: https://bytongue.com/
+tags:
+  - name: sessions
+    description: Operações de autenticação de usuário
+paths:
+  /auth:
+    get:
+        tags:
+          - sessions
+        summary: Finalizar a sessão do usuário atual
+        description: ''
+        operationId: logoutUser
+        parameters: []
+        responses:
+          '200':
+            description: Usuário deslogado com sucesso
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/UserResponse'
+          '400':
+            description: Requisição inválida
+    post:
+      tags:
+        - sessions
+      summary: Inicializar sessão do usuário
+      description: ''
+      operationId: loginUser
+      requestBody:
+        description: Valores a serem atualizados
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLogin'
+      responses:
+        '200':
+          description: Sessão inicializada com sucesso!
+          headers:
+            X-Expires-After:
+              description: date in UTC when token expires
+              schema:
+                type: string
+                format: date-time
+        '401':
+          description: Credenciais informadas são inválidas
+    delete:
+      tags:
+        - sessions
+      summary: Excluir o usuário
+      description: Só pode ser utilizado através de um usuário autenticado
+      operationId: deleteUserById
+      responses:
+        '200':
+          description: Operação bem-sucedida
+        '404':
+          description: Sessão não encontrada
+components:
+  schemas:
+    UserLogin:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      example:
+        email: "genericuser@email.com"
+        password: "123456"
+    UserResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        name:
+          type: string
+          example: "Generic John"
+        email:
+          type: string
+          example: "generic@email.com"
+        birthday:
+          type: string
+          format: date
+          example: "1980/09/15"
+    
