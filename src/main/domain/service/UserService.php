@@ -21,6 +21,7 @@ class UserService {
     }
 
     public function update($id, $data): bool {
+        if ($id != $_SESSION['user']->getId()) return false;
         if ($data === null || empty($data)) {throw new EmptyBodyException;};
         $user = $this->userMapper->toUserUpdateRequest($id, $data);
         $result = $this->userRepository->update($user);
@@ -28,6 +29,7 @@ class UserService {
     }
 
     public function delete($id): bool {
+        if ($id != $_SESSION['user']->getId()) return false;
         $result = $this->userRepository->delete($id);
         return $result;
     }

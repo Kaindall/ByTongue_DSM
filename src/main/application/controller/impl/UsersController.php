@@ -9,6 +9,7 @@ class UsersController implements Controller {
     }
 
     #[HttpEndpoint(uri: "/{id}", method: "GET")]
+    #[Authenticated]
     public function find(HttpRequest $request): ExceptionModel|UserResponse {
         header("Content-Type: application/json");
         try {
@@ -42,10 +43,15 @@ class UsersController implements Controller {
     }
 
     #[HttpEndpoint(uri: "/{id}", method: "PUT")]
+    #[Authenticated]
     public function update(HttpRequest $request) {
         header("Content-Type: application/json");
         try {
-            $this->userService->update($request->getPathParams()['id'], $request->getBody());
+            $result = $this->userService->update($request->getPathParams()['id'], $request->getBody());
+            if (!$result) {
+                http_response_code(401);
+                return;
+            }
             http_response_code(204);
             return;
         } catch (InvalidDbQueryException | InvalidDbConnectionException $e) {
@@ -61,10 +67,15 @@ class UsersController implements Controller {
     }
 
     #[HttpEndpoint(uri: "/{id}", method: "DELETE")]
+    #[Authenticated]
     public function remove(HttpRequest $request) {
         header("Content-Type: application/json");
         try {
-            $this->userService->delete($request->getPathParams()['id']);
+            $result = $this->userService->delete($request->getPathParams()['id']);
+            if (!$result) {
+                http_response_code(401);
+                return;
+            }
             http_response_code(204);
             return;
         } catch (InvalidDbQueryException | InvalidDbConnectionException $e) {
