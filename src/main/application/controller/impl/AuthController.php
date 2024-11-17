@@ -21,6 +21,9 @@ class AuthController implements Controller {
         } catch (InvalidAuthException $e) {
             http_response_code(401);
             return;
+        } catch (SessionExistsException $e) {
+            http_response_code(400);
+            return $e;
         }
     }
 

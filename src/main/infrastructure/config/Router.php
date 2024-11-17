@@ -70,15 +70,25 @@ class Router {
             }
             
             if ($controllerUri != $requestUri) {continue;}
-            
             if ($controllerHttpMethod != $requestHttpMethod) {$tempStatusCode = 405; continue;}
 
+            
             $method = $controller->getMethod($methodName);
+            $attrs = $method->getAttributes();
+            foreach ($attrs as $attr) {
+                if ($attr->getName() == 'Authenticated') {
+                    session_start();
+                    if (!isset($_SESSION['user'])) {
+                        http_response_code(401);
+                        return;
+                    }
+                }
+            }
             $response = $method->invoke($method->getDeclaringClass()->newInstance(), $request);
             $tempStatusCode = null;
             return $response;
         }
-        if ($tempStatusCode) {http_response_code(405); return;}
+        if ($tempStatusCode) {http_response_code($tempStatusCode); return;}
         $fallback = $controller->getMethod("fallback");
         $response = $fallback->invoke($fallback->getDeclaringClass()->newInstance(), $request);
 
