@@ -7,7 +7,7 @@ require_once 'src\main\domain\model\exception\database\InvalidDbQueryException.p
 class UserRepositoryImpl implements UserRepository {
     private $connector;
     public function __construct() {
-        $this->connector = DbConnector::getInstance();
+        $this->connector = SqlConnector::getInstance();
     }
     public function create(User $user): int {
         try {

@@ -4,9 +4,9 @@ class UserService {
     private UserRepository $userRepository;
     private UserMapper $userMapper;
 
-    public function __construct(UserRepository $userRepository) {
+    public function __construct(UserMapper $userMapper, UserRepository $userRepository) {
         $this->userRepository = $userRepository;
-        $this->userMapper = new UserMapper();
+        $this->userMapper = $userMapper;
     }
 
     public function findById($id): UserResponse {

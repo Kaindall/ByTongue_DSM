@@ -5,7 +5,7 @@ class AuthController implements Controller {
     private SessionService $sessionService;
 
     public function __construct() {
-        $this->sessionService = new SessionService();
+        $this->sessionService = new SessionService(new UserMapper(), new UserRepositoryImpl());
     }
 
     #[HttpEndpoint(uri: "", method: "POST")]
