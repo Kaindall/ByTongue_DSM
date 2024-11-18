@@ -217,7 +217,7 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8000/ias/chat?to=de-DE",
+							"raw": "localhost:8000/ias/chat?to=en-US",
 							"host": [
 								"localhost"
 							],
@@ -229,7 +229,7 @@
 							"query": [
 								{
 									"key": "to",
-									"value": "de-DE"
+									"value": "en-US"
 								}
 							]
 						}
@@ -243,7 +243,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"content\": \"Eu estou devagar no aprendizado!\"\r\n}",
+							"raw": "{\r\n    \"content\": \"Frases novas!\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -251,7 +251,7 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8000/ias/chat/6266756438807149",
+							"raw": "localhost:8000/ias/chat/673ab65f11a7db3fe507d32c",
 							"host": [
 								"localhost"
 							],
@@ -259,7 +259,7 @@
 							"path": [
 								"ias",
 								"chat",
-								"6266756438807149"
+								"673ab65f11a7db3fe507d32c"
 							]
 						}
 					},
@@ -283,7 +283,7 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8000/ias/chat/5427922624134184",
+							"raw": "localhost:8000/ias/chat/673998d944b96000766533c6",
 							"host": [
 								"localhost"
 							],
@@ -291,7 +291,7 @@
 							"path": [
 								"ias",
 								"chat",
-								"5427922624134184"
+								"673998d944b96000766533c6"
 							]
 						}
 					},
@@ -303,7 +303,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "localhost:8000/ias/chat/6266756438807149",
+							"raw": "localhost:8000/ias/chat/673aa36511a7db3fe507d32a",
 							"host": [
 								"localhost"
 							],
@@ -311,7 +311,29 @@
 							"path": [
 								"ias",
 								"chat",
-								"6266756438807149"
+								"673aa36511a7db3fe507d32a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deletar mensagem",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8000/ias/chat/673ab65f11a7db3fe507d32c/messages/msg-673ab6a6f26ae",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"ias",
+								"chat",
+								"673ab65f11a7db3fe507d32c",
+								"messages",
+								"msg-673ab6a6f26ae"
 							]
 						}
 					},
@@ -394,7 +416,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"password\": \"123456\"\r\n}",
+							"raw": "{\r\n    \"name\": \"Zanetti\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"

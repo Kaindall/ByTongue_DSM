@@ -5,12 +5,11 @@ require_once 'src\main\domain\model\exception\users\SessionExistsException.php';
 class SessionService {
     private UserMapper $userMapper;
     private UserRepository $userRepository;
-    public function __construct() {
-        $this->userMapper = new UserMapper();
-        $this->userRepository = new UserRepositoryImpl();
+    public function __construct(UserMapper $userMapper, UserRepository $userRepository) {
+        $this->userMapper = $userMapper;
+        $this->userRepository = $userRepository;
     }
     public function start($data): void {
-        session_start();
         if (isset($_SESSION['user'])) throw new SessionExistsException;
         $userAuth = $this->userMapper->toUserAuthRequest($data);
         try {
@@ -24,11 +23,9 @@ class SessionService {
         }
     }
     public function retrieve() {
-        session_start();
         if (isset($_SESSION['user'])) return $_SESSION['user']; else return;
     }
     public function remove(): bool {
-        session_start();
         if (isset($_SESSION['user'])) {
             session_unset();
             session_destroy();

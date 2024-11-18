@@ -5,7 +5,7 @@ class UsersController implements Controller {
     private UserService $userService;
 
     public function __construct() {
-        $this->userService = new UserService(new UserRepositoryImpl());
+        $this->userService = new UserService(new UserMapper(), new UserRepositoryImpl());
     }
 
     #[HttpEndpoint(uri: "/{id}", method: "GET")]

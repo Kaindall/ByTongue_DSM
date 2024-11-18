@@ -10,7 +10,7 @@ class IaController implements Controller {
 
     //TODO: Injeção de dependência do ChatService
     public function __construct() {
-        $this->chatService = new ChatService(new ChatRepositoryImpl(), new GeminiService());
+        $this->chatService = new ChatService(new MongoChatRepositoryImpl(), new GeminiService());
     }
 
     #[HttpEndpoint(uri: "/chat", method: "POST")]
@@ -33,14 +33,20 @@ class IaController implements Controller {
 
     #[HttpEndpoint(uri: "/chat/{id}", method: "GET")]
     public function findChat(HttpRequest $request) {
+        header("Content-Type: application/json");
         try {
             $response = $this->chatService->findChat($request->getPathParams()['id']);
             http_response_code(200);
-            header("Content-Type: application/json");
             return $response;
+        } catch (InvalidChatObjectException $e) {
+            http_response_code(500);
+            return; 
         } catch (ChatNotFoundException $e) {
             http_response_code(404);
             return;
+        } catch (InvalidIdentifierException | ChatAlreadyExistException $e) {
+            http_response_code(400);
+            return $e;
         }
     }
 
@@ -54,7 +60,7 @@ class IaController implements Controller {
         } catch (EmptyBodyException | InvalidBodyException | ChatNotFoundException $e) {
             http_response_code(400);
             return $e;
-         } catch (UnexpectedGeminiException $e)  {
+         } catch (UnexpectedGeminiException | UnexpectedChatCreationException | UnexpectedChatUpdateException $e)  {
             http_response_code(500);
             return $e;
          }
@@ -68,9 +74,29 @@ class IaController implements Controller {
             if ($response) {http_response_code(200);
             } else {http_response_code(400);}
             return;
-        } catch (ChatNotFoundException $e) {
-            http_response_code(400);
+        } catch (UnexpectedChatDeletionException $e) {
+            http_response_code(500);
             return $e;
+        } catch (ChatNotFoundException $e) {
+            http_response_code(404);
+            return;
+         }
+    }
+
+    #[HttpEndpoint(uri: "/chat/{chat_id}/messages/{msg_id}", method: 'DELETE')]
+    public function deleteMsg(HttpRequest $request) {
+        header("Content-Type: application/json");
+        try {
+            $response = $this->chatService->deleteMessage($request->getPathParams()['chat_id'], $request->getPathParams()['msg_id']);
+            if ($response) {http_response_code(200);
+            } else {http_response_code(400);}
+            return;
+        } catch (UnexpectedChatDeletionException $e) {
+            http_response_code(500);
+            return $e;
+        } catch (ChatNotFoundException $e) {
+            http_response_code(404);
+            return;
          }
     }
 

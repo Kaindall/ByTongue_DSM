@@ -77,7 +77,6 @@ class Router {
             $attrs = $method->getAttributes();
             foreach ($attrs as $attr) {
                 if ($attr->getName() == 'Authenticated') {
-                    session_start();
                     if (!isset($_SESSION['user'])) {
                         http_response_code(401);
                         return;

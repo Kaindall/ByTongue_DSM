@@ -7,7 +7,7 @@ require_once 'src\main\domain\model\exception\users\InvalidDateDayException.php'
 class DateParser {
     public function validate($date): string {
         $formattedDate = null;
-        $tempDate = explode("/", $date);
+        $tempDate = explode("-", $date);
         if (count($tempDate) !== 3) throw new InvalidBirthdayFormatException;
         if (strlen(strval($tempDate[0])) !== 4 || $tempDate[0] < date("Y")-150 || $tempDate[0] > date("Y")) {
             throw new InvalidDateYearException;
