@@ -3,7 +3,7 @@
 class Chat {
     private array $instructions;
     public function __construct(
-        private ?int $id,
+        private ?string $id,
         private ?string $model,
         private ?array $contents,
         private string $origin,
@@ -24,15 +24,23 @@ class Chat {
         ];
     }
 
-    public function getId(): ?int {return $this->id;}
+    public function getId(): ?string {return $this->id;}
     public function getModel(): ?string {return $this->model;}
     public function getInstructions(): ?array {return $this->instructions;}
     public function getContents(): ?array {return $this->contents;}
+    public function getContentsWithoutId(): ?array {
+        $resultArr = [];
+        foreach($this->contents as $content) {
+            unset($content['id']);
+            $resultArr[] = $content;
+        }
+        return $resultArr;
+    }
     public function getOrigin(): ?string {return $this->origin;}
     public function getTarget(): ?string {return $this->target;}
     public function getLevel(): ?string {return $this->level;}
 
-    public function setId(int $id): void {$this->id = $id;}
+    public function setId(string $id): void {$this->id = $id;}
     public function setModel(string $model): void {$this->model = $model;}
     public function setInstructions(array $instructs): void {$this->instructions = $instructs;}
     public function setContent(array $content): void {
@@ -47,6 +55,5 @@ class Chat {
             'contents' => $this->contents
         ];
         return $persistenceContext;
-
     }
 }
