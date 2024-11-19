@@ -7,6 +7,10 @@
     text-decoration: none;
     color: var(--main-gradient);
   }
+
+  .flex-column {
+    height: 100vh;
+  }
   
   .logo a {
     font-size: 30px;
