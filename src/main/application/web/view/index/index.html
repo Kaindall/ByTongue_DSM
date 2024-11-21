@@ -2,14 +2,10 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>Home - BYTONGUE</title>
-
-    <!-- <link rel="icon" type="image/x-icon" href="assets/favicon.ico" /> -->
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -25,40 +21,55 @@
       crossorigin="anonymous" />
   </head>
 
-  <body class="flex-column">
+  <body>
     <header class="py-4 header w-100">
       <div class="container">
-        <div class="row d-flex justify-content-center w-100">
-          <div class="col-8 header-content">
-            <div class="row w-100">
-              <div class="logo col-6 d-flex align-items-center p-0">
-                <img src="resources/static/logotipo.png" alt="logo" />
-              </div>
-              <div class="col-6">
-                <ul class="d-flex justify-content-end gap-4 m-0">
-                  <li class="item">
-                    <a class="link" href="index.html">Home</a>
-                  </li>
-                  <li class="item"><a class="link" href="/chat">Chat</a></li>
-                  <li class="item"><a class="link" href="/quiz">Quiz</a></li>
-                  <li class="item"><a class="link" href="#">About Us</a></li>
-                  <li class="item">
-                    <a class="link" href="#">Login/Sign Up</a>
-                  </li>
-                </ul>
-              </div>
+        <nav class="navbar navbar-expand-lg">
+          <div class="container-fluid p-0">
+            <a class="navbar-brand m-0" href="#">
+              <img src="resources/static/logotipo.png" alt="logo" style="max-height: 50px;" />
+            </a>
+            <button
+              class="navbar-toggler"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarNav"
+              aria-controls="navbarNav"
+              aria-expanded="false"
+              aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                  <a class="nav-link" href="index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/chat">Chat</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/quiz">Quiz</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">About Us</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Login/Sign Up</a>
+                </li>
+              </ul>
             </div>
           </div>
-        </div>
+        </nav>
       </div>
     </header>
+    
 
     <div class="flex-column">
       <main>
-        <section class="row d-flex justify-content-center w-100">
+        <section class="d-flex justify-content-center w-100">
           <div class="col-8 w-100">
             <div class="row d-flex align-items-center landing-content">
-              <div class="col-12 col-lg-5 d-flex">
+              <div class="col-12 col-lg-5 d-flex p-0">
                 <div class="text-xxl-start">
                   <div class="mb-4">
                     <div class="subtitle1">
@@ -72,7 +83,7 @@
                     <span class="text-gradient d-inline">BYTONGUE CHATBOT</span>
                   </h1>
                   <div
-                    class="d-grid gap-3 d-sm-flex justify-content-sm-center justify-content-xxl-start mb-3">
+                    class="d-grid gap-3 d-sm-flex justify-content-sm-start justify-content-xxl-start mb-3">
                     <a
                       class="btn-chat btn btn-lg me-sm-3 fs-6 fw-bolder"
                       href="/chat"
@@ -160,6 +171,6 @@
             </div>
           </div>
         </div>
-      </footer>
+    </footer>
   </body>
 </html>
