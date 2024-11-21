@@ -1,5 +1,6 @@
 body {
   overflow-x: hidden;
+  flex-direction: column;
 }
 
 .container{
@@ -39,15 +40,15 @@ body {
     list-style: none;
   }
   
-  li.item a {
-    font-size: 20px;
-    font-weight: 600;
+  li a {
+
+    border-bottom: 2px solid transparent!important;
+
   }
 
-
-  li.item a:hover{
-    color: #f96d47;
-    border-bottom: 2px solid #f96d47;
+  li a:hover{
+    color: #f96d47!important;
+    border-bottom: 2px solid #f96d47!important;
   }
   
   .subtitle1 span {
@@ -88,7 +89,7 @@ body {
 
 
   .landing-content{
-    margin-top: 83px!important;
+    margin-top: 170px!important;
   }
 
 .footer-07{
@@ -125,4 +126,15 @@ body {
 
 .copyright{
   color: #fff;
+}
+
+.navbar-toggler:focus{
+  box-shadow: none!important;
+}
+
+@media (max-width: 768px){
+  .landing-content{
+    width: 95%;
+    margin: 170px auto 20px!important;
+  }
 }
