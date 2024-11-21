@@ -24,6 +24,24 @@ class WebController implements Controller {
         return file_get_contents('src\main\application\web\view\quiz\quiz.html');
     }
 
+    #[HttpEndpoint(uri: "/login", method: "GET")]
+    public function login(HttpRequest $request) {
+        http_response_code(200);
+        return file_get_contents('src\main\application\web\view\profile\login.html');
+    }
+
+    #[HttpEndpoint(uri: "/resetPassword", method: "GET")]
+    public function resetPassword(HttpRequest $request) {
+        http_response_code(200);
+        return file_get_contents('src\main\application\web\view\profile\resetPassword.html');
+    }
+
+    #[HttpEndpoint(uri: "/signup", method: "GET")]
+    public function signup(HttpRequest $request) {
+        http_response_code(200);
+        return file_get_contents('src\main\application\web\view\profile\signup.html');
+    }
+
     #[HttpEndpoint(uri: "/settings", method: "GET")]
     public function settings(HttpRequest $request) {
         http_response_code(200);
