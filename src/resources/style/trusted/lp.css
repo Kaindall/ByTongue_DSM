@@ -46,7 +46,7 @@ body {
 
   }
 
-  li a:hover{
+ .nav-link:hover{
     color: #f96d47!important;
     border-bottom: 2px solid #f96d47!important;
   }
