@@ -1,71 +1,35 @@
 <?php
 
 class ChatService {
-    private ChatRepository $chatRepository;
-    private ?IaService $iaService;
 
-    public function __construct(ChatRepository $chatRepository, ?IaService $iaService) {
-        $this->chatRepository = $chatRepository;
-        $this->iaService = $iaService;
+    public function __construct(
+        private ChatRepository $chatRepository, 
+        private ?IaService $iaService,
+        private ?UserChatsRepository $userChatsRepository) {
     }
 
     public function findChat($id) {
         $chatContent = $this->chatRepository->findById($id);
         return json_encode($chatContent, JSON_PRETTY_PRINT);
     }
-    public function postMessage($id, $message, $params) {
+    public function postMessage($chatId, $message, $params) {
         if ($message === null || empty($message)) {throw new EmptyBodyException;}
         $msgArr = json_decode($message, true);
         if (!isset($msgArr["content"])) {throw new InvalidBodyException;}
-
-        if(!$id) {
-            //echo 'ID da conversa não informado, criando uma nova' . PHP_EOL;
-            $chatValidator = new ChatValidator();
-            $validatedParams = $chatValidator->validateAll($params);
-            if (!isset($msgArr['role'])) {$msgArr = $this->transformMessage('user', $msgArr['content']);}
-
-            $chat = new Chat(
-                null, 
-                'gemini-1.5-pro', 
-                [$msgArr],
-                $validatedParams['origin'],
-                $validatedParams['target'],
-                $validatedParams['level']->value
-            );
-            $responseContent = json_decode($this->iaService->retrieveResult($chat), true);
-            $responseContent['id'] = uniqid('msg-');
-            $chat->setContent($responseContent);
-            $this->chatRepository->create($chat);
-            $response = [
-                'id' => $chat->getId(),
-                'content' => end($responseContent['parts'])['text']
-            ];
-            return json_encode($response, JSON_PRETTY_PRINT);
-        }
-        
-        //echo "Id reconhecido na chamada: $id" . PHP_EOL;
-        $chat = $this->chatRepository->findById($id);
         if (!isset($msgArr['role'])) {$msgArr = $this->transformMessage('user', $msgArr['content']);}
-        $newContent = [];
-        $chat->setContent($msgArr);
-        $response = json_decode($this->iaService->retrieveResult($chat), true);
-        $response['id'] = uniqid('msg-');
-        $chat->setContent($response);
-        $newContent[] = $msgArr;
-        $newContent[] = $response;
-        $this->chatRepository->update($chat, $newContent);
-        return json_encode([
-            'id' => $response['id'],
-            'content' => $response['parts'][0]['text']
-        ], JSON_PRETTY_PRINT);
+
+        if(!$chatId) return $this->createChat($params, $msgArr);
+        return $this->updateChat($chatId, $msgArr);
     }
     public function deleteMessage(string $chatId, string $msgId): bool {
-        return $this->chatRepository->deleteMessage($chatId, $msgId);
+        $isDeleted = $this->chatRepository->deleteMessage($chatId, $msgId);
+        if ($isDeleted && $_SESSION && isset($_SESSION['user'])) $this->userChatsRepository->refreshLink($chatId);
+        return $isDeleted;
     }
     public function deleteChat($id): bool {
-        return $this->chatRepository->delete($id);
+        if ($this->chatRepository->delete($id)) return $this->userChatsRepository->deleteLink($id);
+        return false;
     }
-
     private function transformMessage(string $owner, string $msg): array {
         $formattedMessage = [
             'id' => uniqid('msg-'),
@@ -75,5 +39,43 @@ class ChatService {
             'role' => $owner
             ];
         return $formattedMessage;
+    }
+    private function createChat($params, array $message) {
+        $chatValidator = new ChatValidator();
+        $validatedParams = $chatValidator->validateAll($params);
+        $chat = new Chat(
+            null, 
+            'gemini-1.5-pro', 
+            [$message],
+            $validatedParams['origin'],
+            $validatedParams['target'],
+            $validatedParams['level']->value
+        );
+        $responseContent = json_decode($this->iaService->retrieveResult($chat), true);
+        $responseContent['id'] = uniqid('msg-');
+        $chat->setContent($responseContent);
+        $this->chatRepository->create($chat);
+        $response = [
+            'id' => $chat->getId(),
+            'content' => end($responseContent['parts'])['text']
+        ];
+        if ($_SESSION && isset($_SESSION['user'])) $this->userChatsRepository->createLink($_SESSION['user']->getId(), $chat->getId());
+        return json_encode($response, JSON_PRETTY_PRINT);
+    }
+    private function updateChat(string $chatId, array $message) {
+        $chat = $this->chatRepository->findById($chatId);
+        $newContent = [];
+        $chat->setContent($message);
+        $response = json_decode($this->iaService->retrieveResult($chat), true);
+        $response['id'] = uniqid('msg-');
+        $chat->setContent($response);
+        $newContent[] = $message;
+        $newContent[] = $response;
+        $this->chatRepository->update($chat, $newContent);
+        if ($_SESSION && isset($_SESSION['user'])) $this->userChatsRepository->refreshLink($chat->getId());
+        return json_encode([
+            'id' => $response['id'],
+            'content' => $response['parts'][0]['text']
+        ], JSON_PRETTY_PRINT);
     }
 }
