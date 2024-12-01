@@ -7,7 +7,7 @@ require_once 'src/main/application/controller/Controller.php';
 class ResourceController implements Controller {
     #[HttpEndpoint(uri: "/styles/{file}", method: "GET")]
     public function serveCssContent(HttpRequest $request) {
-        $directory = '/app/src/resources/style';  
+        $directory = 'src/resources/style';  
         $directoryIterator = new RecursiveDirectoryIterator($directory, RecursiveDirectoryIterator::SKIP_DOTS);
         $iterator = new RecursiveIteratorIterator($directoryIterator);
 
@@ -30,7 +30,7 @@ class ResourceController implements Controller {
 
     #[HttpEndpoint(uri: "/scripts/{file}", method: "GET")]
     public function serveJsContent(HttpRequest $request) {
-        $directory = '/app/src/main/application/web/view';  
+        $directory = 'src/main/application/web/view';  
         $directoryIterator = new RecursiveDirectoryIterator($directory, RecursiveDirectoryIterator::SKIP_DOTS);
         $iterator = new RecursiveIteratorIterator($directoryIterator);
 
@@ -53,7 +53,7 @@ class ResourceController implements Controller {
 
     #[HttpEndpoint(uri: "/static/{file}", method: "GET")]
     public function serveStaticContent(HttpRequest $request) {
-        $directory = '/app/src/resources/static';  
+        $directory = 'src/resources/static';  
         $directoryIterator = new RecursiveDirectoryIterator($directory, RecursiveDirectoryIterator::SKIP_DOTS);
         $iterator = new RecursiveIteratorIterator($directoryIterator);
 

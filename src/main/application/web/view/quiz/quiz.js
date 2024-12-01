@@ -93,7 +93,7 @@ async function datafetch (langName) {
    }
 
    console.log(langName)
-   const url = `http://localhost:8000/ias/quiz?from=pt-BR&to=${langName}`
+   const url = `/ias/quiz?from=pt-BR&to=${langName}`
    try {
       const response = await fetch(url);
       const data = await response.json();
