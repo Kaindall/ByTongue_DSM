@@ -1,8 +1,8 @@
 <?php
-require_once 'src\main\domain\model\exception\users\UserNotFoundException.php';
-require_once 'src\main\domain\model\exception\users\InsufficientFieldsException.php';
-require_once 'src\main\domain\model\exception\users\UserExistsException.php';
-require_once 'src\main\domain\model\exception\database\InvalidDbQueryException.php';
+require_once 'src/main/domain/model/exception/users/UserNotFoundException.php';
+require_once 'src/main/domain/model/exception/users/InsufficientFieldsException.php';
+require_once 'src/main/domain/model/exception/users/UserExistsException.php';
+require_once 'src/main/domain/model/exception/database/InvalidDbQueryException.php';
 
 class UserRepositoryImpl implements UserRepository {
     private $connector;

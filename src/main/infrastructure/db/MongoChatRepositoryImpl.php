@@ -1,11 +1,11 @@
 <?php
-require_once 'src\main\domain\model\exception\chats\ChatNotFoundException.php';
-require_once 'src\main\domain\model\exception\chats\InvalidChatObjectException.php';
-require_once 'src\main\domain\model\exception\chats\ChatAlreadyExistException.php';
-require_once 'src\main\domain\model\exception\chats\InvalidIdentifierException.php';
-require_once 'src\main\domain\model\exception\chats\UnexpectedChatCreationException.php';
-require_once 'src\main\domain\model\exception\chats\UnexpectedChatUpdateException.php';
-require_once 'src\main\domain\model\exception\chats\UnexpectedChatDeletionException.php';
+require_once 'src/main/domain/model/exception/chats/ChatNotFoundException.php';
+require_once 'src/main/domain/model/exception/chats/InvalidChatObjectException.php';
+require_once 'src/main/domain/model/exception/chats/ChatAlreadyExistException.php';
+require_once 'src/main/domain/model/exception/chats/InvalidIdentifierException.php';
+require_once 'src/main/domain/model/exception/chats/UnexpectedChatCreationException.php';
+require_once 'src/main/domain/model/exception/chats/UnexpectedChatUpdateException.php';
+require_once 'src/main/domain/model/exception/chats/UnexpectedChatDeletionException.php';
 use MongoDB\Driver\Manager;
 use MongoDB\Driver\Command;
 use MongoDB\Driver\BulkWrite;
