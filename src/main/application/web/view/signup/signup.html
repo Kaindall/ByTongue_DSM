@@ -12,13 +12,15 @@
       rel="stylesheet"
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
       crossorigin="anonymous" />
+      <script src="resources/scripts/toggle-password.js" defer></script>
+      <script src="resources/scripts/signup.js" defer></script>
   </head>
   <body>
     <header class="py-4 header w-100">
       <div class="container">
         <nav class="navbar navbar-expand-lg">
           <div class="container-fluid p-0">
-            <a class="navbar-brand m-0" href="#">
+            <a class="navbar-brand m-0" href="/">
               <img
                 src="resources/static/logotipo.png"
                 alt="logo"
@@ -46,7 +48,7 @@
                   <a class="nav-link" href="/quiz">Quiz</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="#">About Us</a>
+                  <a class="nav-link" href="/aboutUs">About Us</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="/login">Login/Sign Up</a>
@@ -87,33 +89,6 @@
       </div>
     </div>
 
-    <script>
-      const togglePassword = document.querySelector("#toggle-password");
-      const password = document.querySelector("#password");
-      const toggleConfirmPassword = document.querySelector(
-        "#toggle-confirm-password"
-      );
-      const confirmPassword = document.querySelector("#confirm-password");
-
-      togglePassword.addEventListener("click", function () {
-        const type =
-          password.getAttribute("type") === "password" ? "text" : "password";
-        password.setAttribute("type", type);
-        this.textContent = type === "password" ? "Mostrar" : "Ocultar";
-      });
-
-      toggleConfirmPassword.addEventListener("click", function () {
-        const type =
-          confirmPassword.getAttribute("type") === "password"
-            ? "text"
-            : "password";
-        confirmPassword.setAttribute("type", type);
-        this.textContent = type === "password" ? "Mostrar" : "Ocultar";
-      });
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-
-    <script src="js/scripts.js"></script>
     <footer class="footer-07">
       <div class="container">
         <div class="row justify-content-center">
@@ -121,7 +96,7 @@
             <h2 class="footer-heading">ByTongue</h2>
             <p class="menu">
               <a href="/">Home</a>
-              <a href="#">About</a>
+              <a href="/aboutUs">About</a>
               <a href="#">Contact</a>
               <a href="#">Developers</a>
             </p>
@@ -142,7 +117,7 @@
               </li>
               <li class="ftco-animate">
                 <a
-                  href="#"
+                  href="/https://www.instagram.com/by.tongue/"
                   data-toggle="tooltip"
                   data-placement="top"
                   title=""
@@ -178,5 +153,8 @@
         </div>
       </div>
     </footer>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>
