@@ -19,7 +19,7 @@ const createChatLi = (message, className) => {
 }
 
 const generateResponse = (incomingChatLi) => {
-  const API_URL = `http://localhost:8000/ias/chat/${id}`;
+  const API_URL = `/ias/chat/${id}`;
   const messageElement = incomingChatLi.querySelector("p");
 
   const requestBody = {
@@ -60,7 +60,7 @@ const createResponseChat = (incomingChatLi) => {
   const level = 1;
   const from = "pt-BR";
   const to = "en-US";
-  const API_URL = `http://localhost:8000/ias/chat`;
+  const API_URL = `/ias/chat`;
   const messageElement = incomingChatLi.querySelector("p");
 
   const requestBody = {
