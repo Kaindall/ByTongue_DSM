@@ -5,6 +5,8 @@ const result_box = document.querySelector(".result_box");
 const btn_continueLang = document.querySelector(".continue_lang");
 const btn_continue = document.querySelector(".continue");
 const next_btn = document.querySelector(".next_btn");
+const restart_quiz = document.querySelector(".restart");
+const quit_quiz = document.querySelector(".quit");
 const option_list = document.querySelector(".option_list");
 const time_count = document.querySelector(".time_sec");
 
@@ -24,17 +26,17 @@ btn_continueLang.onclick = () => {
 
 const langButtons = document.querySelectorAll('.lang_button');
 langButtons.forEach(button => {
-    button.addEventListener('click', function() {
+   button.addEventListener('click', function () {
       langButtons.forEach(btn => btn.classList.remove('selected'));
 
       this.classList.add('selected');
 
       langName = this.nextElementSibling.textContent;
-    });
+   });
 });
 
 btn_continue.onclick = async () => {
-   if(!langName){
+   if (!langName) {
       return;
    }
    info_lang.classList.add('desactive');
@@ -46,7 +48,7 @@ btn_continue.onclick = async () => {
 }
 
 next_btn.onclick = () => {
-   if(question_count < question.length - 1){
+   if (question_count < question.length - 1) {
       next_btn.style.display = "none";
       clearInterval(counter)
       startTimer(timeValue)
@@ -56,6 +58,18 @@ next_btn.onclick = () => {
       clearInterval(counter)
       showResultBox();
    }
+}
+
+quit_quiz.onclick = () => {
+   window.location.assign("/");
+}
+
+restart_quiz.onclick = () => {
+   question_count = 0;
+   timeValue = 15;
+   userScore = 0;
+   result_box.classList.add('desactive');
+   info_lang.classList.remove('desactive');
 }
 
 function showLoading() {
@@ -68,7 +82,7 @@ function hideLoading() {
    loadingElement.style.display = 'none';
 }
 
-async function datafetch (langName) {
+async function datafetch(langName) {
    switch (langName) {
       case "Português":
          langName = "pt-BR"
@@ -92,12 +106,16 @@ async function datafetch (langName) {
          break;
    }
 
-   console.log(langName)
    const url = `/ias/quiz?from=pt-BR&to=${langName}`
    try {
       const response = await fetch(url);
       const data = await response.json();
-      console.log(data)
+
+      if (!data) {
+         await datafetch(langName);
+         return;
+      }
+
       question = data
       showQuestions(question_count, question)
    } catch (error) {
@@ -105,27 +123,27 @@ async function datafetch (langName) {
    }
 }
 
-function showQuestions (index, data) {
+function showQuestions(index, data) {
    const question_text = document.querySelector(".que_text");
    const questions_counter = document.querySelector(".total_que");
    let question_tag = `<span>${index + 1}. ${data[index].question}</span>`;
    let option_tag = `<div class="option"><span>${data[index].options[0]}</span></div>`
-                  + `<div class="option"><span>${data[index].options[1]}</span></div>`
-                  + `<div class="option"><span>${data[index].options[2]}</span></div>`
-                  + `<div class="option"><span>${data[index].options[3]}</span></div>`;
+      + `<div class="option"><span>${data[index].options[1]}</span></div>`
+      + `<div class="option"><span>${data[index].options[2]}</span></div>`
+      + `<div class="option"><span>${data[index].options[3]}</span></div>`;
 
-   let totalQuestionsTag = `<span><p>${index + 1}</p>of<p>${data.length}</p>Questions</span>`  
+   let totalQuestionsTag = `<span><p>${index + 1}</p>of<p>${data.length}</p>Questions</span>`
 
    question_text.innerHTML = question_tag;
    option_list.innerHTML = option_tag;
    questions_counter.innerHTML = totalQuestionsTag;
 
    const option = option_list.querySelectorAll(".option");
-   
-   for(let i = 0; i < option.length; i++) {
+
+   for (let i = 0; i < option.length; i++) {
       option[i].setAttribute("onclick", 'optionSelected(this)');
    }
-   
+
 }
 
 function showResultBox() {
@@ -133,14 +151,14 @@ function showResultBox() {
    result_box.classList.remove('desactive');
    const scoreText = document.querySelector(".score_text");
 
-   if(userScore > 4) {
+   if (userScore > 4) {
       let scoreTag = `<span>Woooooooow, You got <p>${userScore}</p> out of <p>${question.length}!!!</p></span>`;
       scoreText.innerHTML = scoreTag;
-   } else if(userScore > 2) {
+   } else if (userScore > 2) {
       let scoreTag = `<span>Nice, You got <p>${userScore}</p> out of <p>${question.length}!</p></span>`;
       scoreText.innerHTML = scoreTag;
    } else {
-      let scoreTag = `<span>Sorry, You got only <p>${userScore}</p> out of <p>${question.length}!</p></span>`;
+      let scoreTag = `<span>Sorry, you got only <p>${userScore}</p> out of <p>${question.length}!</p></span>`;
       scoreText.innerHTML = scoreTag;
    }
 
@@ -152,23 +170,23 @@ function optionSelected(answer) {
    const correctAnswerIndex = question[question_count].correct;
    let correctAnswer = question[question_count].options[correctAnswerIndex];
    let allOptions = option_list.children.length;
-   if(userAnswer === correctAnswer) {
+   if (userAnswer === correctAnswer) {
       userScore++;
       answer.classList.add("correct");
       answer.insertAdjacentHTML("beforeend", tickIcon)
    } else {
       answer.classList.add("incorrect");
       answer.insertAdjacentHTML("beforeend", crossIcon)
-      
-      for(let i = 0; i < allOptions; i++) {
-         if(option_list.children[i].textContent === correctAnswer) {
+
+      for (let i = 0; i < allOptions; i++) {
+         if (option_list.children[i].textContent === correctAnswer) {
             option_list.children[i].setAttribute("class", "option correct")
             option_list.children[i].insertAdjacentHTML("beforeend", tickIcon)
          }
       }
    }
 
-   for(let i = 0; i < allOptions; i++) {
+   for (let i = 0; i < allOptions; i++) {
       option_list.children[i].classList.add("disabled")
    }
 
@@ -180,11 +198,11 @@ function startTimer(time) {
    function timer() {
       time_count.textContent = time;
       time--;
-      if(time < 9) {
+      if (time < 9) {
          let addZero = time_count.textContent;
          time_count.textContent = "0" + addZero;
       }
-      if(time < 0) {
+      if (time < 0) {
          clearInterval(counter);
          time_count.textContent = "00";
 
@@ -192,17 +210,17 @@ function startTimer(time) {
          let correctAnswer = question[question_count].options[correctAnswerIndex];
          let allOptions = option_list.children.length;
 
-         for(let i = 0; i < allOptions; i++) {
-            if(option_list.children[i].textContent === correctAnswer) {
+         for (let i = 0; i < allOptions; i++) {
+            if (option_list.children[i].textContent === correctAnswer) {
                option_list.children[i].setAttribute("class", "option correct")
                option_list.children[i].insertAdjacentHTML("beforeend", tickIcon)
             }
          }
 
-         for(let i = 0; i < allOptions; i++) {
+         for (let i = 0; i < allOptions; i++) {
             option_list.children[i].classList.add("disabled")
          }
-      
+
          next_btn.style.display = "block";
       }
    }
