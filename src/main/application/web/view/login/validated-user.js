@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
 
 
-      const response = await fetch("http://localhost:8000/auth", {
+      const response = await fetch("/auth", {
           method: "GET",
           headers: {
               "Content-Type": "application/json",
