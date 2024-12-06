@@ -1,57 +1,142 @@
-.container {
-    text-align: center;
+body {
+  overflow-x: hidden;
+  flex-direction: column;
+  gap: 70px;
 }
 
-.title {
-    color: #000000; 
-    font-size: 3.5rem; 
-    font-weight: bold; 
-    letter-spacing: 2px;
+.container{
+  max-width: 1397px!important;
+}
+  
+  .nav-item {
+    list-style: none;
+  }
+
+  .header {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    z-index: 999;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    transform: translateY(0);
+    transition: transform 0.3s ease-in-out;
+    background: #FFFFFF;
+  }
+  
+  
+  .link {
+    text-decoration: none;
+    color: var(--main-gradient);
+  }
+
+  .flex-column {
+    height: 100vh;
+  }
+  
+  .logo a {
+    font-size: 30px;
+  }
+  
+  li {
+    list-style: none;
+  }
+  
+  li a {
+
+    border-bottom: 2px solid transparent!important;
+
+  }
+
+ .nav-link:hover{
+    color: #f96d47!important;
+    border-bottom: 2px solid #f96d47!important;
+  }
+  
+  .subtitle1 span {
+    background: var(--main-gradient);
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    padding: 4px;
+  }
+  
+  .main-img {
+    width: 100%;
+  }
+  
+  .profile-img {
+    width: 100%;
+    max-width: 716px;
+  }
+  
+  @media screen and (min-width: 1295px) {
+    
+  }
+  
+  .btn-chat {
+    background: var(--main-gradient);
+    color: white !important;  
+  }
+  
+  .btn-chat:hover {
+    border: 1px solid var(--coquelicot) !important;
+    background: white;
+    color: var(--coquelicot) !important;
+    box-sizing: border-box;
+  }
+
+  .header-content{
+    width: 100%!important;
+  }
+
+
+  .landing-content{
+    margin-top: 170px!important;
+  }
+
+.footer-07{
+  width: 100%;
+  background: #212529;
 }
 
-.slogan {
-    color: #000000; 
-    font-size: 1.7rem;
-    margin: 15px 0;
+.footer-heading{
+  font-size: 30px;
+  color: #fff;
+  font-weight: 700;
+  margin: 30px;
 }
 
-.buttons {
-    margin-top: 30px;
+.footer-07 .menu{
+  margin-bottom: 30px;
+  color: rgba(255, 255, 255, 0.3);
 }
 
-.btn {
-    background-color: #F15025; 
-    color: #FFFFFF;
-    font-size: 1.3rem;
-    border: none; 
-    border-radius: 10px;
-    padding: 12px 25px;
-    cursor: pointer;
-    margin: 0 15px;
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15); 
+.footer-07 .menu a{
+  color: rgba(255, 255, 255, 0.6);
+    margin: 0 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-decoration: none;
+    font-weight: 500;
 }
 
-.btn:hover {
-    transform: scale(1.05); 
-    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2); 
+.ftco-footer-social{
+  display: flex;
+  justify-content: center;
+  gap: 40px;
 }
 
-#chat-now {
-    background-color: #F15025; 
+.copyright{
+  color: #fff;
 }
 
-#learn-more {
-    background-color: #FFFFFF; 
-    color: #747574; 
+.navbar-toggler:focus{
+  box-shadow: none!important;
 }
 
-.btn:hover#learn-more {
-    background-color: #F3F4F3; 
-}
-
-
-.image {
-    max-width: 400px; 
-    margin-bottom: 20px; 
+@media (max-width: 768px){
+  .landing-content{
+    width: 95%;
+    margin: 170px auto 20px!important;
+  }
 }

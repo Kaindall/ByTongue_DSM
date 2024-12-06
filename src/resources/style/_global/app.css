@@ -7,6 +7,8 @@
     --timberwolf: #CED0CE;
     --gray: #747574;
     --eerie-black: #191919;
+    --brown: #A83819;
+    --main-gradient: linear-gradient(90deg, var(--coquelicot), var(--brown));
   }
   
 * {
@@ -19,7 +21,7 @@
     font-family: Arial, sans-serif;
     background-color: var(--timberwolf);
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     height: 100vh;
   }

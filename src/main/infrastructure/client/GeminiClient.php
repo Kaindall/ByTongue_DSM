@@ -19,8 +19,8 @@ class GeminiClient implements IaClient, Quizzeable {
         ) {}
 
         public function commitMessage(array $message, array $instructs) {
-            $this->body['contents'] = $message;
             $this->body['system_instruction'] = $instructs;
+            $this->body['contents'] = $message;
 
             $httpClient = (new HttpClientBuilder())
                 ->withHeaders(['Content-Type: application/json'])
