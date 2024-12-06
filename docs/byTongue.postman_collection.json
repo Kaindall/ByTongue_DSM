@@ -1,0 +1,552 @@
+{
+	"info": {
+		"_postman_id": "564ef13e-1988-43c4-9eb4-8075afdeda74",
+		"name": "byTongue",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30656856"
+	},
+	"item": [
+		{
+			"name": "Gemini Direto",
+			"item": [
+				{
+					"name": "Cache",
+					"item": [
+						{
+							"name": "Consulta Cache",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://generativelanguage.googleapis.com/v1beta/cachedContents?key={{GEMINI_KEY}}",
+									"protocol": "https",
+									"host": [
+										"generativelanguage",
+										"googleapis",
+										"com"
+									],
+									"path": [
+										"v1beta",
+										"cachedContents"
+									],
+									"query": [
+										{
+											"key": "key",
+											"value": "{{GEMINI_KEY}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Criar Cache",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"model\": \"models/gemini-1.5-flash-001\",\r\n    \"contents\": [\r\n        {\r\n            \"role\": \"user\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum vestibulum. Cras venenatis euismod malesuada.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"user\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"user\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"user\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"user\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Mauris ultrices eros in cursus turpis massa tincidunt dui ut ornare. Praesent elementum facilisis leo vel fringilla.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"user\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean et tortor at risus viverra adipiscing at in.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"user\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Mi proin sed libero enim sed faucibus turpis in eu. Egestas congue quisque egestas diam in arcu cursus.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"user\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Cras fermentum odio eu feugiat pretium. Nisl purus in mollis nunc sed id semper risus in hendrerit gravida rutrum.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"user\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Nullam vehicula ipsum a arcu cursus vitae congue mauris rhoncus. Donec ac odio tempor orci dapibus ultrices in iaculis.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"user\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Sit amet justo donec enim diam vulputate ut pharetra sit amet aliquam.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"user\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Duis convallis convallis tellus id interdum velit laoreet id donec. Varius duis at consectetur lorem donec massa sapien.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"user\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Sit amet cursus sit amet dictum sit amet justo donec. Vel pharetra vel turpis nunc eget lorem dolor sed viverra.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"user\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Sem fringilla ut morbi tincidunt augue interdum velit euismod.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"user\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Pellentesque habitant morbi tristique senectus et netus et malesuada.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"user\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Sed adipiscing diam donec adipiscing tristique risus nec feugiat.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"user\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Ut etiam sit amet nisl purus in mollis nunc sed id. Lectus arcu bibendum at varius vel pharetra vel turpis.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"user\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Pharetra sit amet aliquam id diam maecenas ultricies mi eget. Viverra nibh cras pulvinar mattis nunc sed blandit libero volutpat.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"user\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Commodo sed egestas egestas fringilla phasellus faucibus scelerisque. Gravida cum sociis natoque penatibus et magnis dis parturient montes.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"user\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Sed ullamcorper morbi tincidunt ornare massa eget egestas purus viverra accumsan in nisl nisi scelerisque.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"user\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Auctor augue mauris augue neque gravida in fermentum et sollicitudin.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"user\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Vel pharetra vel turpis nunc eget lorem dolor sed viverra. Sagittis eu volutpat odio facilisis mauris sit amet massa vitae.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"user\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Nec feugiat in fermentum posuere urna nec tincidunt praesent semper. Nibh sit amet commodo nulla facilisi nullam vehicula ipsum.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"user\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt tortor aliquam nulla facilisi cras fermentum odio.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"user\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Neque aliquam vestibulum morbi blandit cursus risus at ultrices mi tempus imperdiet nulla malesuada.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"user\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Purus faucibus ornare suspendisse sed nisi lacus sed viverra tellus. Egestas fringilla phasellus faucibus scelerisque eleifend donec pretium vulputate sapien.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"user\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Facilisis mauris sit amet massa vitae tortor condimentum lacinia quis vel eros donec ac odio tempor orci dapibus ultrices in.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"user\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Nisl nisi scelerisque eu ultrices vitae auctor eu augue ut lectus arcu bibendum at varius vel pharetra vel turpis nunc eget.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"user\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Sed viverra ipsum nunc aliquet bibendum enim facilisis gravida neque convallis a cras semper auctor neque vitae tempus quam pellentesque nec nam aliquam.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"user\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Aenean euismod elementum nisi quis eleifend quam adipiscing vitae proin sagittis nisl rhoncus mattis.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"user\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Mauris a diam maecenas sed enim ut sem viverra aliquet eget sit amet tellus cras adipiscing enim eu turpis egestas pretium aenean pharetra.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"user\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Lorem donec massa sapien faucibus et molestie ac feugiat sed lectus vestibulum.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"user\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Arcu non sodales neque sodales ut etiam sit amet nisl purus in mollis nunc sed id semper risus.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"user\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Vel quam elementum pulvinar etiam non quam lacus suspendisse faucibus interdum posuere lorem ipsum dolor sit.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"user\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Tortor dignissim convallis aenean et tortor at risus viverra adipiscing at in tellus integer feugiat scelerisque varius morbi enim nunc faucibus a pellentesque sit amet porttitor.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"user\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Tempus imperdiet nulla malesuada pellentesque elit eget gravida cum sociis natoque penatibus et magnis.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"user\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Lectus magna fringilla urna porttitor rhoncus dolor purus non enim praesent elementum facilisis leo vel fringilla.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"user\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Sit amet massa vitae tortor condimentum lacinia quis vel eros donec ac odio tempor orci dapibus ultrices in iaculis nunc sed.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"user\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Ultrices tincidunt arcu non sodales neque sodales ut etiam sit amet nisl purus in mollis nunc sed id semper risus.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"user\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Nec ullamcorper sit amet risus null\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"user\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum vestibulum. Cras venenatis euismod malesuada.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"model\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"user\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"model\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"user\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Mauris ultrices eros in cursus turpis massa tincidunt dui ut ornare. Praesent elementum facilisis leo vel fringilla.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"model\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean et tortor at risus viverra adipiscing at in.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"user\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Mi proin sed libero enim sed faucibus turpis in eu. Egestas congue quisque egestas diam in arcu cursus.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"model\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Cras fermentum odio eu feugiat pretium. Nisl purus in mollis nunc sed id semper risus in hendrerit gravida rutrum.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"user\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Nullam vehicula ipsum a arcu cursus vitae congue mauris rhoncus. Donec ac odio tempor orci dapibus ultrices in iaculis.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"model\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Sit amet justo donec enim diam vulputate ut pharetra sit amet aliquam.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"user\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Duis convallis convallis tellus id interdum velit laoreet id donec. Varius duis at consectetur lorem donec massa sapien.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"model\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Sit amet cursus sit amet dictum sit amet justo donec. Vel pharetra vel turpis nunc eget lorem dolor sed viverra.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"user\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Sem fringilla ut morbi tincidunt augue interdum velit euismod.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"model\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Pellentesque habitant morbi tristique senectus et netus et malesuada.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"user\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Sed adipiscing diam donec adipiscing tristique risus nec feugiat.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"model\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Ut etiam sit amet nisl purus in mollis nunc sed id. Lectus arcu bibendum at varius vel pharetra vel turpis.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"user\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Pharetra sit amet aliquam id diam maecenas ultricies mi eget. Viverra nibh cras pulvinar mattis nunc sed blandit libero volutpat.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"model\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Commodo sed egestas egestas fringilla phasellus faucibus scelerisque. Gravida cum sociis natoque penatibus et magnis dis parturient montes.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"user\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Sed ullamcorper morbi tincidunt ornare massa eget egestas purus viverra accumsan in nisl nisi scelerisque.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"model\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Auctor augue mauris augue neque gravida in fermentum et sollicitudin.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"user\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Vel pharetra vel turpis nunc eget lorem dolor sed viverra. Sagittis eu volutpat odio facilisis mauris sit amet massa vitae.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"model\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Nec feugiat in fermentum posuere urna nec tincidunt praesent semper. Nibh sit amet commodo nulla facilisi nullam vehicula ipsum.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"user\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt tortor aliquam nulla facilisi cras fermentum odio.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"model\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Neque aliquam vestibulum morbi blandit cursus risus at ultrices mi tempus imperdiet nulla malesuada.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"user\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Purus faucibus ornare suspendisse sed nisi lacus sed viverra tellus. Egestas fringilla phasellus faucibus scelerisque eleifend donec pretium vulputate sapien.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"model\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Facilisis mauris sit amet massa vitae tortor condimentum lacinia quis vel eros donec ac odio tempor orci dapibus ultrices in.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"user\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Nisl nisi scelerisque eu ultrices vitae auctor eu augue ut lectus arcu bibendum at varius vel pharetra vel turpis nunc eget.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"model\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Sed viverra ipsum nunc aliquet bibendum enim facilisis gravida neque convallis a cras semper auctor neque vitae tempus quam pellentesque nec nam aliquam.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"user\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Aenean euismod elementum nisi quis eleifend quam adipiscing vitae proin sagittis nisl rhoncus mattis.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"model\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Mauris a diam maecenas sed enim ut sem viverra aliquet eget sit amet tellus cras adipiscing enim eu turpis egestas pretium aenean pharetra.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"user\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Lorem donec massa sapien faucibus et molestie ac feugiat sed lectus vestibulum.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"model\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Arcu non sodales neque sodales ut etiam sit amet nisl purus in mollis nunc sed id semper risus.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"user\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Vel quam elementum pulvinar etiam non quam lacus suspendisse faucibus interdum posuere lorem ipsum dolor sit.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"model\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Tortor dignissim convallis aenean et tortor at risus viverra adipiscing at in tellus integer feugiat scelerisque varius morbi enim nunc faucibus a pellentesque sit amet porttitor.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"user\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Tempus imperdiet nulla malesuada pellentesque elit eget gravida cum sociis natoque penatibus et magnis.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"model\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Lectus magna fringilla urna porttitor rhoncus dolor purus non enim praesent elementum facilisis leo vel fringilla.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"user\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Sit amet massa vitae tortor condimentum lacinia quis vel eros donec ac odio tempor orci dapibus ultrices in iaculis nunc sed.\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"role\": \"model\",\r\n            \"parts\": [\r\n                {\r\n                    \"text\": \"Ultrices tincidunt arcu non sodales neque sodales ut etiam sit amet nisl purus in mollis nunc sed id semper risus.\"\r\n                }\r\n            ]\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://generativelanguage.googleapis.com/v1beta/cachedContents?key={{GEMINI_KEY}}",
+									"protocol": "https",
+									"host": [
+										"generativelanguage",
+										"googleapis",
+										"com"
+									],
+									"path": [
+										"v1beta",
+										"cachedContents"
+									],
+									"query": [
+										{
+											"key": "key",
+											"value": "{{GEMINI_KEY}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Models",
+					"item": [
+						{
+							"name": "Consultar Modelos",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://generativelanguage.googleapis.com/v1beta/models?key={{GEMINI_KEY}}",
+									"protocol": "https",
+									"host": [
+										"generativelanguage",
+										"googleapis",
+										"com"
+									],
+									"path": [
+										"v1beta",
+										"models"
+									],
+									"query": [
+										{
+											"key": "key",
+											"value": "{{GEMINI_KEY}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Conversas",
+					"item": [
+						{
+							"name": "Enviar mensagem",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"contents\": [\r\n        {\r\n            \"parts\": [\r\n                {\r\n                \"text\": \"Tem alguma forma mais simples de fazer esta chamada?\"\r\n                }\r\n            ]\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key={{GEMINI_KEY}}",
+									"protocol": "https",
+									"host": [
+										"generativelanguage",
+										"googleapis",
+										"com"
+									],
+									"path": [
+										"v1beta",
+										"models",
+										"gemini-pro:generateContent"
+									],
+									"query": [
+										{
+											"key": "key",
+											"value": "{{GEMINI_KEY}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Ias",
+			"item": [
+				{
+					"name": "Quiz: Gerar questões",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8000/ias/quiz?from=pt-BR&to=de-DE",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"ias",
+								"quiz"
+							],
+							"query": [
+								{
+									"key": "level",
+									"value": "9",
+									"disabled": true
+								},
+								{
+									"key": "from",
+									"value": "pt-BR"
+								},
+								{
+									"key": "to",
+									"value": "de-DE"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Criar chat",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\": \"Olá!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8000/ias/chat?to=en-US",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"ias",
+								"chat"
+							],
+							"query": [
+								{
+									"key": "to",
+									"value": "en-US"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Enviar mensagem",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\": \"Frases novas!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8000/ias/chat/673ab65f11a7db3fe507d32c",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"ias",
+								"chat",
+								"673ab65f11a7db3fe507d32c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Recuperar conversa",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\": \"Me retorne uma frase Lorem Ipsum aleatória de 30 caracteres\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8000/ias/chat/673998d944b96000766533c6",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"ias",
+								"chat",
+								"673998d944b96000766533c6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deletar conversa",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8000/ias/chat/673aa36511a7db3fe507d32a",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"ias",
+								"chat",
+								"673aa36511a7db3fe507d32a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deletar mensagem",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8000/ias/chat/673ab65f11a7db3fe507d32c/messages/msg-673ab6a6f26ae",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"ias",
+								"chat",
+								"673ab65f11a7db3fe507d32c",
+								"messages",
+								"msg-673ab6a6f26ae"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Consulta",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8000/users/22",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"users",
+								"22"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deleção",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8000/users/20",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"users",
+								"20"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Criação",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Davi\",\r\n    \"email\": \"davi@email.com\",\r\n    \"password\": \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8000/users",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Atualização",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Zanetti\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8000/users/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"users",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Autenticação",
+			"item": [
+				{
+					"name": "Autenticação",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"zanetti@email.com\",\r\n    \"password\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8000/auth",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"auth"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Consulta Sessão",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"zanetti@email.com\",\r\n    \"password\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8000/auth",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"auth"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8000/auth",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"auth"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "GEMINI_KEY",
+			"value": "",
+			"type": "string"
+		}
+	]
+}

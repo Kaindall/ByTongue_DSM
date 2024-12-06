@@ -1,0 +1,142 @@
+body {
+  overflow-x: hidden;
+  flex-direction: column;
+  gap: 70px;
+}
+
+.container{
+  max-width: 1397px!important;
+}
+  
+  .nav-item {
+    list-style: none;
+  }
+
+  .header {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    z-index: 999;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    transform: translateY(0);
+    transition: transform 0.3s ease-in-out;
+    background: #FFFFFF;
+  }
+  
+  
+  .link {
+    text-decoration: none;
+    color: var(--main-gradient);
+  }
+
+  .flex-column {
+    height: 100vh;
+  }
+  
+  .logo a {
+    font-size: 30px;
+  }
+  
+  li {
+    list-style: none;
+  }
+  
+  li a {
+
+    border-bottom: 2px solid transparent!important;
+
+  }
+
+ .nav-link:hover{
+    color: #f96d47!important;
+    border-bottom: 2px solid #f96d47!important;
+  }
+  
+  .subtitle1 span {
+    background: var(--main-gradient);
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    padding: 4px;
+  }
+  
+  .main-img {
+    width: 100%;
+  }
+  
+  .profile-img {
+    width: 100%;
+    max-width: 716px;
+  }
+  
+  @media screen and (min-width: 1295px) {
+    
+  }
+  
+  .btn-chat {
+    background: var(--main-gradient);
+    color: white !important;  
+  }
+  
+  .btn-chat:hover {
+    border: 1px solid var(--coquelicot) !important;
+    background: white;
+    color: var(--coquelicot) !important;
+    box-sizing: border-box;
+  }
+
+  .header-content{
+    width: 100%!important;
+  }
+
+
+  .landing-content{
+    margin-top: 170px!important;
+  }
+
+.footer-07{
+  width: 100%;
+  background: #212529;
+}
+
+.footer-heading{
+  font-size: 30px;
+  color: #fff;
+  font-weight: 700;
+  margin: 30px;
+}
+
+.footer-07 .menu{
+  margin-bottom: 30px;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.footer-07 .menu a{
+  color: rgba(255, 255, 255, 0.6);
+    margin: 0 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.ftco-footer-social{
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+}
+
+.copyright{
+  color: #fff;
+}
+
+.navbar-toggler:focus{
+  box-shadow: none!important;
+}
+
+@media (max-width: 768px){
+  .landing-content{
+    width: 95%;
+    margin: 170px auto 20px!important;
+  }
+}

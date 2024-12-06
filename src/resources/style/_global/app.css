@@ -1,0 +1,27 @@
+:root {
+    --coquelicot: #F15025;
+    --melon: #F8A892;
+    --white: #FFFFFF;
+    --white-smoke: #F3F4F3;
+    --platinum: #E6E8E6;
+    --timberwolf: #CED0CE;
+    --gray: #747574;
+    --eerie-black: #191919;
+    --brown: #A83819;
+    --main-gradient: linear-gradient(90deg, var(--coquelicot), var(--brown));
+  }
+  
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    background-color: var(--timberwolf);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100vh;
+  }
