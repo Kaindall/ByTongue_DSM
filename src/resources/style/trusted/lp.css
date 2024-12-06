@@ -1,6 +1,7 @@
 body {
   overflow-x: hidden;
   flex-direction: column;
+  gap: 70px;
 }
 
 .container{
