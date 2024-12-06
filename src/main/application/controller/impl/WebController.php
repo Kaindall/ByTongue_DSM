@@ -27,25 +27,25 @@ class WebController implements Controller {
     #[HttpEndpoint(uri: "/login", method: "GET")]
     public function login(HttpRequest $request) {
         http_response_code(200);
-        return file_get_contents('src\main\application\web\view\login\login.html');
+        return file_get_contents('src/main/application/web/view/login/login.html');
     }
 
     #[HttpEndpoint(uri: "/resetPassword", method: "GET")]
     public function resetPassword(HttpRequest $request) {
         http_response_code(200);
-        return file_get_contents('src\main\application\web\view\profile\resetPassword.html');
+        return file_get_contents('src/main/application/web/view/profile/resetPassword.html');
     }
 
     #[HttpEndpoint(uri: "/signup", method: "GET")]
     public function signup(HttpRequest $request) {
         http_response_code(200);
-        return file_get_contents('src\main\application\web\view\signup\signup.html');
+        return file_get_contents('src/main/application/web/view/signup/signup.html');
     }
 
     #[HttpEndpoint(uri: "/aboutUs", method: "GET")]
     public function aboutUs(HttpRequest $request) {
         http_response_code(200);
-        return file_get_contents('src\main\application\web\view\aboutUs\about-us.html');
+        return file_get_contents('src/main/application/web/view/aboutUs/about-us.html');
     }
 
     #[HttpEndpoint(uri: "/settings", method: "GET")]

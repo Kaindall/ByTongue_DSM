@@ -38,9 +38,10 @@ class UserChatsRepositoryImpl implements UserChatsRepository {
 
     public function refreshLink(string $chatId): bool {
         try {
+            $date = date('Y-m-d');
             $this->connector
-                ->execute_query('UPDATE users_chats SET updt_dt = ? WHERE chat_id = ?', [date('Y-m-d'), $chatId]);
-            if ($this->connector->affected_rows > 0) return true; else throw new LinkNotFoundException;
+                ->execute_query("UPDATE users_chats SET updt_dt = ? WHERE chat_id = ? AND updt_dt != ?", [$date, $chatId, $date]);
+            return true;
         } catch (mysqli_sql_exception $e) {
             throw new InvalidDbQueryException($e);
         }
