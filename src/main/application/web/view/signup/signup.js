@@ -12,7 +12,7 @@ document.querySelector("form").addEventListener("submit", async function (e) {
   }
 
   try {
-    const response = await fetch("http://localhost:8000/users", {
+    const response = await fetch("/users", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
