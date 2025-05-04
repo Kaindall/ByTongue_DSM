@@ -1,14 +1,9 @@
 <?php
-require_once 'src\main\domain\model\exception\users\InvalidAuthException.php';
-require_once 'src\main\domain\model\exception\users\SessionExistsException.php';
+require_once 'src\main\domain\model\exception\sessions\InvalidAuthException.php';
+require_once 'src\main\domain\model\exception\sessions\SessionExistsException.php';
 
 class SessionService {
-    private UserMapper $userMapper;
-    private UserRepository $userRepository;
-    public function __construct(UserMapper $userMapper, UserRepository $userRepository) {
-        $this->userMapper = $userMapper;
-        $this->userRepository = $userRepository;
-    }
+    public function __construct(private UserMapper $userMapper, private UserRepository $userRepository) {}
     public function start($data): void {
         if (isset($_SESSION['user'])) throw new SessionExistsException;
         $userAuth = $this->userMapper->toUserAuthRequest($data);
