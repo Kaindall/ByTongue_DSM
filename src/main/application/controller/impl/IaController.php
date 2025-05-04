@@ -10,7 +10,10 @@ class IaController implements Controller {
 
     //TODO: Injeção de dependência do ChatService
     public function __construct() {
-        $this->chatService = new ChatService(new MongoChatRepositoryImpl(), new GeminiService());
+        $this->chatService = new ChatService(
+            new MongoChatRepositoryImpl(),
+            new GeminiService(),
+            new UserChatsRepositoryImpl());
     }
 
     #[HttpEndpoint(uri: "/chat", method: "POST")]

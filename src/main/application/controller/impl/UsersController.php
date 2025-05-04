@@ -5,7 +5,7 @@ class UsersController implements Controller {
     private UserService $userService;
 
     public function __construct() {
-        $this->userService = new UserService(new UserMapper(), new UserRepositoryImpl());
+        $this->userService = new UserService(new UserMapper(), new UserRepositoryImpl(), new UserChatsRepositoryImpl());
     }
 
     #[HttpEndpoint(uri: "/{id}", method: "GET")]
@@ -22,8 +22,28 @@ class UsersController implements Controller {
         } catch (UserNotFoundException $e) {
             http_response_code(404);
             return $e;
+        } catch (UnauthorizedAccessException) {
+            http_response_code(401);
         }
-        
+    }
+
+    #[HttpEndpoint(uri: "/{id}/chats", method: "GET")]
+    #[Authenticated]
+    public function findChats(HttpRequest $request) {
+        header("Content-Type: application/json");
+        try {
+            $response = $this->userService->findChats($request->getPathParams()['id']);
+            http_response_code(200);
+            return $response;
+        } catch (InvalidDbQueryException | InvalidDbConnectionException $e) {
+            http_response_code(500);
+            return $e;
+        } catch (UserNotFoundException $e) {
+            http_response_code(404);
+            return $e;
+        } catch (UnauthorizedAccessException) {
+            http_response_code(401);
+        }
     }
 
     #[HttpEndpoint(uri: "", method: "POST")]
@@ -47,21 +67,19 @@ class UsersController implements Controller {
     public function update(HttpRequest $request) {
         header("Content-Type: application/json");
         try {
-            $result = $this->userService->update($request->getPathParams()['id'], $request->getBody());
-            if (!$result) {
-                http_response_code(401);
-                return;
-            }
+            $this->userService->update($request->getPathParams()['id'], $request->getBody());
             http_response_code(204);
             return;
         } catch (InvalidDbQueryException | InvalidDbConnectionException $e) {
             http_response_code(500);
             return $e;
-        } catch (InsufficientFieldsException | InvalidBirthdayFormatException | InvalidDateDayException | InvalidDateMonthException | InvalidDateYearException $e) {
-            http_response_code(400);
-            return $e;
         } catch (UserNotFoundException $e) {    
             http_response_code(404);
+            return $e;
+        } catch (UnauthorizedAccessException) {
+            http_response_code(401);
+        } catch (InsufficientFieldsException | InvalidBirthdayFormatException | InvalidDateDayException | InvalidDateMonthException | InvalidDateYearException $e) {
+            http_response_code(400);
             return $e;
         } 
     }
@@ -71,11 +89,7 @@ class UsersController implements Controller {
     public function remove(HttpRequest $request) {
         header("Content-Type: application/json");
         try {
-            $result = $this->userService->delete($request->getPathParams()['id']);
-            if (!$result) {
-                http_response_code(401);
-                return;
-            }
+            $this->userService->delete($request->getPathParams()['id']);
             http_response_code(204);
             return;
         } catch (InvalidDbQueryException | InvalidDbConnectionException $e) {
@@ -84,6 +98,8 @@ class UsersController implements Controller {
         } catch (UserNotFoundException $e) {
             http_response_code(404);
             return $e;
+        } catch (UnauthorizedAccessException) {
+            http_response_code(401);
         }
     }
 
