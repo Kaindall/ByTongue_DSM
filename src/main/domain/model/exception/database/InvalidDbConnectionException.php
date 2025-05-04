@@ -1,5 +1,5 @@
 <?php
-require_once 'src\main\domain\model\exception\ExceptionModel.php';
+require_once 'src/main/domain/model/exception/ExceptionModel.php';
 
 //800-809: erros de conexão
 class InvalidDbConnectionException extends ExceptionModel {

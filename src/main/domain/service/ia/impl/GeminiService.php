@@ -1,5 +1,6 @@
 <?php
-require_once 'src\main\domain\service\ia\Quizzeable.php';
+require_once 'src/main/domain/service/ia/Quizzeable.php';
+require_once 'src/main/domain/service/ia/IaService.php';
 
 class GeminiService implements IaService {
     private string $key;

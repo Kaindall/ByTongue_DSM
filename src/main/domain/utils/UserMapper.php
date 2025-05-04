@@ -1,7 +1,7 @@
 <?php
-require_once 'src\main\domain\model\exception\users\EmptyNameException.php';
-require_once 'src\main\domain\model\exception\users\EmptyPasswordException.php';
-require_once 'src\main\domain\model\exception\users\EmptyEmailException.php';
+require_once 'src/main/domain/model/exception/users/EmptyNameException.php';
+require_once 'src/main/domain/model/exception/users/EmptyPasswordException.php';
+require_once 'src/main/domain/model/exception/users/EmptyEmailException.php';
 
 
 class UserMapper {

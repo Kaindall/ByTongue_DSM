@@ -1,6 +1,6 @@
 <?php
-require_once 'src\main\domain\model\dto\request\HttpRequest.php';
-require_once 'src\main\application\controller\Controller.php';
+require_once 'src/main/domain/model/dto/request/HttpRequest.php';
+require_once 'src/main/application/controller/Controller.php';
 
 //TO-DO: Substituir todos os ECHO por algum registro de log
 
@@ -24,10 +24,12 @@ class Router {
 
     public function redirect(HttpRequest $request) {
         $routesUris = array_keys($this->routes);
-        foreach ($routesUris as $route) {   
+        usort($routesUris, fn($a, $b) => strlen($b) - strlen($a));
+        //echo json_encode($routesUris, JSON_PRETTY_PRINT) . PHP_EOL . '===============================================' . PHP_EOL;
+        foreach ($routesUris as $route) {
             //echo "Controller: $route" . PHP_EOL;
             //echo "<br>Chamada: " . $request->getUri() . PHP_EOL;
-            if(!str_contains($request->getUri(),     $route)) {
+            if(!str_contains($request->getUri(), $route)) {
                 //echo "<br>São diferentes" . PHP_EOL; 
                 continue;}
             //echo "<br>São iguais<br>" . PHP_EOL;

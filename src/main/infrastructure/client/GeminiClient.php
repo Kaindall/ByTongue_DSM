@@ -1,13 +1,13 @@
 <?php
-require_once 'src\main\domain\service\ia\IaClient.php';
-require_once 'src\main\domain\service\ia\Quizzeable.php';
-require_once 'src\main\domain\model\exception\ia\gemini\EmptyBodyException.php';
-require_once 'src\main\domain\model\exception\ia\gemini\InvalidBodyException.php';
-require_once 'src\main\domain\model\exception\ia\gemini\LevelRangeException.php';
-require_once 'src\main\domain\model\exception\ia\gemini\OriginLanguageException.php';
-require_once 'src\main\domain\model\exception\ia\gemini\TargetLanguageException.php';
-require_once 'src\main\domain\model\exception\ia\gemini\InvalidQuantityException.php';
-require_once 'src\main\domain\model\exception\ia\gemini\UnexpectedGeminiException.php';
+require_once 'src/main/domain/service/ia/IaClient.php';
+require_once 'src/main/domain/service/ia/Quizzeable.php';
+require_once 'src/main/domain/model/exception/ia/gemini/EmptyBodyException.php';
+require_once 'src/main/domain/model/exception/ia/gemini/InvalidBodyException.php';
+require_once 'src/main/domain/model/exception/ia/gemini/LevelRangeException.php';
+require_once 'src/main/domain/model/exception/ia/gemini/OriginLanguageException.php';
+require_once 'src/main/domain/model/exception/ia/gemini/TargetLanguageException.php';
+require_once 'src/main/domain/model/exception/ia/gemini/InvalidQuantityException.php';
+require_once 'src/main/domain/model/exception/ia/gemini/UnexpectedGeminiException.php';
 
 class GeminiClient implements IaClient, Quizzeable {
     private string $method = "POST";
