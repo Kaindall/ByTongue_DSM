@@ -9,7 +9,7 @@ document.querySelector("form").addEventListener("submit", async function (e) {
     return;
   }
 
-  const response = await fetch("http://localhost:8000/auth", {
+  const response = await fetch("/auth", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -18,7 +18,7 @@ document.querySelector("form").addEventListener("submit", async function (e) {
   });
 
   if (response.status === 200) {
-    const userResponse = await fetch("http://localhost:8000/auth", {
+    const userResponse = await fetch("/auth", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
