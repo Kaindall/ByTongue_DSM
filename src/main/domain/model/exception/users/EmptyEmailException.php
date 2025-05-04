@@ -1,5 +1,5 @@
 <?php
-require_once 'src\main\domain\model\exception\ExceptionModel.php';
+require_once 'src/main/domain/model/exception/ExceptionModel.php';
 
 class EmptyEmailException extends ExceptionModel {
     public function __construct() {

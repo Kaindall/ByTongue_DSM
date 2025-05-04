@@ -1,7 +1,7 @@
 <?php
-require_once 'src\main\domain\model\dto\request\HttpRequest.php';
-require_once 'src\main\infrastructure\config\Router.php';
-require_once 'src\AppConfig.php';
+require_once 'src/main/domain/model/dto/request/HttpRequest.php';
+require_once 'src/main/infrastructure/config/Router.php';
+require_once 'src/AppConfig.php';
 
 class App {
     public function __construct(?array $args = []) {

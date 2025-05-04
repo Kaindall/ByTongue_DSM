@@ -1,6 +1,6 @@
 <?php
-require_once 'src\main\domain\model\dto\request\HttpRequest.php';
-require_once 'src\main\application\controller\Controller.php';
+require_once 'src/main/domain/model/dto/request/HttpRequest.php';
+require_once 'src/main/application/controller/Controller.php';
 
 
 #[HttpController('/resources')]
@@ -30,7 +30,7 @@ class ResourceController implements Controller {
 
     #[HttpEndpoint(uri: "/scripts/{file}", method: "GET")]
     public function serveJsContent(HttpRequest $request) {
-        $directory = 'src\main\application\web\view';  
+        $directory = 'src/main/application/web/view';  
         $directoryIterator = new RecursiveDirectoryIterator($directory, RecursiveDirectoryIterator::SKIP_DOTS);
         $iterator = new RecursiveIteratorIterator($directoryIterator);
 

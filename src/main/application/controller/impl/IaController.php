@@ -1,7 +1,7 @@
 <?php
-require_once 'src\main\domain\model\dto\request\HttpRequest.php';
-require_once 'src\main\application\controller\Controller.php';
-require_once 'src\main\infrastructure\client\GeminiClient.php';
+require_once 'src/main/domain/model/dto/request/HttpRequest.php';
+require_once 'src/main/application/controller/Controller.php';
+require_once 'src/main/infrastructure/client/GeminiClient.php';
 
 
 #[HttpController("/ias")]

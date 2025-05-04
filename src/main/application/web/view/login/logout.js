@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
       event.preventDefault();
 
       try {
-        const response = await fetch("http://localhost:8000/auth", {
+        const response = await fetch("/auth", {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",

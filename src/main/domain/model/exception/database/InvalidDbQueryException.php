@@ -1,5 +1,5 @@
 <?php
-require_once 'src\main\domain\model\exception\ExceptionModel.php';
+require_once 'src/main/domain/model/exception/ExceptionModel.php';
 
 //810-820=erros de consulta
 class InvalidDbQueryException extends ExceptionModel {
