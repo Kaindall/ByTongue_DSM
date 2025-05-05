@@ -77,5 +77,4 @@ abstract class AppConfig {
                 }
             }
         }
-    }
 }
