@@ -1,7 +1,7 @@
 <?php 
-require_once 'src\main\domain\model\exception\users\UserExistsException.php';
-require_once 'src\main\domain\model\exception\users\LinkNotFoundException.php';
-require_once 'src\main\domain\model\exception\database\InvalidDbQueryException.php';
+require_once 'src/main/domain/model/exception/users/UserExistsException.php';
+require_once 'src/main/domain/model/exception/users/LinkNotFoundException.php';
+require_once 'src/main/domain/model/exception/database/InvalidDbQueryException.php';
 
 class UserChatsRepositoryImpl implements UserChatsRepository {
     private $connector;

@@ -1,10 +1,5 @@
-# Usa uma imagem base oficial do PHP 8.2
-FROM php:8.2-cli
+FROM php:8.2-cli as builder
 
-# Define o diretório de trabalho dentro do contêiner
-WORKDIR /app
-
-# Instala as dependências necessárias para as extensões
 RUN apt-get update && apt-get install -y \
     libicu-dev \
     libcurl4-openssl-dev \
@@ -16,11 +11,15 @@ RUN apt-get update && apt-get install -y \
     && pecl install mongodb \
     && docker-php-ext-enable mongodb
 
-# Copia os arquivos do projeto para o contêiner
+FROM php:8.2-cli
+
+WORKDIR /app
+
+COPY --from=builder /usr/local/etc/php/conf.d/ /usr/local/etc/php/conf.d/
+COPY --from=builder /usr/local/lib/php/extensions/ /usr/local/lib/php/extensions/
+
 COPY . /app
 
-# Expõe a porta 8000 para permitir o acesso à aplicação
 EXPOSE 8000
 
-# Define o comando para iniciar a aplicação
 CMD ["php", "-c", "php.ini", "-S", "0.0.0.0:8000", "src/App.php"]

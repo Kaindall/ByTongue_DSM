@@ -60,18 +60,19 @@ abstract class AppConfig {
 
     private static function loadEnv() {
         $file = '.env';
+        if (file_exists($file)) {
+            $lines = file($file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+            foreach ($lines as $line) {
+                if (strpos(trim($line), '#') === 0 || trim($line) === '') {
+                    continue; // Ignora comentários e linhas vazias
+                }
 
-        $lines = file($file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-        foreach ($lines as $line) {
-            if (strpos(trim($line), '#') === 0 || trim($line) === '') {
-                continue; // Ignora comentários e linhas vazias
+                list($name, $value) = explode('=', $line, 2);
+                $name = trim($name);
+                $value = trim($value, '"'); // Remove aspas duplas
+
+                putenv("$name=$value");
             }
-
-            list($name, $value) = explode('=', $line, 2);
-            $name = trim($name);
-            $value = trim($value, '"'); // Remove aspas duplas
-
-            putenv("$name=$value");
         }
     }
 }
