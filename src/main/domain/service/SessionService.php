@@ -1,6 +1,6 @@
 <?php
-require_once 'src\main\domain\model\exception\sessions\InvalidAuthException.php';
-require_once 'src\main\domain\model\exception\sessions\SessionExistsException.php';
+require_once 'src/main/domain/model/exception/sessions/InvalidAuthException.php';
+require_once 'src/main/domain/model/exception/sessions/SessionExistsException.php';
 
 class SessionService {
     public function __construct(private UserMapper $userMapper, private UserRepository $userRepository) {}
