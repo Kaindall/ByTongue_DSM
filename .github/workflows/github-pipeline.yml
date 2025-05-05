@@ -3,6 +3,8 @@ name: Build and Deploy to Azure WebApp
 on:
   push:
     branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
 env:
   AZURE_WEBAPP_NAME: bytongue
