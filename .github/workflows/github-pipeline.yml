@@ -1,4 +1,4 @@
-name: Build and Deploy to Azure WebApp
+name: Publicar imagem Docker e Deploy na Azure
 
 on:
   push:
@@ -28,8 +28,31 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_ACCESS_TOKEN }}
 
+    - name: Configurar Buildx para usar cache no Docker
+      run: |
+        docker buildx create --use
+        docker buildx inspect --bootstrap
+    
+    - name: Colocar as camadas do Docker em cache
+      uses: actions/cache@v3
+      with:
+        path: /tmp/.buildx-cache
+        key: ${{ runner.os }}-buildx-${{ hashFiles('**/Dockerfile') }}
+        restore-keys: |
+          ${{ runner.os }}-buildx-
+    
     - name: Construir a imagem docker
-      run: docker build . -t $DOCKER_REPO:$TAG -t $DOCKER_REPO:latest
+      run: |
+        docker buildx build \
+          --cache-from type=local,src=/tmp/.buildx-cache \
+          --cache-to type=local,dest=/tmp/.buildx-cache-new \
+          -t $DOCKER_REPO:$TAG \
+          -t $DOCKER_REPO:latest \
+          .
+        
+        # Atualiza o cache
+        rm -rf /tmp/.buildx-cache
+        mv /tmp/.buildx-cache-new /tmp/.buildx-cache
 
     - name: Publicar imagem no Dockerhub
       run: |
@@ -42,12 +65,14 @@ jobs:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
     - name: Salvar a tag da imagem atual — para rollback
+      id: save_prev_image
       run: |
         PREV_IMAGE=$(az webapp config container show \
           --name $AZURE_WEBAPP_NAME \
           --resource-group $AZURE_RG \
-          --query "linuxFxVersion" -o tsv)
-        echo "PREVIOUS_IMAGE=$PREV_IMAGE" >> $GITHUB_ENV
+          --query "[?name=='DOCKER_CUSTOM_IMAGE_NAME'].value" -o tsv)
+        echo "PREVIOUS_IMAGE=${PREV_IMAGE}" >> $GITHUB_ENV
+        echo "Previous image: ${PREV_IMAGE}"
 
     - name: Atualizar Az WebApp com a nova imagem
       run: |
@@ -56,8 +81,8 @@ jobs:
           --resource-group $AZURE_RG \
           --docker-custom-image-name $DOCKER_REPO:$TAG
 
-    - name: Aguardar inicialização do WebApp — 30s
-      run: sleep 30
+    - name: Aguardar inicialização do WebApp — 180s
+      run: sleep 180
 
     - name: Checar o deploy
       id: health
@@ -71,9 +96,9 @@ jobs:
     - name: Rollback se o deploy falhar
       if: env.HEALTHCHECK_FAILED == 'true'
       run: |
-        echo "Rolling back to $PREVIOUS_IMAGE..."
+        echo "Rolling back to ${{ env.PREVIOUS_IMAGE }}..."
         az webapp config container set \
           --name $AZURE_WEBAPP_NAME \
           --resource-group $AZURE_RG \
-          --docker-custom-image-name $PREVIOUS_IMAGE
+          --docker-custom-image-name "${{ env.PREVIOUS_IMAGE }}"
         exit 1
