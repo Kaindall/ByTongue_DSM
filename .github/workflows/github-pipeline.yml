@@ -1,4 +1,4 @@
-name: Publicar imagem Docker e Deploy na Azure
+name: Build and Deploy to Azure WebApp
 
 on:
   push:
@@ -16,55 +16,53 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Inicializar Github Actions
+    - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Criar a tag da imagem
+    - name: Setup Docker Buildx
+      uses: docker/setup-buildx-action@v2
+      with:
+        driver-opts: network=host
+
+    - name: Create image tag
       run: echo "TAG=build-$(date +%Y%m%d%H%M%S)" >> $GITHUB_ENV
 
-    - name: Dockerhub Login
-      uses: docker/login-action@v3
+    - name: Login to Docker Hub
+      uses: docker/login-action@v2
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_ACCESS_TOKEN }}
 
-    - name: Configurar Buildx para usar cache no Docker
-      run: |
-        docker buildx create --use
-        docker buildx inspect --bootstrap
-    
-    - name: Colocar as camadas do Docker em cache
+    - name: Cache Docker layers
       uses: actions/cache@v3
       with:
         path: /tmp/.buildx-cache
-        key: ${{ runner.os }}-buildx-${{ hashFiles('**/Dockerfile') }}
+        key: ${{ runner.os }}-buildx-${{ hashFiles('Dockerfile') }}-v2
         restore-keys: |
           ${{ runner.os }}-buildx-
-    
-    - name: Construir a imagem docker
+
+    - name: Build and push
+      uses: docker/build-push-action@v4
+      with:
+        context: .
+        push: true
+        tags: |
+          ${{ env.DOCKER_REPO }}:${{ env.TAG }}
+          ${{ env.DOCKER_REPO }}:latest
+        cache-from: type=local,src=/tmp/.buildx-cache
+        cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
+
+    - name: Update cache
       run: |
-        docker buildx build \
-          --cache-from type=local,src=/tmp/.buildx-cache \
-          --cache-to type=local,dest=/tmp/.buildx-cache-new \
-          -t $DOCKER_REPO:$TAG \
-          -t $DOCKER_REPO:latest \
-          .
-        
-        # Atualiza o cache
         rm -rf /tmp/.buildx-cache
         mv /tmp/.buildx-cache-new /tmp/.buildx-cache
-
-    - name: Publicar imagem no Dockerhub
-      run: |
-        docker push $DOCKER_REPO:$TAG
-        docker push $DOCKER_REPO:latest
 
     - name: Azure Login
       uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-    - name: Salvar a tag da imagem atual — para rollback
+    - name: Save previous image tag
       id: save_prev_image
       run: |
         PREV_IMAGE=$(az webapp config container show \
@@ -74,17 +72,17 @@ jobs:
         echo "PREVIOUS_IMAGE=${PREV_IMAGE}" >> $GITHUB_ENV
         echo "Previous image: ${PREV_IMAGE}"
 
-    - name: Atualizar Az WebApp com a nova imagem
+    - name: Update Azure WebApp
       run: |
         az webapp config container set \
           --name $AZURE_WEBAPP_NAME \
           --resource-group $AZURE_RG \
           --docker-custom-image-name $DOCKER_REPO:$TAG
 
-    - name: Aguardar inicialização do WebApp — 180s
-      run: sleep 180
+    - name: Wait for deployment
+      run: sleep 30
 
-    - name: Checar o deploy
+    - name: Health check
       id: health
       run: |
         STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://${{ env.AZURE_WEBAPP_NAME }}.azurewebsites.net/health || echo "000")
@@ -93,7 +91,7 @@ jobs:
           echo "HEALTHCHECK_FAILED=true" >> $GITHUB_ENV
         fi
 
-    - name: Rollback se o deploy falhar
+    - name: Rollback if failed
       if: env.HEALTHCHECK_FAILED == 'true'
       run: |
         echo "Rolling back to ${{ env.PREVIOUS_IMAGE }}..."
