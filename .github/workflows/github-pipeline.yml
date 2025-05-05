@@ -1,0 +1,102 @@
+name: Publicar no Dockerhub e Deploy na Azure
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+env:
+  AZURE_WEBAPP_NAME: bytongue
+  AZURE_RG: byTongue
+  DOCKER_REPO: kaindall/app-bytongue
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Importar o código e inicializar pipeline
+      uses: actions/checkout@v4
+
+    - name: Configurar Docker Buildx para cache
+      uses: docker/setup-buildx-action@v2
+      with:
+        driver-opts: network=host
+
+    - name: Criar a tag da imagem
+      run: echo "TAG=build-$(date +%Y%m%d%H%M%S)" >> $GITHUB_ENV
+
+    - name: Dockerhub Login
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_ACCESS_TOKEN }}
+
+    - name: Recuperar dados do cache
+      uses: actions/cache@v3
+      with:
+        path: /tmp/.buildx-cache
+        key: ${{ runner.os }}-buildx-${{ hashFiles('Dockerfile') }}-v2
+        restore-keys: |
+          ${{ runner.os }}-buildx-
+
+    - name: Buildar e publicar a imagem no Dockerhub
+      uses: docker/build-push-action@v4
+      with:
+        context: .
+        push: true
+        tags: |
+          ${{ env.DOCKER_REPO }}:${{ env.TAG }}
+          ${{ env.DOCKER_REPO }}:latest
+        cache-from: type=local,src=/tmp/.buildx-cache
+        cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
+
+    - name: Atualizar cache
+      run: |
+        rm -rf /tmp/.buildx-cache
+        mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+
+    - name: Azure Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Salvar a tag da imagem atual
+      id: save_prev_image
+      run: |
+        PREV_IMAGE=$(az webapp config container show \
+          --name $AZURE_WEBAPP_NAME \
+          --resource-group $AZURE_RG \
+          --query "[?name=='DOCKER_CUSTOM_IMAGE_NAME'].value" -o tsv)
+        echo "PREVIOUS_IMAGE=${PREV_IMAGE}" >> $GITHUB_ENV
+        echo "Previous image: ${PREV_IMAGE}"
+
+    - name: Atualizar Azure WebApp
+      run: |
+        az webapp config container set \
+          --name $AZURE_WEBAPP_NAME \
+          --resource-group $AZURE_RG \
+          --docker-custom-image-name $DOCKER_REPO:$TAG
+
+    - name: Aguardar o deploy
+      run: sleep 30
+
+    - name: Checar o deploy
+      id: health
+      run: |
+        STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://${{ env.AZURE_WEBAPP_NAME }}.azurewebsites.net/health || echo "000")
+        echo "Status code: $STATUS"
+        if [ "$STATUS" != "200" ]; then
+          echo "HEALTHCHECK_FAILED=true" >> $GITHUB_ENV
+        fi
+
+    - name: Rollback se o deploy falhar
+      if: env.HEALTHCHECK_FAILED == 'true'
+      run: |
+        echo "Rolling back to ${{ env.PREVIOUS_IMAGE }}..."
+        az webapp config container set \
+          --name $AZURE_WEBAPP_NAME \
+          --resource-group $AZURE_RG \
+          --docker-custom-image-name "${{ env.PREVIOUS_IMAGE }}"
+        exit 1
