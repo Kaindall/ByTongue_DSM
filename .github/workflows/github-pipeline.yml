@@ -74,6 +74,18 @@ jobs:
 
     - name: Atualizar Azure WebApp
       run: |
+        az webapp config appsettings set \
+          --name $AZURE_WEBAPP_NAME \
+          --resource-group $AZURE_RG \
+          --settings \
+            GEMINI_KEY=${{ secrets.GEMINI_KEY }} \
+            mysql_host=${{ secrets.MYSQL_HOST }} \
+            mysql_user=${{ secrets.MYSQL_USER }} \
+            mysql_password=${{ secrets.MYSQL_PASSWORD }} \
+            mongo_user=${{ secrets.MONGO_USER }} \
+            mongo_password=${{ secrets.MONGO_PASSWORD }} \
+            WEBSITES_PORT=8000
+            
         az webapp config container set \
           --name $AZURE_WEBAPP_NAME \
           --resource-group $AZURE_RG \
