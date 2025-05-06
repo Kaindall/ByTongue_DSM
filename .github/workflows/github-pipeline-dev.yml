@@ -1,4 +1,4 @@
-name: [DEV] Publicar no Dockerhub e Deploy na Azure
+name: DEV - Publicar no Dockerhub e Deploy na Azure
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [ "develop" ]
 
 env:
-  AZURE_WEBAPP_NAME: dev-bytongue
+  AZURE_WEBAPP_NAME: bytongue-dev
   AZURE_RG: byTongue
   DOCKER_REPO: kaindall/dev-bytongue
 
