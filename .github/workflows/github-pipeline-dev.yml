@@ -1,4 +1,4 @@
-name: Publicar no Dockerhub e Deploy na Azure
+name: [DEV] Publicar no Dockerhub e Deploy na Azure
 
 on:
   push:
