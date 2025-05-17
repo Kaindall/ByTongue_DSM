@@ -21,7 +21,9 @@ class GeminiService implements IaService {
 
         $quizValidator = new QuizValidator();
         $args = $quizValidator->validateAll($params);
-        return $client->getExam($args);
+        $response = $client->getExam($args);
+        LOGGER::debug("Objeto recebido do GeminiClient: " . PHP_EOL . json_encode($response));
+        return $response;
     }
 
 }
