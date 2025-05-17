@@ -39,6 +39,7 @@ class IaController implements Controller {
         header("Content-Type: application/json");
         try {
             $response = $this->chatService->findChat($request->getPathParams()['id']);
+            //LOGGER::debug("Objeto recebido pelo Controller: " . PHP_EOL . json_encode($response));
             http_response_code(200);
             return $response;
         } catch (InvalidChatObjectException $e) {
@@ -108,6 +109,7 @@ class IaController implements Controller {
         try {
             $iaService = new GeminiService();
             $response = $iaService->retrieveQuiz($request->getQueryParams());
+            //LOGGER::debug("Objeto recebido no GeminiService: " . PHP_EOL . json_encode($response));
             http_response_code(200);
             header("Content-Type: application/json");
             return $response;

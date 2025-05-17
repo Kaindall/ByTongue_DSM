@@ -16,12 +16,14 @@ class GeminiService implements IaService {
     }
 
     public function retrieveQuiz(array $params) {
-        $client = new GeminiClient("https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=$this->key");
+        $client = new GeminiClient("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=$this->key");
         if (!($client instanceof Quizzeable)) {throw new ObjectNotQuizzeableException;}
 
         $quizValidator = new QuizValidator();
         $args = $quizValidator->validateAll($params);
-        return $client->getExam($args);
+        $response = $client->getExam($args);
+        //LOGGER::debug("Objeto recebido do GeminiClient: " . PHP_EOL . json_encode($response));
+        return $response;
     }
 
 }

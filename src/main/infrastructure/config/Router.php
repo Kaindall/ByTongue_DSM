@@ -1,8 +1,7 @@
 <?php
 require_once 'src/main/domain/model/dto/request/HttpRequest.php';
 require_once 'src/main/application/controller/Controller.php';
-
-//TO-DO: Substituir todos os ECHO por algum registro de log
+require_once 'src/main/infrastructure/config/Logger.php';
 
 class Router {
     private static $instance = null;
@@ -25,14 +24,12 @@ class Router {
     public function redirect(HttpRequest $request) {
         $routesUris = array_keys($this->routes);
         usort($routesUris, fn($a, $b) => strlen($b) - strlen($a));
-        //echo json_encode($routesUris, JSON_PRETTY_PRINT) . PHP_EOL . '===============================================' . PHP_EOL;
         foreach ($routesUris as $route) {
-            //echo "Controller: $route" . PHP_EOL;
-            //echo "<br>Chamada: " . $request->getUri() . PHP_EOL;
+            $msg = "Controller: $route" . " | Chamada: " . $request->getUri();
             if(!str_contains($request->getUri(), $route)) {
-                //echo "<br>São diferentes" . PHP_EOL; 
+                Logger::debug($msg . " — São diferentes" . PHP_EOL); 
                 continue;}
-            //echo "<br>São iguais<br>" . PHP_EOL;
+            Logger::debug($msg . " — São iguais" . PHP_EOL);
 
             $controllerClass = $this->getRepresentationOf($this->routes[$route]['className']);
             if ($route !== "/") {
@@ -55,20 +52,19 @@ class Router {
         $endpoints = $this->routes[$pathMatched]['endpoints'];
         $tempStatusCode = null;
 
-        //echo '<br>' . json_encode($endpoints);
         foreach ($endpoints as $methodName => $endpoint) {
             $controllerUri = $endpoint['uri'];
             $requestUri = $request->getUri();
             $controllerHttpMethod = $endpoint["httpMethod"];
             $requestHttpMethod = $request->getHttpMethod();
             
-            //echo "<br>========<br>Controller: $controllerUri <br> Request: $requestUri" . PHP_EOL;
+            Logger::debug("Controller: $controllerUri  Request: $requestUri" . PHP_EOL);
             $extractedPathParams = $this->extractPathParams($controllerUri, $requestUri);
             if ($extractedPathParams) {
                 $request->setPathParams($extractedPathParams["pathParams"]);
                 $requestUri = $extractedPathParams['request'];
                 $controllerUri = $extractedPathParams['controller'];
-                //echo "<br>---<br>Controller normalizado: $controllerUri <br> Request normalizado: $requestUri";
+                Logger::debug("Controller normalizado: $controllerUri  Request normalizado: $requestUri");
             }
             
             if ($controllerUri != $requestUri) {continue;}
@@ -98,7 +94,7 @@ class Router {
 
     private function extractPathParams(string $controllerUri, string $requestUri): array|null {
         if (!str_contains($controllerUri, "{")) {
-            //echo '<br>ERR: Endpoint não contém {<br>';
+            // Logger::debug('Endpoint não contém parâmetros de caminho');
             return null;
         }
 

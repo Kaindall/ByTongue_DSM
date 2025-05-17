@@ -1,6 +1,7 @@
 <?php
+require_once 'src/main/infrastructure/config/Logger.php';
 
-class Chat {
+class Chat implements JsonSerializable {
     private array $instructions;
     public function __construct(
         private ?string $id,
@@ -10,8 +11,7 @@ class Chat {
         private string $target,
         private ?string $level,
     ) {
-        /* echo 'Criando a entidade da conversa' . PHP_EOL; 
-        echo 'Declarando as instruções iniciais do systema'*/
+        Logger::debug('Criando o objeto Chat' . PHP_EOL); 
         $originLang = Locale::getDisplayLanguage($this->origin);
         $targetLang = Locale::getDisplayLanguage($this->target);
         $this->instructions = [
@@ -55,5 +55,17 @@ class Chat {
             'contents' => $this->contents
         ];
         return $persistenceContext;
+    }
+
+    public function jsonSerialize(): mixed {
+        return [
+            'id' => $this->id,
+            'model' => $this->model,
+            'contents' => $this->contents,
+            'origin' => $this->origin,
+            'target' => $this->target,
+            'level' => $this->level,
+            'instructions' => $this->instructions
+        ];
     }
 }
