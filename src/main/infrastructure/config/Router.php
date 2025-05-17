@@ -1,7 +1,7 @@
 <?php
 require_once 'src/main/domain/model/dto/request/HttpRequest.php';
 require_once 'src/main/application/controller/Controller.php';
-require_once 'src/main/infraestructure/config/Logger.php';
+require_once 'src/main/infrastructure/config/Logger.php';
 
 class Router {
     private static $instance = null;

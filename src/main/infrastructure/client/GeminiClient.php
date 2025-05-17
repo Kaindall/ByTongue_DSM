@@ -1,7 +1,7 @@
 <?php
 require_once 'src/main/domain/service/ia/IaClient.php';
 require_once 'src/main/domain/service/ia/Quizzeable.php';
-require_once 'src/main/infraestructure/config/Logger.php';
+require_once 'src/main/infrastructure/config/Logger.php';
 require_once 'src/main/domain/model/exception/ia/gemini/EmptyBodyException.php';
 require_once 'src/main/domain/model/exception/ia/gemini/InvalidBodyException.php';
 require_once 'src/main/domain/model/exception/ia/gemini/LevelRangeException.php';

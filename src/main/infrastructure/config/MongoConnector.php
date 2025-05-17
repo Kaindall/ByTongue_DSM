@@ -1,5 +1,5 @@
 <?php
-require_once 'src/main/infraestructure/config/Logger.php';
+require_once 'src/main/infrastructure/config/Logger.php';
 use MongoDB\Driver\Manager;
 
 class MongoConnector {
