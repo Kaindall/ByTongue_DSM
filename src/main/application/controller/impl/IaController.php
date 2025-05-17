@@ -109,7 +109,7 @@ class IaController implements Controller {
         try {
             $iaService = new GeminiService();
             $response = $iaService->retrieveQuiz($request->getQueryParams());
-            LOGGER::debug("Objeto recebido no GeminiService: " . PHP_EOL . json_encode($response));
+            //LOGGER::debug("Objeto recebido no GeminiService: " . PHP_EOL . json_encode($response));
             http_response_code(200);
             header("Content-Type: application/json");
             return $response;

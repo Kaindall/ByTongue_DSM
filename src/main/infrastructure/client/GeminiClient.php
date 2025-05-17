@@ -93,7 +93,6 @@ class GeminiClient implements IaClient, Quizzeable {
 
                 if ($normalizedResponse === null) {throw new UnexpectedGeminiException($response);}
             }
-            Logger::debug("Resposta normalizada: " . PHP_EOL . $normalizedResponse);
             return json_encode($normalizedResponse, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
         }
     }
