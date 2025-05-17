@@ -45,7 +45,7 @@ class ChatService {
         $validatedParams = $chatValidator->validateAll($params);
         $chat = new Chat(
             null, 
-            'gemini-1.5-pro', 
+            'gemini-2.0-flash', 
             [$message],
             $validatedParams['origin'],
             $validatedParams['target'],
