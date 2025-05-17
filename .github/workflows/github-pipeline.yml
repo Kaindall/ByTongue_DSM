@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 env:
-  AZURE_WEBAPP_NAME: fatec-lang
+  AZURE_WEBAPP_NAME: bytongue
   AZURE_RG: byTongue
   DOCKER_REPO: kaindall/app-bytongue
 
