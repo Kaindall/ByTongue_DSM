@@ -25,7 +25,7 @@ class Router {
         $routesUris = array_keys($this->routes);
         usort($routesUris, fn($a, $b) => strlen($b) - strlen($a));
         foreach ($routesUris as $route) {
-            $msg = "Controller: $route" . "Chamada: " . $request->getUri() . PHP_EOL;
+            $msg = "Controller: $route" . "Chamada: " . $request->getUri();
             if(!str_contains($request->getUri(), $route)) {
                 Logger::info($msg . " — São diferentes" . PHP_EOL); 
                 continue;}
@@ -58,13 +58,13 @@ class Router {
             $controllerHttpMethod = $endpoint["httpMethod"];
             $requestHttpMethod = $request->getHttpMethod();
             
-            Logger::info("========Controller: $controllerUri  Request: $requestUri" . PHP_EOL);
+            Logger::info("Controller: $controllerUri  Request: $requestUri" . PHP_EOL);
             $extractedPathParams = $this->extractPathParams($controllerUri, $requestUri);
             if ($extractedPathParams) {
                 $request->setPathParams($extractedPathParams["pathParams"]);
                 $requestUri = $extractedPathParams['request'];
                 $controllerUri = $extractedPathParams['controller'];
-                Logger::info("---Controller normalizado: $controllerUri  Request normalizado: $requestUri");
+                Logger::info("Controller normalizado: $controllerUri  Request normalizado: $requestUri");
             }
             
             if ($controllerUri != $requestUri) {continue;}
@@ -94,7 +94,7 @@ class Router {
 
     private function extractPathParams(string $controllerUri, string $requestUri): array|null {
         if (!str_contains($controllerUri, "{")) {
-            Logger::info('Endpoint não contém parâmetros de caminho');
+            // Logger::info('Endpoint não contém parâmetros de caminho');
             return null;
         }
 
