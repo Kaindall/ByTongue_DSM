@@ -1,7 +1,7 @@
 <?php
 require_once 'src/main/infrastructure/config/Logger.php';
 
-class Chat {
+class Chat implements JsonSerializable {
     private array $instructions;
     public function __construct(
         private ?string $id,
@@ -55,5 +55,17 @@ class Chat {
             'contents' => $this->contents
         ];
         return $persistenceContext;
+    }
+
+    public function jsonSerialize(): mixed {
+        return [
+            'id' => $this->id,
+            'model' => $this->model,
+            'contents' => $this->contents,
+            'origin' => $this->origin,
+            'target' => $this->target,
+            'level' => $this->level,
+            'instructions' => $this->instructions
+        ];
     }
 }
