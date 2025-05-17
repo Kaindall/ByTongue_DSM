@@ -14,7 +14,7 @@ class MongoConnector {
             $uri = "mongodb+srv://$mongo_user:$mongo_pw@bytongue.xurug.mongodb.net/?retryWrites=true&w=majority&appName=byTongue";
             self::$instance = new Manager($uri);
             if (!self::$instance) throw new InvalidDbConnectionException;
-            Logger::info("Conexão com o Mongo realizada com sucesso!");
+            Logger::debug("Conexão com o Mongo realizada com sucesso!");
         }
         return self::$instance;
     }

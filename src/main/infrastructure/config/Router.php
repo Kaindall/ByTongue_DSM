@@ -25,11 +25,11 @@ class Router {
         $routesUris = array_keys($this->routes);
         usort($routesUris, fn($a, $b) => strlen($b) - strlen($a));
         foreach ($routesUris as $route) {
-            $msg = "Controller: $route" . "Chamada: " . $request->getUri();
+            $msg = "Controller: $route" . " | Chamada: " . $request->getUri();
             if(!str_contains($request->getUri(), $route)) {
-                Logger::info($msg . " — São diferentes" . PHP_EOL); 
+                Logger::debug($msg . " — São diferentes" . PHP_EOL); 
                 continue;}
-            Logger::info($msg . " — São iguais" . PHP_EOL);
+            Logger::debug($msg . " — São iguais" . PHP_EOL);
 
             $controllerClass = $this->getRepresentationOf($this->routes[$route]['className']);
             if ($route !== "/") {
@@ -58,13 +58,13 @@ class Router {
             $controllerHttpMethod = $endpoint["httpMethod"];
             $requestHttpMethod = $request->getHttpMethod();
             
-            Logger::info("Controller: $controllerUri  Request: $requestUri" . PHP_EOL);
+            Logger::debug("Controller: $controllerUri  Request: $requestUri" . PHP_EOL);
             $extractedPathParams = $this->extractPathParams($controllerUri, $requestUri);
             if ($extractedPathParams) {
                 $request->setPathParams($extractedPathParams["pathParams"]);
                 $requestUri = $extractedPathParams['request'];
                 $controllerUri = $extractedPathParams['controller'];
-                Logger::info("Controller normalizado: $controllerUri  Request normalizado: $requestUri");
+                Logger::debug("Controller normalizado: $controllerUri  Request normalizado: $requestUri");
             }
             
             if ($controllerUri != $requestUri) {continue;}
@@ -94,7 +94,7 @@ class Router {
 
     private function extractPathParams(string $controllerUri, string $requestUri): array|null {
         if (!str_contains($controllerUri, "{")) {
-            // Logger::info('Endpoint não contém parâmetros de caminho');
+            // Logger::debug('Endpoint não contém parâmetros de caminho');
             return null;
         }
 

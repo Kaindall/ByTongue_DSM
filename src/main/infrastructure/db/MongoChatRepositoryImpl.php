@@ -35,7 +35,7 @@ class MongoChatRepositoryImpl implements ChatRepository {
             $result = json_decode(json_encode($document), true);
         }
         if (!$result) throw new ChatNotFoundException($id);
-        Logger::info(json_encode($document));
+        Logger::debug(json_encode($document));
         return new Chat(
             $id, 
             $result['model'], 
