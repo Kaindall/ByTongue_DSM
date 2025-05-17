@@ -76,7 +76,9 @@ class GeminiClient implements IaClient, Quizzeable {
                 ->withBody($this->body)
                 ->build();
 
+            Logger::debug("Resposta do HTTPClient" . PHP_EOL . json_encode($httpClient->executeRequest($this->url), JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
             $response = $httpClient->executeRequest($this->url);
+            Logger::debug("Resposta do Gemini: " . PHP_EOL . $response);
             $normalizedResponse = json_decode(json_decode($response, true)['candidates'][0]['content']['parts'][0]['text']);
             return json_encode($normalizedResponse, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
         }
