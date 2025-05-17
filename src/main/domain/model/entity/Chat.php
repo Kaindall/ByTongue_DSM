@@ -11,8 +11,7 @@ class Chat {
         private string $target,
         private ?string $level,
     ) {
-        Logger::info('Criando a entidade da conversa' . PHP_EOL); 
-        Logger::info('Declarando as instruções iniciais do systema'. PHP_EOL);
+        Logger::debug('Criando o objeto Chat' . PHP_EOL); 
         $originLang = Locale::getDisplayLanguage($this->origin);
         $targetLang = Locale::getDisplayLanguage($this->target);
         $this->instructions = [
