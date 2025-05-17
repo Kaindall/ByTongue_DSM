@@ -1,4 +1,5 @@
 <?php
+require_once 'src/main/infraestructure/config/Logger.php';
 
 class SqlConnector {
     private static $instance;
@@ -13,7 +14,7 @@ class SqlConnector {
                 getenv("mysql_password"), 
                 'webchatlearn');
             if (!self::$instance) throw new InvalidDbConnectionException;
-            //echo "Conexão ao banco de dados realizada com sucesso!";
+            Logger::info("Conexão ao banco de dados realizada com sucesso!");
         }
         return self::$instance;
     }

@@ -1,4 +1,5 @@
 <?php
+require_once 'src/main/infraestructure/config/Logger.php';
 use MongoDB\Driver\Manager;
 
 class MongoConnector {
@@ -13,7 +14,7 @@ class MongoConnector {
             $uri = "mongodb+srv://$mongo_user:$mongo_pw@bytongue.xurug.mongodb.net/?retryWrites=true&w=majority&appName=byTongue";
             self::$instance = new Manager($uri);
             if (!self::$instance) throw new InvalidDbConnectionException;
-            //echo "Conexão ao banco de dados realizada com sucesso!";
+            Logger::info("Conexão ao banco de dados realizada com sucesso!");
         }
         return self::$instance;
     }

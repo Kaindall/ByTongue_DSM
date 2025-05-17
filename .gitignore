@@ -2,6 +2,7 @@
 .code
 .git
 .log
+.vscode
 php.ini
 /temp
 /src/resources/mongo/*

@@ -1,6 +1,7 @@
 <?php
 require_once 'src/main/domain/service/ia/IaClient.php';
 require_once 'src/main/domain/service/ia/Quizzeable.php';
+require_once 'src/main/infraestructure/config/Logger.php';
 require_once 'src/main/domain/model/exception/ia/gemini/EmptyBodyException.php';
 require_once 'src/main/domain/model/exception/ia/gemini/InvalidBodyException.php';
 require_once 'src/main/domain/model/exception/ia/gemini/LevelRangeException.php';
@@ -31,7 +32,7 @@ class GeminiClient implements IaClient, Quizzeable {
             $response = $httpClient->executeRequest($this->url);
             $normalizedResponse = json_decode($response, true)['candidates'][0]['content'] ?? null;
             if ($normalizedResponse === null) {
-                //echo 'Retorno inesperado. Repetindo mais uma vez...';
+                Logger::warning('Retorno inesperado. Repetindo mais uma vez...');
                 $response = $httpClient->executeRequest($this->url);
                 $normalizedResponse = json_decode($response, true)['candidates'][0]['content'] ?? null;
 

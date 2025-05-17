@@ -28,12 +28,14 @@ class MongoChatRepositoryImpl implements ChatRepository {
             'filter' => ['_id' => $objectId]
         ]);
         $results = $this->connector->executeCommand('meetings', $command);
+        Logger::info($results);
         $result = false;
-
+        
         foreach($results as $document) {
             $result = json_decode(json_encode($document), true);
         }
         if (!$result) throw new ChatNotFoundException($id);
+        LoggeR::info($result);
         return new Chat(
             $id, 
             $result['model'], 

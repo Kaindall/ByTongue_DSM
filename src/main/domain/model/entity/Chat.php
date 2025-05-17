@@ -1,4 +1,5 @@
 <?php
+require_once 'src/main/infraestructure/config/Logger.php';
 
 class Chat {
     private array $instructions;
@@ -10,8 +11,8 @@ class Chat {
         private string $target,
         private ?string $level,
     ) {
-        /* echo 'Criando a entidade da conversa' . PHP_EOL; 
-        echo 'Declarando as instruções iniciais do systema'*/
+        Logger::info('Criando a entidade da conversa' . PHP_EOL); 
+        Logger::info('Declarando as instruções iniciais do systema'. PHP_EOL);
         $originLang = Locale::getDisplayLanguage($this->origin);
         $targetLang = Locale::getDisplayLanguage($this->target);
         $this->instructions = [
