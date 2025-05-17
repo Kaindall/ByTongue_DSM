@@ -75,7 +75,7 @@ jobs:
           --name $AZURE_WEBAPP_NAME \
           --resource-group $AZURE_RG \
           --settings \
-            GEMINI_KEY=${{ secrets.GEMINI_KEY }} \
+            GEMINI_KEY_DEV=${{ secrets.GEMINI_KEY_DEV }} \
             mysql_host=${{ secrets.MYSQL_HOST }} \
             mysql_user=${{ secrets.MYSQL_USER }} \
             mysql_password=${{ secrets.MYSQL_PASSWORD }} \
