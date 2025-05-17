@@ -52,6 +52,7 @@ class GeminiClient implements IaClient, Quizzeable {
             Você é um professor de idiomas ($langDestiny), ensinando um aluno em $langOrigin.
             Considerando um aluno nível $level->value do CEFR.
             Faça $quantity perguntas sobre nuances de idiomas para testar o usuário. Leve em consideração o formato de uma prova.
+            Retorne apenas um Json puro, sem markdown, formatação ou blocos de código.
             Respeite o seguinte formato Json:
             [
                 {
