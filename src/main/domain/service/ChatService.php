@@ -10,7 +10,7 @@ class ChatService {
 
     public function findChat($id) {
         $chatContent = $this->chatRepository->findById($id);
-        LOGGER::debug("Objeto recebido pelo Service: " . PHP_EOL . json_encode($chatContent));
+        //LOGGER::debug("Objeto recebido pelo Service: " . PHP_EOL . json_encode($chatContent));
         return json_encode($chatContent, JSON_PRETTY_PRINT);
     }
     public function postMessage($chatId, $message, $params) {

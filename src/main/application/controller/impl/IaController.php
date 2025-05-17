@@ -39,7 +39,7 @@ class IaController implements Controller {
         header("Content-Type: application/json");
         try {
             $response = $this->chatService->findChat($request->getPathParams()['id']);
-            LOGGER::debug("Objeto recebido pelo Controller: " . PHP_EOL . json_encode($response));
+            //LOGGER::debug("Objeto recebido pelo Controller: " . PHP_EOL . json_encode($response));
             http_response_code(200);
             return $response;
         } catch (InvalidChatObjectException $e) {
