@@ -79,7 +79,20 @@ class GeminiClient implements IaClient, Quizzeable {
 
             $response = $httpClient->executeRequest($this->url);
             Logger::debug("Resposta do Gemini: " . PHP_EOL . $response);
-            $normalizedResponse = json_decode(json_decode($response, true)['candidates'][0]['content']['parts'][0]['text']);
+            $responseArray = json_decode($response, true);
+            $jsonString = $responseArray['candidates'][0]['content']['parts'][0]['text'] ?? '';
+            $cleanedJsonString = preg_replace('/^```json\s*|\s*```$/', '', trim($jsonString));
+            $normalizedResponse = json_decode($cleanedJsonString, true);
+            if ($normalizedResponse === null) {
+                Logger::warn('Retorno inesperado. Repetindo mais uma vez...');
+                $response = $httpClient->executeRequest($this->url);
+                $responseArray = json_decode($response, true);
+                $jsonString = $responseArray['candidates'][0]['content']['parts'][0]['text'] ?? '';
+                $cleanedJsonString = preg_replace('/^```json\s*|\s*```$/', '', trim($jsonString));
+                $normalizedResponse = json_decode($cleanedJsonString, true);
+
+                if ($normalizedResponse === null) {throw new UnexpectedGeminiException($response);}
+            }
             Logger::debug("Resposta normalizada: " . PHP_EOL . $normalizedResponse);
             return json_encode($normalizedResponse, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
         }
