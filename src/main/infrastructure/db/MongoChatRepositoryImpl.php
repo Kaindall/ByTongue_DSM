@@ -1,4 +1,5 @@
 <?php
+require_once 'src/main/infrastructure/config/Logger.php';
 require_once 'src/main/domain/model/exception/chats/ChatNotFoundException.php';
 require_once 'src/main/domain/model/exception/chats/InvalidChatObjectException.php';
 require_once 'src/main/domain/model/exception/chats/ChatAlreadyExistException.php';
@@ -29,11 +30,12 @@ class MongoChatRepositoryImpl implements ChatRepository {
         ]);
         $results = $this->connector->executeCommand('meetings', $command);
         $result = false;
-
+        
         foreach($results as $document) {
             $result = json_decode(json_encode($document), true);
         }
         if (!$result) throw new ChatNotFoundException($id);
+        Logger::debug(json_encode($document));
         return new Chat(
             $id, 
             $result['model'], 
