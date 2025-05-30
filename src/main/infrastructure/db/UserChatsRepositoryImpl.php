@@ -1,5 +1,6 @@
 <?php 
 require_once 'src/main/domain/model/exception/users/UserExistsException.php';
+require_once 'src/main/domain/model/repository/UserChatsRepository.php';
 require_once 'src/main/domain/model/exception/users/LinkNotFoundException.php';
 require_once 'src/main/domain/model/exception/database/InvalidDbQueryException.php';
 

@@ -1,5 +1,6 @@
 <?php
 require_once 'src/main/infrastructure/config/Logger.php';
+require_once 'src/main/domain/model/repository/ChatRepository.php';
 require_once 'src/main/domain/model/exception/chats/ChatNotFoundException.php';
 require_once 'src/main/domain/model/exception/chats/InvalidChatObjectException.php';
 require_once 'src/main/domain/model/exception/chats/ChatAlreadyExistException.php';

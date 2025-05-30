@@ -1,4 +1,5 @@
 <?php
+require_once 'src/main/domain/model/repository/UserRepository.php';
 require_once 'src/main/domain/model/exception/users/UserNotFoundException.php';
 require_once 'src/main/domain/model/exception/users/InsufficientFieldsException.php';
 require_once 'src/main/domain/model/exception/users/UserExistsException.php';
