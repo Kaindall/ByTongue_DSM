@@ -4,7 +4,6 @@ require_once 'src/main/domain/model/exception/ExceptionModel.php';
 //810-820=erros de consulta
 class InvalidDbQueryException extends ExceptionModel {
     public function __construct(mysqli_sql_exception $e) {
-        echo $e->getMessage() . ' --------------------------------==============----------------' . $e->getCode() . PHP_EOL;
         $error_code = 812;
         if ($e->getCode() === 1054) $error_code = 813; //coluna não encontrada
         if ($e->getCode() === 1065) $error_code = 815; //erro de sintaxe na consulta
